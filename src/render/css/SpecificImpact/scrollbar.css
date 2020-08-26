@@ -1,0 +1,37 @@
+/**
+*对 webkit 滑动条 ui 优化
+*
+*/
+
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    /* background-color: #b46868; */
+    background-color: #FFFFFF;
+}
+
+/* 滚动条的滑轨背景颜色 */
+::-webkit-scrollbar-thumb {
+    /* background-color: rgba(0, 0, 0, 0.2); */
+    background-color: #D3FAFF;
+}
+
+/* 滑块颜色 */
+::-webkit-scrollbar-button {
+    /* background-color: #7c2929; */
+    background-color: #E3F8FF;
+}
+
+/* 滑轨两头的监听按钮颜色 */
+::-webkit-scrollbar-corner {
+    /* background-color: black; */
+    background-color: #AFF4FF;
+}
+
+
+/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
