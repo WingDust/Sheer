@@ -73,7 +73,7 @@ export class File extends Tool {
    * @param {[type]}   Tree     [description]
    * @param {Function} callback [description]
    */
-  async FileTree(dirPath: any, Tree: any, callback: any) {
+  async FileTree(dirPath: any, Tree: any, callback?: any) {
 
     /**
      * 1. 查找到所有这一层的路径

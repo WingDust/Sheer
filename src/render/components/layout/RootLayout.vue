@@ -62,14 +62,9 @@ export default defineComponent({
         const store = useStore()
         console.log(store.state);
 
-        // const dom = ref([])
-        // onMounted(() =>{
-        // console.log(dom.value);
-        // })
 
         return {
             hotkeys,
-            // dom
         }
 
     },

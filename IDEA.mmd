@@ -1,6 +1,6 @@
-flowchart LR
-    1[(film.yml 数组)] <--> 2[(树 数组)]
-    1 --> 3{flag}
+flowchart TB
+    1[(film.yml 数组)] <-->|对应| 2[(树 数组)]
+    1 -->|影响| 3{flag}
     3 -->|包装| 4[Proxy对象\n用来数据是否加载完成]
     查 --> 得
     得 --> 除杂
@@ -12,3 +12,48 @@ flowchart LR
     标志 --> 储存
     储存 --> 打包
     打包 --> 更新视图
+
+    subgraph 数据
+        a[(a)]
+    end
+
+    subgraph 视图
+        b[(b)] 
+    end
+
+    subgraph 修改样式
+        响应键盘事件[keydown] --> 计算元素位置[computed]
+        计算元素位置 --> 查找元素[locate]
+        查找元素 --> 改动样式[chagestyle]
+    end
+
+    subgraph VirtualDom
+        VM
+    end
+
+    subgraph VM
+        static[(静)] ---|结合| dynamic[(动)]
+    end
+
+    VirtualDom --- VM
+
+    VirtualDom -->|更新| 视图
+    数据 <-->|对应| 视图
+    数据 --> 修改样式
+    数据  -->|驱动| 视图
+    修改样式  -->|更新| 视图
+
+    subgraph Tree
+        T[(Trees)]
+    end
+
+    数据 -->|2. 格式化| T
+    数据 ==>|响应| T
+    数据 -->|1. 除杂| T
+    Tree -->|编译| VirtualDom
+    Tree -->|响应| VirtualDom
+
+    %%T --> dynamic
+
+
+     %% style 6 fill:#f9f,stroke:#333,stroke-width:4px

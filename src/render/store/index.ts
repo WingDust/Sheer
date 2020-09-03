@@ -1,7 +1,7 @@
 // import Vue from 'vue'
 import {createStore} from 'vuex'
 
-import { ReadFileDir,Proxy_FLAG ,runtime} from "../node/read";
+import { Proxy_FLAG ,runtime} from "../node/read";
 
 // const F = new ReadFileDir()
 // F.readfilmPath()
@@ -33,7 +33,5 @@ export const state = createStore({
   },
   modules: {}
 })
-state.state.FilmPath.data=false
-console.log();
 
 export type State = typeof state

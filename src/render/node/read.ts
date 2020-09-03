@@ -1,16 +1,27 @@
-const yaml = require("js-yaml");
-const fs = require("fs");
-const path = require("path");
 
+import { readfilmPath  } from "./config";
 import { Tree } from "../js/DataStructure/Tree.js";
 import { File } from "../js/libary";
-import { registerRuntimeCompiler } from 'vue';
+// import { registerRuntimeCompiler } from 'vue';
+import { state } from '../store/index';
 
-const FilmYamlPath = path.join(__dirname, "../../../../../../src/render/public/film.yml")
 
-let FLAG:any = {}; 
+let Trees:any ;
+
+
+/**
+ * 用来判断 读取到路径是否完成写入树中
+ */
+interface Flag{
+  flag:boolean
+  times:number
+}
+
+let FLAG:Flag = Object.create(null); 
 FLAG.flag = false;
 FLAG.times = 0;
+
+
 let Proxy_FLAG = new Proxy(FLAG,{
   get:function (target,propKey,receiver){
     console.log('get FLAG');
@@ -18,12 +29,14 @@ let Proxy_FLAG = new Proxy(FLAG,{
   },
   set:function(target ,propKey,value,receiver){
     console.log('set FLAG');
+    if (propKey == 'flag') {
+      console.log(value);
+      state.state.FilmPath.data= Trees;
+    }
     return Reflect.set(target,propKey,value,receiver);
   }
 })
- FLAG.times = 3
 
-let Trees ;
 
 /**
  * 1. 读取到设定的根路径数组
@@ -39,28 +52,6 @@ let Trees ;
  */
 
 
-export class ReadFileDir {
-    Paths:any
-    constructor() {
-    }
-    readfilmPath():void{
-        try {
-        const FilmPath = yaml.safeLoad(fs.readFileSync(FilmYamlPath,"utf8"))
-        this.Paths = FilmPath
-        } catch (error) {
-        console.log(error);
-        }
-    }
-
-    async readFileRecurise(){
-        let Trees = new Tree(this.Paths[0])
-        let file = new File()
-        const T = await file.FileTree(this.Paths[0],Trees,null)
-        console.log(file);
-        // console.log(Trees);
-        return Trees
-    }
-    
 
     /** 异步
      * 1.将路径下的 film.yml 读取并保留到变量中
@@ -68,14 +59,12 @@ export class ReadFileDir {
      * 3.
      */
 
-}
 
 export function runtime() {
   const F = new ReadFileDir() 
   F.readfilmPath()                // 1
   Trees = new Tree(F.Paths[0]);   // 2
-  getPath(F.Paths[0],Trees,null); // 3
-  console.log(Trees);
+  getPath(F.Paths[0],Trees,undefined); // 3
   
 }
 
@@ -83,6 +72,7 @@ async function getPath(root:any,Tree:Tree,callback:any){
   let file = new File();
   let Proxy_file = new Proxy(file,{
     set:function(target,propKey,value,receiver){
+      console.log(propKey);
       if (propKey == 'flag') {
         console.log('right');
         Proxy_FLAG.flag=true
@@ -93,26 +83,6 @@ async function getPath(root:any,Tree:Tree,callback:any){
   await Proxy_file.FileTree(root,Tree,callback);
 }
 
-export function readfilmPath(): any {
-  try {
-    const doc = yaml.safeLoad(
-      fs.readFileSync(
-        path.join(__dirname, "../../../../../../src/render/public/film.yml"),
-        "utf8"
-      )
-    );
-
-    if (doc && Array.isArray(doc)) {
-      console.log(new Tree(doc[0]));
-      const l = new File();
-      console.log(l.FileTree(doc[0], new Tree(doc[0]), null));
-      console.log(l);
-    }
-    return doc;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 
 export {Proxy_FLAG}
