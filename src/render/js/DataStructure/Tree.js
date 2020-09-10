@@ -153,6 +153,7 @@ export class Tree {
 
 
 
+// Vue 2.6
 // export default {
 //   install(Vue, options) {
 //     Vue.prototype.Tree = Tree

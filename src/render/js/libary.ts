@@ -125,7 +125,7 @@ export class File extends Tool {
     // 5 同步
     this.emptyPath(dirPath, Tree);
 
-    // if (paths.length==0) return;
+    // if (paths.length===0) return;
 
     // 6
     /** 对这一层子目录进行递归 */
@@ -173,7 +173,7 @@ export class File extends Tool {
        * 每一个为true后不能被遍历，能减少运算
        */
       this.cacheline.find((data: data) => {
-        if (data.dir == dirPath) {
+        if (data.dir === dirPath) {
           data.state = true;
           //
           if (datas.paths.length != 0) {
@@ -220,7 +220,7 @@ export class File extends Tool {
           flag = false;
         }
       }
-      if (flag == true) {                       //当这一层实检查完
+      if (flag === true) {                       //当这一层实检查完
         if (this.cacheline.length != 0 ) {       //并且 缓存行中有路径存在
           if (this.nextline.length !=0) {
           this.checkline.push(this.cacheline);  //将 缓存行中这一大层被检查的路径数组，以顺序层次放入全部需要被检查路径大数组

@@ -1,26 +1,25 @@
 // import Vue from 'vue'
-import {createStore} from 'vuex'
+import {createStore,MutationTree} from 'vuex'
 
-import { Proxy_FLAG ,runtime} from "../node/read";
+// import { Tree } from "../js/DataStructure/Tree";
 
-// const F = new ReadFileDir()
-// F.readfilmPath()
-// let Trees = F.readFileRecurise()
-
-console.log(Proxy_FLAG);
+import { runtime} from "../node/read";
 
 runtime()
 
-
-
-
 export const state = createStore({
   state: {
-    // 设置的储存的视频的根路径数组
     FilmPath: {
-      data: true,
+      Trees: Object.create(null),
       status:""
-    } //设为一个对象来,将数据和数据的状态绑定到一起
+    },
+    Flag:{
+      flag:false,
+      times:0
+    },
+    ConfigYaml:{
+      status:0
+    }
   },
   mutations: {
   },

@@ -2,7 +2,7 @@
   "name": "electron-vue",
   "version": "0.0.1",
   "main": "src/main/_.js",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "author": "WingDust",
   "license": "MIT",
   "scripts": {
     "dev": "npm run dev:all",
@@ -14,7 +14,7 @@
     "build": "npm run build:vue && npm run build:ele && electron-builder"
   },
   "build": {
-    "appId": "308487730@qq.com",
+    "appId": "123456789@qq.com",
     "files": [
       "!node_modules",
       "src/main/**",

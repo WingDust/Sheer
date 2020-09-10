@@ -10,6 +10,7 @@
     "sourceMap": true,
     "baseUrl": "./",
     "strict": true,
+    "strictNullChecks": true,
     "paths": {
       "@/*": ["src/render/*"],
       "root/*": ["/*"]
