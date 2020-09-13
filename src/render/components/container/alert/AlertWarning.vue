@@ -3,11 +3,12 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent,ref,reactive } from "vue";
 import { useStore } from "vuex";
 export default defineComponent ({
     setup(){
         const store = useStore()
+        let ConfigMessage = reactive(store.state.ConfigYaml)
 
     }
 

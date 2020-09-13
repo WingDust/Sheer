@@ -2,7 +2,7 @@
  * electron 主文件
  */
 import { join } from 'path'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow,protocol } from 'electron'
 import is_dev from 'electron-is-dev'
 import dotenv from 'dotenv'
 
@@ -18,7 +18,9 @@ function createWin() {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule:true
+      enableRemoteModule:true,
+      // webSecurity:false,
+      // allowRunningInsecureContent:true
       // experimentalFeatures:true
     }
 
@@ -34,5 +36,20 @@ function createWin() {
   win.webContents.openDevTools()
 
 }
+app.on('ready',async ()=>{
+  // [Electron doesn't allow windows with webSecurity: true to load files](https://stackoverflow.com/questions/61623156/electron-throws-not-allowed-to-load-local-resource-when-using-showopendialog/61623585#61623585)
+  const protocalName = 'safe-file-protocol'
+  protocol.registerFileProtocol(protocalName,(request,callback)=>{
+    const url = request.url.replace(`${protocalName}:://`,'')
+    try {
+      return callback(decodeURIComponent(url))
+    } catch (error) {
+      console.error(error);
+    }
 
+  })
+})
+
+// 
+app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 app.whenReady().then(createWin)

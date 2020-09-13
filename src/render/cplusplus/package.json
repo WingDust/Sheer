@@ -1,0 +1,16 @@
+{
+  "name": "run",
+  "collaborators": [
+    "Administrator"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "run.wasm",
+    "run.js",
+    "run.d.ts"
+  ],
+  "main":"run.js",
+  "module": "run.js",
+  "types": "run.d.ts",
+  "sideEffects": false
+}

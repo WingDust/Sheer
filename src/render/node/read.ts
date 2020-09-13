@@ -4,6 +4,25 @@ import { File } from "../js/libary";
 import { Tree } from "../js/DataStructure/Tree";
 import { state } from '../store/index';
 import { Flag,ConfigYaml } from "./config";
+
+// import { read_file } from "../../../../wasm/pkg/wasm";
+// console.log(read_file);
+/// <reference types="emscripten"/>
+// let em_moudle = require("run")
+
+
+
+// // /// <reference types="emscripten"/>
+// // // const em_moudle = require("run")
+// em_moudle['onRuntimeInitialized'] = onRuntimeInitialized
+
+// function  onRuntimeInitialized() {
+//   let a = '../assets/electron.png'
+//   let b = em_moudle.ccall('hi','number',['string'],[a])
+//   console.log(b);
+// }
+
+
 // import { registerRuntletmpiler } from 'vue';
 
 //#region 变量声明、初始化
@@ -28,20 +47,27 @@ let Proxy_FLAG = new Proxy(FLAG,{
 //#endregion
 
 const enum ValueError{
-  None,
-  filmNone ,
-  filmPanic,
-  storeNone,
-  storePanic
+  None,     //0
+  filmNone ,//1
+  filmPanic,//2
+  storeNone,//3
+  storePanic//4
 }
+/**
+ * 0 空 语法错误 
+ * 1 film 为空
+ * 2 film 为非路径数组
+ * 3 store 为空
+ * 4 store 为非路径数组
+ */
 
 // 值没有 值错误 有两个所以是 4 种可能
 function valuenSure(p:ConfigYaml | null) {
-  if (p === null){//yaml 为空文件
+  if (p === null){// yaml 为空文件或语法错误
     // state.state.ConfigYaml.status=0 // 默认为 空文件
     return 
   }
-  if (p!.film === null) {
+  if (p!.film === null) {// film 为
     return state.state.ConfigYaml.status = ValueError.filmNone
   }
   if (p!.film!) {

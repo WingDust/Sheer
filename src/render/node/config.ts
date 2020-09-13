@@ -24,12 +24,14 @@ import { Tree } from "../js/DataStructure/Tree";
 /**
  * 读取路径数组函数
  */
-function readfilmPath(p="../../../../../../src/render/public/film.yml"):ConfigYaml | null |undefined {
+function readfilmPath(p="../../../../../../src/render/public/film.yml"):ConfigYaml | null  {
     try {
         p = path.join(__dirname,p)
-        return yaml.safeLoad(fs.readFileSync(p,"utf8"))
+        let film:ConfigYaml | null = yaml.safeLoad(fs.readFileSync(p,"utf8"))
+        return film
     } catch (error) {
         console.log(error);
+        return null
     }
 }
 
