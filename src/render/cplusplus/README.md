@@ -54,6 +54,25 @@
 
 ## Electron + Typescript + Vite 使用 wasm 问题
   > 2020年09月14日 星期一 07:02:36
+  测试代码
+  ```ts
+  import "run/run.wasm"
+// console.log(read_file);
+/// <reference types="emscripten"/>
+// let em_moudle = require("run")
+
+
+
+// // /// <reference types="emscripten"/>
+// // // const em_moudle = require("run")
+// em_moudle['onRuntimeInitialized'] = onRuntimeInitialized
+
+// function  onRuntimeInitialized() {
+//   let a = '../assets/electron.png'
+//   let b = em_moudle.ccall('hi','number',['string'],[a])
+//   console.log(b);
+// }
+  ```
   - 一个是 C++ 编译的 Webassembly 没有 TypeScript 声明文件，需要自己定义，可参考 [How to use TypeScript declarations for Emscripten](https://github.com/emscripten-core/emscripten/issues/10271)，这次的 run.d.ts 也是。
   在  `let em_moudle = require("run")` 和 `let em_moudle = require("../cplusplus/run")` 中会 occur 
   `Can't find module "run" or "../cplusplus/run"` 的错，

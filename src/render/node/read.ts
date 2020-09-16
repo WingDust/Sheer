@@ -5,28 +5,15 @@ import { Tree } from "../js/DataStructure/Tree";
 import { state } from '../store/index';
 import { Flag,ConfigYaml } from "./config";
 
-// import { read_file } from "../../../../wasm/pkg/wasm";
-// console.log(read_file);
-/// <reference types="emscripten"/>
-// let em_moudle = require("run")
-
-
-
-// // /// <reference types="emscripten"/>
-// // // const em_moudle = require("run")
-// em_moudle['onRuntimeInitialized'] = onRuntimeInitialized
-
-// function  onRuntimeInitialized() {
-//   let a = '../assets/electron.png'
-//   let b = em_moudle.ccall('hi','number',['string'],[a])
-//   console.log(b);
-// }
+const fs = require("fs")
 
 
 // import { registerRuntletmpiler } from 'vue';
 
 //#region 变量声明、初始化
 const Yaml = readfilmPath(undefined) 
+valuenSure(Yaml);
+
 let Trees:Tree | undefined;
 
 let FLAG:Flag = Object.create(null); 
@@ -67,17 +54,22 @@ function valuenSure(p:ConfigYaml | null) {
     // state.state.ConfigYaml.status=0 // 默认为 空文件
     return 
   }
-  if (p!.film === null) {// film 为
+  if (p!.film === null) {// film 为空
     return state.state.ConfigYaml.status = ValueError.filmNone
   }
-  if (p!.film!) {
-    
+  for (let i = 0; i < p!.film.length; i++) {
+    if(!fs.existsSync(p!.film[i])){
+      return state.state.ConfigYaml.status = ValueError.filmPanic
+    }
   }
-
   if (p!.store === null) {
     return state.state.ConfigYaml.status = ValueError.storeNone
   }
-  
+  for (let i = 0; i < p!.store.length; i++) {
+    if(!fs.existsSync(p!.store[i])){
+      return state.state.ConfigYaml.status = ValueError.storePanic
+    }
+  }
 }
 
 

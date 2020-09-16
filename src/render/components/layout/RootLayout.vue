@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container-fluid ">
     <!-- <div class="row">
         <div class="col-md-12"></div>
     </div> -->
@@ -30,6 +30,7 @@
                 <div class="c">6</div>
                 <div class="c">7</div>
                 <div class="c">8</div>
+                <div class="alert alert-primary" role="alert">a simple</div>
                 <!-- <div :ref="el => {dom[0]=el} " class="c">9</div> -->
                 <!-- <div :ref="el => {dom[1]=el} " class="c">10</div> -->
             </div>
@@ -66,14 +67,12 @@ export default defineComponent({
         return {
             hotkeys,
         }
-
     },
-
 })
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container-fluid {
     [class*="col"] {
         padding: 1rem;
         background-color: #33b5e5;

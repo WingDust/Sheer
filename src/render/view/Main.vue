@@ -6,8 +6,8 @@
         </folder>
         </template>
         
-        </rootlayout>
-    
+    </rootlayout>
+                <alertwarning></alertwarning>
 </template>
 
 <script>
@@ -15,6 +15,7 @@ import { defineComponent, reactive } from "vue";
 import RootLayout from "../components/layout/RootLayout.vue";
 import HighLihgt from "../components/highlight/HighLihgt.vue";
 import folder from '../components/container/folder.vue'
+import AlertWarning  from "../components/container/alert/AlertWarning.vue";
 export default defineComponent({
     setup(){
         return reactive({qwe:`
@@ -45,7 +46,8 @@ export default defineComponent({
     components:{
     'rootlayout':RootLayout,
     'hightLight':HighLihgt,
-    folder
+    folder,
+        alertwarning:AlertWarning
     }
 
 })
