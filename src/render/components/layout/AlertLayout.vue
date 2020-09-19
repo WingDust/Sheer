@@ -1,8 +1,6 @@
 <template>
   <div class="container">
       <div class="row">
-          <div class="col"></div>
-          <div class="col"></div>
       </div>
   </div>
 </template>
@@ -20,6 +18,6 @@ return {
 })
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

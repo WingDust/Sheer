@@ -30,7 +30,6 @@
                 <div class="c">6</div>
                 <div class="c">7</div>
                 <div class="c">8</div>
-                <div class="alert alert-primary" role="alert">a simple</div>
                 <!-- <div :ref="el => {dom[0]=el} " class="c">9</div> -->
                 <!-- <div :ref="el => {dom[1]=el} " class="c">10</div> -->
             </div>
@@ -47,7 +46,8 @@
 import {
     defineComponent,
     ref,
-    onMounted
+    onMounted,
+    toRaw
 } from "vue";
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
@@ -62,6 +62,7 @@ export default defineComponent({
 
         const store = useStore()
         console.log(store.state);
+        console.log(toRaw(store.state));
 
 
         return {
@@ -74,6 +75,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .container-fluid {
     [class*="col"] {
+        height: 1000px;
         padding: 1rem;
         background-color: #33b5e5;
         border: 2px solid #fff;

@@ -3,7 +3,7 @@ import App from './App.vue'
 import './index.css'
 
 import router from './router/index';
-import { state} from './store/index'
+import {store} from './store/index'
 
 /** 滑动条 */
 import "./css/SpecificImpact/scrollbar.css"
@@ -26,7 +26,7 @@ import "bootstrap";
 
 const app = createApp(App)
 app.use(router)
-app.use(state)
+app.use(store)
 
 
 app.mount('#app')

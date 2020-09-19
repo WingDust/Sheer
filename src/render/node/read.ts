@@ -1,18 +1,22 @@
 
+// import { registerRuntletmpiler } from 'vue';
 import { readfilmPath, getPicture } from "./config";
 import { File } from "../js/libary";
 import { Tree } from "../js/DataStructure/Tree";
-import { state } from '../store/index';
+import { state } from '../store/state';
+import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
 
 const fs = require("fs")
 
+// const store = useStore()
 
-// import { registerRuntletmpiler } from 'vue';
+
 
 //#region 变量声明、初始化
 const Yaml = readfilmPath(undefined) 
-valuenSure(Yaml);
+state.ConfigYaml.Yaml=Yaml
+// valuenSure(Yaml);
 
 let Trees:Tree | undefined;
 
@@ -25,7 +29,8 @@ let Proxy_FLAG = new Proxy(FLAG,{
     console.log('set FLAG');
     if (propKey === 'flag') {
       console.log(value);
-      state.state.FilmPath.Trees= Trees;
+      state.FilmPath.Trees= Trees;
+      // store.commit(MutationTypes.setTrees,Trees)
       getPicture(Yaml!.store![0],"G:\\Feature film\\非洲女王号.BD1280高清中英双字.mp4")
   }
     return Reflect.set(target,propKey,value,receiver);
@@ -33,44 +38,6 @@ let Proxy_FLAG = new Proxy(FLAG,{
 })
 //#endregion
 
-const enum ValueError{
-  None,     //0
-  filmNone ,//1
-  filmPanic,//2
-  storeNone,//3
-  storePanic//4
-}
-/**
- * 0 空 语法错误 
- * 1 film 为空
- * 2 film 为非路径数组
- * 3 store 为空
- * 4 store 为非路径数组
- */
-
-// 值没有 值错误 有两个所以是 4 种可能
-function valuenSure(p:ConfigYaml | null) {
-  if (p === null){// yaml 为空文件或语法错误
-    // state.state.ConfigYaml.status=0 // 默认为 空文件
-    return 
-  }
-  if (p!.film === null) {// film 为空
-    return state.state.ConfigYaml.status = ValueError.filmNone
-  }
-  for (let i = 0; i < p!.film.length; i++) {
-    if(!fs.existsSync(p!.film[i])){
-      return state.state.ConfigYaml.status = ValueError.filmPanic
-    }
-  }
-  if (p!.store === null) {
-    return state.state.ConfigYaml.status = ValueError.storeNone
-  }
-  for (let i = 0; i < p!.store.length; i++) {
-    if(!fs.existsSync(p!.store[i])){
-      return state.state.ConfigYaml.status = ValueError.storePanic
-    }
-  }
-}
 
 
 
@@ -108,9 +75,9 @@ export function runtime() {
 
   getPath(Proxy_FLAG,Yaml.film[0],Trees,undefined); // 3
   }
-  else{
-    alert(`你的 film.yml \n⇒为空`)
-  }
+  // else{
+  //   alert(`你的 film.yml \n⇒为空`)
+  // }
 }
 
 

@@ -1,36 +1,35 @@
 // import Vue from 'vue'
-import {createStore,MutationTree} from 'vuex'
-
-// import { Tree } from "../js/DataStructure/Tree";
+import {createStore} from 'vuex'
 
 import { runtime} from "../node/read";
+import { state } from "./state";
+import { mutations } from "./mutations";
 
-runtime()
 
-export const state = createStore({
-  state: {
-    FilmPath: {
-      Trees: Object.create(null),
-      status:""
-    },
-    Flag:{
-      flag:false,
-      times:0
-    },
-    ConfigYaml:{
-      status:0
-    }
-  },
-  mutations: {
-  },
+export const store = createStore({
+  // state: {
+  //   FilmPath: {
+  //     Trees: Object.create(null),
+  //     status:""
+  //   },
+  //   Flag:{
+  //     flag:false,
+  //     times:0
+  //   },
+  //   ConfigYaml:{
+  //     Yaml:Object.create(null),
+  //     status:0
+  //   }
+  // },
+  state:state,
+  mutations:mutations,
   actions: {
   },
   getters: {
-    getFilmPath(state) {
-      return state.FilmPath
-    }
   },
   modules: {}
 })
 
-export type State = typeof state
+
+runtime()
+// export type State = typeof store
