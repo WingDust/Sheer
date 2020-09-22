@@ -5,9 +5,8 @@
           <hightLight :code="qwe"></hightLight>
         </folder>
         </template>
-        
-    </rootlayout>
-                <alertwarning></alertwarning>
+  </rootlayout>
+  <alertwarning></alertwarning>
 </template>
 
 <script>

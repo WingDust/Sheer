@@ -51,8 +51,6 @@ import {
 } from "vue";
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
-
-
 export default defineComponent({
     setup() {
         hotkeys('q',function(event,handler){
@@ -77,7 +75,8 @@ export default defineComponent({
     [class*="col"] {
         height: 1000px;
         padding: 1rem;
-        background-color: #33b5e5;
+        // background-color: #33b5e5;
+
         border: 2px solid #fff;
         color: #fff;
         text-align: center;
@@ -85,7 +84,7 @@ export default defineComponent({
 
     [class*="con"] {
         padding: 1rem;
-        background-color: #9e33e5;
+        // background-color: #9e33e5;
         border: 2px solid #fff;
         color: #fff;
         text-align: center;

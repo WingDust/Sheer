@@ -2,13 +2,13 @@
  * electron 主文件
  */
 import { join } from 'path'
-import { app, BrowserWindow,protocol } from 'electron'
+import { app, BrowserWindow,protocol,ipcMain } from 'electron'
 import is_dev from 'electron-is-dev'
 import dotenv from 'dotenv'
 
 dotenv.config({ path: join(__dirname, '../../.env') })
 
-let win = null
+let win: BrowserWindow | null = null
 
 function createWin() {
   // 创建浏览器窗口
@@ -16,6 +16,7 @@ function createWin() {
     width: 1024,
     height: 768,
     autoHideMenuBar: true,
+    frame:false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule:true,
@@ -53,3 +54,17 @@ app.on('ready',async ()=>{
 // 
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 app.whenReady().then(createWin)
+
+/**
+ * 监听渲染进程发出的信号触发事件
+ */
+ipcMain.on('min',e=>win!.minimize());
+ipcMain.on('max',e=>{
+  if (win!.isMaximized()) {
+    win?.unmaximize()
+  }else{
+  win!.maximize()
+  }
+});
+ipcMain.on('close',e=>win!.close())
+

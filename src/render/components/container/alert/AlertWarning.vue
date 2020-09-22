@@ -1,7 +1,8 @@
 <template>
 <div class="row">
-  <div class="alert alert-warning fade in" v-if="flag===11">{{`你的配置文件有`}}</div>
-  <div class="alert alert-danger " v-if="flag">{{`你的配置文件有`}}</div>
+  <!-- 我得延时显示 -->
+  <div class="alert alert-warning fade " v-show="flag===11">{{`你的配置文件有`}}</div>
+  <div class="alert alert-danger " v-show="flag">{{`你的配置文件有`}}</div>
 </div>
 </template>
 
@@ -77,7 +78,13 @@ console.log(flag);
   position: fixed;
   top: 0;
   left: calc(100px + (100%-1000px)*0.75);
-  width: 300px !important;
+  word-break: keep-all;
+  z-index: 1;
+
+  // .fade{
+  //   transition: opacity .2s linear ;
+  // }
+
 
   .alert-danger{
     order: 1;

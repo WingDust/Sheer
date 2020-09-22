@@ -7,6 +7,7 @@ import {store} from './store/index'
 
 /** 滑动条 */
 import "./css/SpecificImpact/scrollbar.css"
+import "./css/GlobalImpact/global.scss"
 
 
 
