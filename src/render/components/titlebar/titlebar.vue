@@ -1,22 +1,14 @@
 <template>
-  <div class="titlebar">
-      <div></div>
-      <div class="float-right ">
-            <div class="d-inline titlebtn pr-1" @click="min">
-              _________
-            </div>
-            <div class="d-inline titlebtn" @click="max">
-              🀆
-            </div>
-            <div class="d-inline titlebtn" @click="close">
-              <i class="fonticon"></i>
-            </div>
+  <div class="titlebar container-fluid">
+      <div class="row">
+        <span class="titlebtn fonticon-CHROME-CLOSE col-xl-1" @click="close"></span>
+        <span class="titlebtn fonticon-CHROME-MAXIMIZE col-xl-1" @click="max"></span >
+        <span class="titlebtn fonticon-CHROME-MINIMIZE col-xl-1" @click="min"></span>
       </div>
   </div>
 </template>
 
 <script lang="ts">
-
 import { defineComponent} from "vue";
 const {ipcRenderer} = require('electron')
 export default  defineComponent({
@@ -44,18 +36,29 @@ export default  defineComponent({
     position: fixed;
     top: 0;
     z-index: 1;// 保证不被覆盖
-    width: 100%;
+    // width: 100%;
     height: 32px;
     -webkit-app-region:drag;
     background:rgba(51, 51, 51, .6);
     // filter: blur(10px);
     backdrop-filter: blur(2px);
-    margin-bottom: 20px;
-    
+    padding: 0;
 
-}
-.titlebtn{
-    -webkit-app-region:no-drag;
+    .row{
+        flex-direction: row-reverse;
+        text-align: center;
+        flex-wrap: nowrap;
+        margin: 0;/** -> Bootstrap5 issue error */
+
+        .col-xl-1{
+        line-height: 32px;
+        width: 50px;
+        }
+
+        .titlebtn{
+        -webkit-app-region:no-drag;
+        }
+    }
 }
 
 </style>

@@ -76,7 +76,7 @@ console.log(flag);
 .row{
   flex-direction: column;
   position: fixed;
-  top: 0;
+  top: 64px;
   left: calc(100px + (100%-1000px)*0.75);
   word-break: keep-all;
   z-index: 1;

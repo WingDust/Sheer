@@ -22,6 +22,7 @@ export default {
 <style lang="scss" scoped>
 #RouterMenu {
   padding: 30px;
+  text-align: center;
 
   a {
     font-weight: bold;
