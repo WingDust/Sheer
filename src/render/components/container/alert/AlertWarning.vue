@@ -88,6 +88,8 @@ console.log(flag);
 
   .alert-danger{
     order: 1;
+    border-bottom: 5px solid orange;
+    border-right: 5px solid orange;
   }
   .alert-warning{
     order: 2;

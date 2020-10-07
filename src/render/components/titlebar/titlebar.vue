@@ -9,21 +9,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent} from "vue";
+import {defineComponent} from "vue";
 const {ipcRenderer} = require('electron')
 export default  defineComponent({
     setup(){
-       const max =():void =>{
+        const max =():void =>{
             ipcRenderer.send('max')
         }
         const close = ():void =>{
             ipcRenderer.send('close')
         }
         const min = ():void =>{
-            console.log('min');
             ipcRenderer.send('min')
         }
-
         return{
             max,min,close
         }

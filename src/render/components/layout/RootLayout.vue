@@ -1,19 +1,16 @@
 <template>
+<!-- 
 <div class="container-fluid ">
-    <!-- <div class="row">
-        <div class="col-md-12"></div>
-    </div> -->
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-xl-11">
             <h2>Main</h2>
             <slot name="MainContent"></slot>
         </div>
-        <div class="col-md-4">
+        <div class="col-xl-1">
             <h2>Side</h2>
             <div class="a">
                 <div>
-                    <!-- :class="onfocus" -->
-                    <div class="c"  >4</div>
+                    <div class="c"  >4</div >
                 </div>
                 <div>
 
@@ -30,15 +27,53 @@
                 <div class="c">6</div>
                 <div class="c">7</div>
                 <div class="c">8</div>
-                <!-- <div :ref="el => {dom[0]=el} " class="c">9</div> -->
-                <!-- <div :ref="el => {dom[1]=el} " class="c">10</div> -->
+                <div :ref="el => {dom[0]=el} " class="c">9</div>
+                <div :ref="el => {dom[1]=el} " class="c">10</div>
             </div>
 
         </div>
     </div>
-    <!-- <div class="row">
-        <div class="col-md-12"></div>
-    </div> -->
+</div>  
+-->
+
+<div class="root">
+<!-- <div class="container-fluid"> -->
+    <div class="r">
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">7</div>
+    <div class="w">7</div>
+    <div class="w">7</div>
+    <div class="w">7</div>
+</div>
+<!-- 对这个使用 inline-flex 会因窗口的缩小而换行 -->
+<div class="e">
+    <div>
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div>
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+</div>
 </div>
 </template>
 
@@ -91,16 +126,38 @@ export default defineComponent({
     }
 
     .a {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        // display: flex;
+        flex-direction: column;
+        // flex-wrap: wrap;
 
         .c {
             // display: inline;
             border: 1px solid green;
-            width: 50px;
-            height: 40px;
+            width: 192px;
+            height: 108px;
         }
     }
+}
+.root {
+    width: 1920px;
+    .r{
+    display: inline-grid;
+    width: 1644px;
+    grid-template-columns:repeat(6,1fr);
+    // grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+    }
+    .e{
+    display: inline-grid;
+    grid-row-gap: 1rem;
+    width: 276px;
+    height: auto;
+    }
+    img{
+    width: 256px;
+    height: 144px;
+    }
+    // width: 100%;
+    // height: auto;
 }
 </style>

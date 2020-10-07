@@ -4,6 +4,8 @@
 ## Attention
   - 抽离出来的东西
   - 怎么样的组织代码
+  - 将图片的宽高改成 256 × 144 (128 × 72 的两倍) 
+    - 这样我好维护，并更容易地控制每一行一个元素的大小
 
 ## TypeScript
   - `global.d.ts` 当文件中出现 `import` 语句时它将不会是全局作用域，`declare` 也将无效 ，需要重新在 `declare gloabl{...}` 中写不再需要写 `declare` 直接定义
@@ -46,6 +48,7 @@
 
 ## IDEA
   - [ ] 对 File 类中能一层的分块，进行一个探索
+  - [ ] 对背景做一个滑动过线性东西的动画尝试
 
 ## Reference、Inspiration
   - [qutebrowser](https:  qutebrowser.org/)
