@@ -9,6 +9,16 @@ import {store} from './store/index'
 import "./css/SpecificImpact/scrollbar.css"
 import "./css/GlobalImpact/global.scss"
 
+import "keyevent/keyevent_bg.wasm"
+import init from "keyevent/keyevent.js"
+// fetch('http://localhost:3344/@modules/keyevent/keyevent_bg.wasm').then(response =>
+//   response.arrayBuffer()
+// )
+    async function run() {
+        await init()
+    }
+    run()
+
 
 
 

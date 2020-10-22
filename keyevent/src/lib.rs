@@ -28,6 +28,7 @@ pub fn eventlistener_keyboardevent_keydown(){
         event_str.push_str(&event.type_());
         event_str.push_str(&" : ");
         event_str.push_str(&keyevent.key());
+        console_log!("{}",event_str);
     });
     onkey.forget();
 }

@@ -28,9 +28,9 @@ features = [
   'KeyboardEvent',
 ]
 
-# [dev-dependencies]
-# wasm-bindgen-test = "0.2"
-# 这个需要联网下载 chromedriver
+[dev-dependencies]
+wasm-bindgen-test = "0.2"
+# 当没有 chromedriver在 $PATH 中时 这个需要联网下载 chromedriver
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

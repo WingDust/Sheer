@@ -2,5 +2,6 @@ node_modules
 .DS_Store
 dist
 *.local
+*.exe
 src/main/_.js
 src/main/_.js.map

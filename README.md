@@ -1,6 +1,11 @@
 ## Base on
   - [Electron + vue3 + vite 整合](https:  www.jianshu.com/p/ee5ec23d4716)
 
+## Subproject
+  - Rust-Wasm
+  - C/C++ - Emscripten
+  - golang
+
 ## Attention
   - 抽离出来的东西
   - 怎么样的组织代码
@@ -32,6 +37,7 @@
 
 ## Rust
   - 对于 Rust-wasm 使用在哪里的问题
+    > 暂时尝试替换hotkey包
 
 ## DataStructure
   - [ ] Tree.js 的功能增强
@@ -41,6 +47,10 @@
   - 可选从网络加载图片
 
 ## TODO
+  - 设计整体完善
+  - 使用滚动到视口窗口中之内 
+    - 解决方案
+      - 使用 Element.scrollBy 来实现固定滚动距离
   - [ ] 将 Prism Vue 组件分离出去
   - [ ] 对 File 加一个函数节流，限制它的运行次数 预定次数 为 60 次
   - [x] 数据获取响应成功
@@ -50,7 +60,7 @@
   - [ ] 对 File 类中能一层的分块，进行一个探索
   - [ ] 对背景做一个滑动过线性东西的动画尝试
 
-## Reference、Inspiration
+## For Reference、Inspiration
   - [qutebrowser](https:  qutebrowser.org/)
   - [vimstart](https:  github.com/okitavera/vimstart)
 

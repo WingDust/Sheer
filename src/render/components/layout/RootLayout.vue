@@ -66,11 +66,61 @@
     <div class="w">7</div>
 </div>
 <!-- 对这个使用 inline-flex 会因窗口的缩小而换行 -->
-<div class="e">
-    <div>
+<div class="e" @wheel="mousewheel">
+    <div class="item">
+        0
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
     </div>
-    <div>
+    <div class="item">
+        1
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        2
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        3
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        4
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        5
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        6
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        7
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        8
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        9
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        10
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        11
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        12
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="item">
+        13
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
     </div>
 </div>
@@ -96,10 +146,17 @@ export default defineComponent({
         const store = useStore()
         console.log(store.state);
         console.log(toRaw(store.state));
+        function mousewheel(e){
+            console.log(e);
+            // e.deltaY = 200
+            // e.preventDefault();
+
+            console.log('wheel');
+        }
 
 
         return {
-            hotkeys,
+            hotkeys,mousewheel
         }
     },
 })
@@ -141,21 +198,25 @@ export default defineComponent({
 .root {
     width: 1920px;
     .r{
-    display: inline-grid;
-    width: 1644px;
-    grid-template-columns:repeat(6,1fr);
-    // grid-column-gap: 1rem;
-    grid-row-gap: 1rem;
+        justify-items: center;
+        display: inline-grid;
+        width: 1644px;
+        grid-template-columns:repeat(6,1fr);
+        // grid-column-gap: 1rem;
+        grid-row-gap: 1rem;
     }
     .e{
-    display: inline-grid;
-    grid-row-gap: 1rem;
-    width: 276px;
-    height: auto;
+        width: 276px;
+        height: 1080px;
+        overflow-y:auto;
+        // overflow: auto;
+        justify-items: center;
+        display: inline-grid;
+        grid-row-gap: 1rem;
     }
     img{
-    width: 256px;
-    height: 144px;
+        width: 256px;
+        height: 144px;
     }
     // width: 100%;
     // height: auto;
