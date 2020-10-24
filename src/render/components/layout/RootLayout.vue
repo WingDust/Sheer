@@ -65,8 +65,8 @@
     <div class="w">7</div>
     <div class="w">7</div>
 </div>
-<!-- 对这个使用 inline-flex 会因窗口的缩小而换行 -->
-<div class="e" @wheel="mousewheel">
+<!-- 对这个使用 inline-flex  会因窗口的缩小而换行 @wheel="judgemwheel"-->
+<div class="e" @scroll="mousewheel" >
     <div class="item">
         0
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
@@ -132,12 +132,19 @@ import {
     defineComponent,
     ref,
     onMounted,
-    toRaw
+    toRaw,
+    onBeforeMount
 } from "vue";
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
 export default defineComponent({
     setup() {
+        onBeforeMount(()=>{
+        })
+        onMounted(()=>{
+            // roote=document.getElementsByClassName("e")[0]
+            // console.log(roote);
+        })
         hotkeys('q',function(event,handler){
             event.preventDefault()
             console.log('q');
@@ -146,17 +153,29 @@ export default defineComponent({
         const store = useStore()
         console.log(store.state);
         console.log(toRaw(store.state));
-        function mousewheel(e){
-            console.log(e);
-            // e.deltaY = 200
-            // e.preventDefault();
 
-            console.log('wheel');
+        // 防抖
+        function debounce(fn,wait) {
+            let timeoutID = null
+            return function (e) {
+                if (timeoutID != null) clearTimeout(timeoutID) 
+                timeoutID = setTimeout(fn,wait,e)
+            }
+        }
+        function wheel(e){
+            console.log(e);
+            e.target.scrollBy(0,160)
+
+        }
+        const mousewheel = debounce(wheel,1000)
+
+        function judgemwheel(e) {
+            console.log(e);
         }
 
 
         return {
-            hotkeys,mousewheel
+            hotkeys,mousewheel,judgemwheel,debounce
         }
     },
 })

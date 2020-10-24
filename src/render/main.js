@@ -10,7 +10,9 @@ import "./css/SpecificImpact/scrollbar.css"
 import "./css/GlobalImpact/global.scss"
 
 import "keyevent/keyevent_bg.wasm"
+// import "keyevent"
 import init from "keyevent/keyevent.js"
+// import init from "keyevent"
 // fetch('http://localhost:3344/@modules/keyevent/keyevent_bg.wasm').then(response =>
 //   response.arrayBuffer()
 // )
