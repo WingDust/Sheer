@@ -77,8 +77,8 @@
   - 紧凑模式
 
 ## For 、Inspiration
-  - [qutebrowser](https:  qutebrowser.org/)
-  - [vimstart](https:  github.com/okitavera/vimstart)
+  - [qutebrowser](https:qutebrowser.org/)
+  - [vimstart](https:github.com/okitavera/vimstart)
 
 
 
@@ -97,6 +97,6 @@
     - [Monaco Editor使用](https://tangpengfei111.github.io/2019/12/21/monaco-editor%E4%BD%BF%E7%94%A8/)
     - [Editor源码阅读](http://gwiki.cn/2018/01/editor%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB)
   - Vue 方向
-    - [Vue中文件社区]https://www.vue-js.com/)
+    - [Vue中文件社区](https://www.vue-js.com/)
   - 前端 方向
     - 
