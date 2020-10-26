@@ -1,6 +1,6 @@
 film:
   # 不写值为 null ，这个会被读取成一个字符串
-  # - 'G:\Feature film'
+  - 'G:\Feature film'
   # - 'G:\Poring'
 #---------------------
 store:

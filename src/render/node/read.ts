@@ -9,10 +9,6 @@ import { Flag,ConfigYaml } from "./config";
 
 const fs = require("fs")
 
-// const store = useStore()
-
-
-
 //#region 变量声明、初始化
 const Yaml = readfilmPath(undefined) 
 state.ConfigYaml.Yaml=Yaml
@@ -42,7 +38,9 @@ let Proxy_FLAG = new Proxy(FLAG,{
 
 
 /**
- * 
+ * 完成 file 类的实例、并对这个实例进行 Proxy ，
+ * 来监听这个对象上的 flag属性，
+ * 来确认 Tree 加载完成
  * @param Proxy_FLAG 
  * @param root 
  * @param Tree 

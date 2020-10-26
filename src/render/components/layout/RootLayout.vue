@@ -60,13 +60,117 @@
     <div class="w">
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
     </div>
-    <div class="w">7</div>
-    <div class="w">7</div>
-    <div class="w">7</div>
-    <div class="w">7</div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
+    <div class="w">
+        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
+    </div>
 </div>
-<!-- 对这个使用 inline-flex  会因窗口的缩小而换行 @wheel="judgemwheel"-->
-<div class="e" @scroll="mousewheel" >
+<!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
+<div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
     <div class="item">
         0
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
@@ -157,25 +261,38 @@ export default defineComponent({
         // 防抖
         function debounce(fn,wait) {
             let timeoutID = null
+            let flag = true
             return function (e) {
-                if (timeoutID != null) clearTimeout(timeoutID) 
-                timeoutID = setTimeout(fn,wait,e)
+                if (timeoutID != null&&flag) clearTimeout(timeoutID) 
+                timeoutID = setTimeout(fn,wait,e,flag)
             }
         }
-        function wheel(e){
+        function wheel(e,flag){
             console.log(e);
+            console.log(flag);
+            let currentT=e.target.scrollTop
+            console.log(e.target.scrollTop);
             e.target.scrollBy(0,160)
-
+            console.log("scrollTop:"+e.target.scrollTop+"current:"+(currentT-e.target.scrollTop));
+            flag=false
         }
         const mousewheel = debounce(wheel,1000)
 
-        function judgemwheel(e) {
+        function wheeldebounce(fn,wait) {
+            let  timeoutID = null
+            return function (e) {
+                if (timeoutID !== null) clearTimeout(timeoutID)
+                setTimeout(fn,wait,e)
+            }
+            
+        }
+        function wheelmove(e) {
             console.log(e);
         }
-
+        const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            hotkeys,mousewheel,judgemwheel,debounce
+            hotkeys,mousewheel,touchwheel
         }
     },
 })
@@ -218,6 +335,8 @@ export default defineComponent({
     width: 1920px;
     .r{
         justify-items: center;
+        align-items: center;
+        // justify-content: center;
         display: inline-grid;
         width: 1644px;
         grid-template-columns:repeat(6,1fr);
@@ -233,6 +352,10 @@ export default defineComponent({
         display: inline-grid;
         grid-row-gap: 1rem;
     }
+    // .w{
+        // width: 274px;
+        // height: 154px;
+    // }
     img{
         width: 256px;
         height: 144px;

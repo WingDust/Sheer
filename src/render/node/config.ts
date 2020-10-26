@@ -35,6 +35,11 @@ function readfilmPath(p="../../../../../../src/render/public/film.yml"):ConfigYa
     }
 }
 
+/**
+ * 调用opencv读取视频第一帧并保存成文件
+ * @param ThumbnailPath 
+ * @param film 
+ */
 function getPicture(ThumbnailPath:any,film:string ) {
     console.log(__dirname);
     // "" 来去除文件名带有空格等其它情况
