@@ -7,7 +7,9 @@
   2. 对于秩序中我对数量的要求并不是那么强烈，虽说我的那个，但是我可能会去实现一个条形图
   3. 之前我在想的有一个紧凑形的视图设计，但是我在对这个设计的目的有些迷失了，我得先想出这要这样的设计，是否符合我原思想中直观性。
   4. 之前我想主要是由混沌转向秩序，但我对混沌也得做一个分层，也要有一个原本就是处于乱的情况下，再转向稍有点秩序的局面。
-  - 最后修改：2020年10月27日 星期二 00:30:09
+  - 解决方案： 
+    - 对于我原本存在着被自己不清楚的存在视频文件的规则，导致现在混乱的局面，这样本身就应该是我的问题，我这个软件应该向 Vim 样中的 Make Simple Make Pure，它不是一个帮你清理过去错误的软件，应该保证自己的运行轨道，不应该是来帮助你修补各种的错误
+  - 最后修改：2020年10月27日 星期二 17:28:36
 
 
 
@@ -98,5 +100,13 @@
     - [Editor源码阅读](http://gwiki.cn/2018/01/editor%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB)
   - Vue 方向
     - [Vue中文件社区](https://www.vue-js.com/)
+  - Webassembly 方向
+    - [How to add keyboard events in Rust Webassembly?](https://www.webassemblyman.com/rustwasm/how_to_add_keyboard_events_in_rust_webassembly.html)
+    - [部署Emscripten编译后页面](https://emcc.zcopy.site/docs/compiling/deploying-pages/)
+    - [调试 Rust 生成的 WebAssembly 的工具和方法](http://llever.com/rustwasm-book/game-of-life/debugging.zh.html)
+    - [console.log](https://rustwasm.github.io/docs/wasm-bindgen/examples/console-log.html)
+    - [wasm-bindgen](https://rustwasm.github.io/docs/wasm-bindgen/introduction.html)
+    - [wasm-pack docs](https://rustwasm.github.io/docs/wasm-pack/introduction.html)
+    - [Rust wasm : How to access HTMLDocument from web-sys](https://stackoverflow.com/questions/61635487/rust-wasm-how-to-access-htmldocument-from-web-sys)
   - 前端 方向
     - 
