@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-03 16:11:09
+ * @LastEditTime: 2020-11-01 15:39:56
+ * @LastEditors: Please set LastEditors
+ * @Description: 对文件目录处理的工具类
+ * @FilePath: \electron-vue-vite\src\render\js\libary.ts
+ */
 // import fs from 'fs'
 // import path from 'path'
 
@@ -68,10 +76,10 @@ export class File extends Tool {
   }
 
   /**
-   * [FileTree description]
-   * @param {[type]}   dirPath  [description]
-   * @param {[type]}   Tree     [description]
-   * @param {Function} callback [description]
+   * [FileTree 异步对文件树进行添加]
+   * @param {[type]}   dirPath  [视频文件根路径]
+   * @param {[type]}   Tree     [被添加的文件树]
+   * @param {Function} callback [可选回调函数]
    */
   async FileTree(dirPath: any, Tree: any, callback?: any) {
 
@@ -97,7 +105,7 @@ export class File extends Tool {
      * **用来将这个路径数组组成一个好处理的结构数组**，
      * 它是遍历方法包含又一个异步方法，数组的长度并不确定，
      * 也就是有多少个异步方法被执行也是不确定，
-     * 所以这里采用  Promise 来将这段异步方法整合成
+     * 所以这里采用 Promise 来将这段异步方法整合成
      * 包含所有异步状态而组成的一个对象，
      */
     //#endregion

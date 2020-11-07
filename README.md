@@ -10,9 +10,13 @@
   - 解决方案： 
     - 对于我原本存在着被自己不清楚的存在视频文件的规则，导致现在混乱的局面，这样本身就应该是我的问题，我这个软件应该向 Vim 样中的 Make Simple Make Pure，它不是一个帮你清理过去错误的软件，应该保证自己的运行轨道，不应该是来帮助你修补各种的错误
   - 最后修改：2020年10月27日 星期二 17:28:36
-
-
-
+  - 实现区别视觉得不能只使用颜色这一个单元素，得有一个多元素组合成一个东西，这样可让可被分类上限增强更多。
+  - 对类别与标签的区别得做一个解释
+    - 对于默认的建立的文件夹，应该是设为视频文件的一种默认标签，它为默认分组，隶属为视频的一个属性。
+    - 对于标签（分类体系）、与视图的互动应该做一个联合，子标签也是一个新的元素
+    - 对于标签中的像 **美国的bat man** 这样的应是由一个命名规范来约束，其实还真是我有些没有想清楚，对本地的视频文件、文件夹，它有一个自有系统，我还要想的是兼容它的行为，
+    - 文件与文件名的关系，文件所携带的属性
+      - 文件名是用来做辨别这个文件的，但是当出现多个文件属一个类那就是另一个操作，将这些文件放入一个新命名的文件夹来作一个单独对象能达到**方便（也就是基于方便思维）**处理，然而实际上我直接能根据多个文件的文件名来做一个智能分类，在原动作上它帮助了取消了一个要进行范围确认的动作，而变成了只有一个要被处理的对象，并且能集体统一处理的能力
 ## Subproject
   - Rust-Wasm
   - C/C++ - Emscripten
@@ -63,10 +67,12 @@
   - 使用滚动到视口窗口中之内 
     - 解决方案
       - 使用 Element.scrollBy 来实现固定滚动距离
+  - [x] 将读取文件树的几个文件函数的 Doc 写清楚
+  - [x] 数据获取响应成功
+  - [x] 处理 js-yaml 函数返回值问题
+  - [x] 将 File 的 FileTree 函数运行返回出 checkline 
   - [ ] 将 Prism Vue 组件分离出去
   - [ ] 对 File 加一个函数节流，限制它的运行次数 预定次数 为 60 次
-  - [x] 数据获取响应成功
-  - [ ] 处理 js-yaml 函数返回值问题
 
 ## IDEA
   - [ ] 对 File 类中能一层的分块，进行一个探索
@@ -81,7 +87,6 @@
 ## For 、Inspiration
   - [qutebrowser](https:qutebrowser.org/)
   - [vimstart](https:github.com/okitavera/vimstart)
-
 
 
 
@@ -108,5 +113,5 @@
     - [wasm-bindgen](https://rustwasm.github.io/docs/wasm-bindgen/introduction.html)
     - [wasm-pack docs](https://rustwasm.github.io/docs/wasm-pack/introduction.html)
     - [Rust wasm : How to access HTMLDocument from web-sys](https://stackoverflow.com/questions/61635487/rust-wasm-how-to-access-htmldocument-from-web-sys)
-  - 前端 方向
+  - CCS 方向
     - 

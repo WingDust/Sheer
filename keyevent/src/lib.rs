@@ -28,6 +28,9 @@ pub fn eventlistener_keyboardevent_keydown(){
         event_str.push_str(&event.type_());
         event_str.push_str(&" : ");
         event_str.push_str(&keyevent.key());
+        if keyevent.ctrl_key() && keyevent.alt_key(){
+            console_log!("true");
+        }
         console_log!("{}",event_str);
     });
     onkey.forget();
@@ -36,5 +39,13 @@ pub fn eventlistener_keyboardevent_keydown(){
 
 #[wasm_bindgen(start)]
 pub fn start(){
- eventlistener_keyboardevent_keydown();
+//  eventlistener_keyboardevent_keydown();
+}
+
+#[wasm_bindgen]
+pub fn hidesibebar(e:web_sys::KeyboardEvent){
+        console_log!("ok");
+        if e.ctrl_key() && e.alt_key(){
+            console_log!("true");
+        }
 }

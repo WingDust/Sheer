@@ -4,7 +4,8 @@
 export const state = {
     FilmPath:{
         Trees:Object.create(null),
-        status:false
+        status:false,
+        checkline:Object.create(null)
     },
     Flag:{
         flag:false,

@@ -4,8 +4,13 @@ import re
 import sys
 import os
 
-
 def getFrame(filePath,store):
+    """[summary]
+
+    Args:
+        filePath ([type]): [视频文件路径]
+        store ([type]): [储存帧文件路径]
+    """    
     print(filePath,store)
     if (filePath is not None and store is not None):
         cap = cv2.VideoCapture(filePath)

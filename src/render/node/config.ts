@@ -1,3 +1,11 @@
+/*
+ * @Author: wingdust
+ * @Date: 2020-09-03 23:19:46
+ * @LastEditTime: 2020-11-01 11:28:55
+ * @LastEditors: Please set LastEditors
+ * @Description: 用于保存一些工具函数，并导出给外部使用
+ * @FilePath: \electron-vue-vite\src\render\node\config.ts
+ */
 const yaml = require("js-yaml");
 const fs = require("fs");
 const path = require("path");
@@ -22,7 +30,9 @@ import { Tree } from "../js/DataStructure/Tree";
 
 
 /**
- * 读取路径数组函数
+ * 读取配置 Yaml 文件函数
+ * @param {string} [p="../../../../../../src/render/public/film.yml"]
+ * @return {*}  {(ConfigYaml | null)}
  */
 function readfilmPath(p="../../../../../../src/render/public/film.yml"):ConfigYaml | null  {
     try {
@@ -37,10 +47,10 @@ function readfilmPath(p="../../../../../../src/render/public/film.yml"):ConfigYa
 
 /**
  * 调用opencv读取视频第一帧并保存成文件
- * @param ThumbnailPath 
- * @param film 
+ * @param film :视频文件路径
+ * @param ThumbnailPath :保存帧文件路径
  */
-function getPicture(ThumbnailPath:any,film:string ) {
+function getPicture(film:string,ThumbnailPath:any) {
     console.log(__dirname);
     // "" 来去除文件名带有空格等其它情况
     let run = `E:\\python\\python3.8.1\\python.exe .\\src\\render\\python\\picture.py "${film}" ${ThumbnailPath}`

@@ -38,6 +38,7 @@
 
 <div class="root">
 <!-- <div class="container-fluid"> -->
+    <tagscontainer></tagscontainer>
     <div class="r">
     <div class="w">
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
@@ -241,6 +242,7 @@ import {
 } from "vue";
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
+import TagsContainer from "../Tags/TagsContainer.vue"
 export default defineComponent({
     setup() {
         onBeforeMount(()=>{
@@ -295,6 +297,9 @@ export default defineComponent({
             hotkeys,mousewheel,touchwheel
         }
     },
+    components:{
+        'tagscontainer':TagsContainer
+    }
 })
 </script>
 
@@ -338,8 +343,10 @@ export default defineComponent({
         align-items: center;
         // justify-content: center;
         display: inline-grid;
-        width: 1644px;
-        grid-template-columns:repeat(6,1fr);
+        // width: 1644px;
+        width: 1370px;
+        grid-template-columns:repeat(5,1fr);
+        // grid-template-columns:repeat(6,1fr);
         // grid-column-gap: 1rem;
         grid-row-gap: 1rem;
     }

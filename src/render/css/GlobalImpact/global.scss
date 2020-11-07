@@ -58,3 +58,11 @@ body{
     background-color: gray;
   }
 }
+
+.fonticon-CHEVRON-RIGHT{
+  @include fonticon-base();
+  &:before{
+    content: "\EAB6";
+  }
+
+}
