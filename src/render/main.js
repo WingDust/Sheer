@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2020-11-07 13:52:28
+ * @LastEditTime: 2020-11-14 18:44:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -36,6 +36,10 @@ import init,{hidesibebar} from "keyevent/keyevent.js"
     }
     run()
 
+
+// import { see } from "./node/veiw";
+
+// see()
 
 
 

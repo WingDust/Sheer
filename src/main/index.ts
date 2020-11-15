@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-08-21 21:03:28
+ * @LastEditTime: 2020-11-15 11:10:35
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\main\index.ts
+ */
 /**
  * electron 主文件
  */
@@ -13,8 +21,8 @@ let win: BrowserWindow | null = null
 function createWin() {
   // 创建浏览器窗口
   win = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     minWidth:600,
     minHeight:270,
     autoHideMenuBar: true,

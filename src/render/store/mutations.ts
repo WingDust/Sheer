@@ -1,10 +1,12 @@
 import { MutationTree } from 'vuex';
 import { State } from "./state";
 
+// TODO 需要做注释
 export const enum MutationTypes{
     setConfigYaml="setConfigYaml",
     setConfigYamlStatus="setConfigYamlStatus",
-    setTrees="setTrees"
+    setTrees="setTrees",
+    setViewStatus="setViewStatus"
 }
 
 type Mutation<S= State> = {
@@ -12,6 +14,7 @@ type Mutation<S= State> = {
 }
 
 export const mutations:Mutation & MutationTree<State> = {
+    // []中为方法名 () 为参数类型断言
     [MutationTypes.setConfigYaml](state:State,value:number):void{
         state.ConfigYaml.Yaml=value
     },
@@ -20,5 +23,8 @@ export const mutations:Mutation & MutationTree<State> = {
     },
     [MutationTypes.setTrees](state:State,value:any):void{
         state.FilmPath.Trees=value
+    },
+    [MutationTypes.setViewStatus](state:State,value:any):void{
+        state.View.sibebar=value
     }
 }

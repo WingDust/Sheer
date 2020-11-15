@@ -38,9 +38,12 @@
 
 <div class="root">
 <!-- <div class="container-fluid"> -->
+    <div>{{view}}</div>
+    <Suspense>
     <tagscontainer></tagscontainer>
-    <div class="r">
-    <div class="w">
+    </Suspense>
+        <div class="r">
+        <div class="w">
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
     </div>
     <div class="w">
@@ -238,11 +241,14 @@ import {
     ref,
     onMounted,
     toRaw,
-    onBeforeMount
+    onBeforeMount,
+    reactive,
+    computed
 } from "vue";
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
 import TagsContainer from "../Tags/TagsContainer.vue"
+import { MutationTypes } from "../../store/mutations";
 export default defineComponent({
     setup() {
         onBeforeMount(()=>{
@@ -255,10 +261,16 @@ export default defineComponent({
             event.preventDefault()
             console.log('q');
         })
+        const storet = useStore()
+        document.addEventListener("keydown",()=>{
+            console.log("tr");
+            storet.commit(MutationTypes.setViewStatus,true)
+            })
 
-        const store = useStore()
-        console.log(store.state);
-        console.log(toRaw(store.state));
+        console.log(storet.state);
+        console.log(toRaw(storet.state));
+        // let store = reactive(toRaw(storet))
+        const view = computed(()=> storet.state.View.sibebar)
 
         // 防抖
         function debounce(fn,wait) {
@@ -294,7 +306,7 @@ export default defineComponent({
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            hotkeys,mousewheel,touchwheel
+            hotkeys,mousewheel,touchwheel,view
         }
     },
     components:{

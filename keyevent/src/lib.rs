@@ -44,8 +44,9 @@ pub fn start(){
 
 #[wasm_bindgen]
 pub fn hidesibebar(e:web_sys::KeyboardEvent){
-        console_log!("ok");
-        if e.ctrl_key() && e.alt_key(){
-            console_log!("true");
-        }
+        console_log!("ok1");
+        console_log!("{}",e.key())
+        // if e.ctrl_key() && e.alt_key(){
+        //     console_log!("true");
+        // }
 }
