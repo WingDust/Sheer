@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-01 16:09:13
- * @LastEditTime: 2020-11-14 17:34:34
+ * @LastEditTime: 2020-11-16 16:19:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\Tags\TagsContainer.vue
 -->
 <template>
       <!-- <div class="TagsContainer" @keydown="hidesibebar"> -->
-      <div class="TagsContainer" :class="{hided:ishided}"  @keydown="hided">
+      <div class="TagsContainer" :class="{hided:a}" @click="show">
           <ul>
               <li>123</li>
               <li>123</li>
@@ -22,7 +22,7 @@ import "keyevent/keyevent_bg.wasm"
 import init,{hidesibebar} from "keyevent/keyevent.js"
 import {defineComponent,ref} from "vue"
 export default defineComponent({
-    async setup(){
+    async setup(props,context){
         // async function run() {
         //     await init()
         // }
@@ -30,15 +30,14 @@ export default defineComponent({
         // console.log(wasm);
     //    let hidesibebar = wasm.hidesibebar
     //    let hidesibebar = hidesibebar
-
-    let ishided = ref(false)
-
-    function hided(){
-        console.log("s");
-        ishided = true
+    let a = ref(false)
+    let show = function() {
+        // console.log(context);
+        this.a = true
     }
 
-       return {hidesibebar,hided,ishided}
+
+       return {hidesibebar,show,a}
     }
 
 })
@@ -47,7 +46,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .TagsContainer{
     display: inline-block;
-    width:1px;
+    width:20px;
     background-color: rgb(225,228,235);
     vertical-align: top;
     ul li{
@@ -57,7 +56,7 @@ export default defineComponent({
 
 .hided{
     width: 274px;
-    transition: all .4s;
+    transition: width .4s;
 }
 
 
