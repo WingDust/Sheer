@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-08 01:21:54
+ * @LastEditTime: 2020-11-18 12:03:26
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
+ */
 import { MutationTree } from 'vuex';
 import { State } from "./state";
 
@@ -22,9 +30,14 @@ export const mutations:Mutation & MutationTree<State> = {
         state.ConfigYaml.status=value
     },
     [MutationTypes.setTrees](state:State,value:any):void{
-        state.FilmPath.Trees=value
+            state.FilmPath.Trees=value
     },
-    [MutationTypes.setViewStatus](state:State,value:any):void{
+    // 在函数中设立两个默认参数，先判断要改变值的信号，只需每一次将值改变成不同上一次就行
+    [MutationTypes.setViewStatus](state:State,value:boolean=true):void{
+        if (state.View.sibebar===value) {
+        state.View.sibebar=false
+        }else{
         state.View.sibebar=value
+        }
     }
 }

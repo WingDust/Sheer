@@ -38,12 +38,12 @@
 
 <div class="root">
 <!-- <div class="container-fluid"> -->
-    <div>{{view}}</div>
+    <!-- <div>{{view}}</div> -->
     <Suspense>
     <tagscontainer></tagscontainer>
     </Suspense>
-        <div class="r">
-        <div class="w">
+<div class="r" :class="{widthmax:view}">
+    <div class="w">
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
     </div>
     <div class="w">
@@ -262,9 +262,12 @@ export default defineComponent({
             console.log('q');
         })
         const storet = useStore()
-        document.addEventListener("keydown",()=>{
-            console.log("tr");
-            storet.commit(MutationTypes.setViewStatus,true)
+        document.addEventListener("keyup",(e)=>{
+            if (e.altKey && e.ctrlKey&& e.keyCode == 32)
+            {
+            storet.commit(MutationTypes.setViewStatus,undefined)
+            }
+            // e.preventDefault()
             })
 
         console.log(storet.state);
@@ -355,12 +358,16 @@ export default defineComponent({
         align-items: center;
         // justify-content: center;
         display: inline-grid;
-        // width: 1644px;
-        width: 1370px;
-        grid-template-columns:repeat(5,1fr);
-        // grid-template-columns:repeat(6,1fr);
+        width: 1644px;
+        transition: width .4s;
+        grid-template-columns:repeat(6,1fr);
         // grid-column-gap: 1rem;
         grid-row-gap: 1rem;
+    }
+    .widthmax{
+        width: 1370px;
+        grid-template-columns:repeat(5,1fr);
+        transition: width .4s;
     }
     .e{
         width: 276px;
