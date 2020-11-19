@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-10-20 14:10:18
+ * @LastEditTime: 2020-11-18 16:38:31
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\utils\VideoScale\README.md
+-->
 ## Golang 语言学习、技巧等Reference（参考）
   - [Golang 新手可能会踩的 50 个坑](https://segmentfault.com/a/1190000013739000)
   - [Golang标准库文档](https://studygolang.com/static/pkgdoc/main.html)
@@ -37,3 +45,6 @@
 
     - Rerference
       - 
+## ffprobe 使用技巧
+  - [FFprobeTips](https://trac.ffmpeg.org/wiki/FFprobeTips)
+  - [从ffmpeg-i获取视频尺寸](https://www.cnpython.com/qa/44066)

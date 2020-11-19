@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-11-01 15:54:09
+ * @LastEditTime: 2020-11-19 16:32:34
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -107,7 +107,7 @@ export function runtime() {
     // 初始化树
   Trees =new Tree(Yaml.film[0]);   // 2
 
-  checkline = getPath(Proxy_FLAG,Yaml.film[0],Trees,undefined); // 3
+  getPath(Proxy_FLAG,Yaml.film[0],Trees,undefined).then((result)=> checkline =result); // 3
   }
   // else{
   //   alert(`你的 film.yml \n⇒为空`)

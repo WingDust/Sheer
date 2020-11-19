@@ -1,47 +1,17 @@
 <template>
 <!-- 
-<div class="container-fluid ">
-    <div class="row">
-        <div class="col-xl-11">
-            <h2>Main</h2>
-            <slot name="MainContent"></slot>
-        </div>
-        <div class="col-xl-1">
-            <h2>Side</h2>
-            <div class="a">
-                <div>
-                    <div class="c"  >4</div >
-                </div>
-                <div>
-
-                    <div class="c">3</div>
-                </div>
-                <div>
-
-                    <div class="c">2</div>
-                </div>
-                <div>
-                    <div class="c">1</div>
-                </div>
-                <div class="c">5</div>
-                <div class="c">6</div>
-                <div class="c">7</div>
-                <div class="c">8</div>
                 <div :ref="el => {dom[0]=el} " class="c">9</div>
                 <div :ref="el => {dom[1]=el} " class="c">10</div>
-            </div>
 
-        </div>
-    </div>
 </div>  
 -->
 
 <div class="root">
 <!-- <div class="container-fluid"> -->
     <!-- <div>{{view}}</div> -->
-    <Suspense>
+    <!-- <Suspense> -->
     <tagscontainer></tagscontainer>
-    </Suspense>
+    <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
     <div class="w">
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
