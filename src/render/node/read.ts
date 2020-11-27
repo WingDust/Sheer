@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-11-19 16:32:34
+ * @LastEditTime: 2020-11-21 19:23:30
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -14,6 +14,7 @@ import { Tree } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
+import { transformVNodeArgs } from 'vue';
 
 
 /**
@@ -53,6 +54,7 @@ let Proxy_FLAG = new Proxy(FLAG,{
       state.FilmPath.Trees= Trees;
       state.Flag.flag=true//这个是预先设置state 的设置
       state.FilmPath.checkline=checkline
+      Trees!.traverseBF(cut)
 
       // store.commit(MutationTypes.setTrees,Trees)
       // 获取视频文件的帧
@@ -64,6 +66,15 @@ let Proxy_FLAG = new Proxy(FLAG,{
 //#endregion
 
 
+function cut(currentNode:any){
+  const re= /\.(mp4|avi)/
+  if (currentNode.data.search(re) != -1){
+    Trees!.getNodeDeepth(currentNode)
+
+    
+
+  }
+}
 
 
 /**
@@ -113,8 +124,3 @@ export function runtime() {
   //   alert(`你的 film.yml \n⇒为空`)
   // }
 }
-
-
-
-
-
