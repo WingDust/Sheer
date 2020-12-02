@@ -1,11 +1,27 @@
 import {
   Queue
 } from './Queue.js'
-class Node {
+export class Node {
   constructor(data) {
     this.data = data
     this.parent = null
     this.children = []
+    this.currentNodeDeepth = 1
+  }
+
+  /**
+   *
+   * 使用 Node实例来获取当前节点深度
+   * @return {number} 
+   * @memberof Node
+   */
+  NodeDeepth(){
+    if (this.parent !== null) {
+      this.currentNodeDeepth++
+      this.NodeDeepth()
+    }else{
+      return this.currentNodeDeepth
+    }
   }
 
 }
@@ -127,7 +143,6 @@ export class Tree {
    * @return {[type]}          [description: number]
    */
   getNodeDeepth(nodedata) {
-    //let that = this
     this.traverseBF((node) => {
       if (node.data == nodedata) {
         this.NodeDeepth(node)
@@ -138,7 +153,7 @@ export class Tree {
     this.currentNodeDeepth=1
     return currentNodeDeepth
   }
-  /**
+  /*
    * [NodeDeepth description: recursive式回计算节点的深度]
    * @param {[type]} node [description]
    */

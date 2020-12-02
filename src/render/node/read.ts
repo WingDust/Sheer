@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-11-21 19:23:30
+ * @LastEditTime: 2020-12-02 17:57:14
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -10,7 +10,7 @@
 // import { registerRuntletmpiler } from 'vue';
 import { readfilmPath, getPicture } from "./config";
 import { File } from "../js/libary";
-import { Tree } from "../js/DataStructure/Tree";
+import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
@@ -66,13 +66,18 @@ let Proxy_FLAG = new Proxy(FLAG,{
 //#endregion
 
 
-function cut(currentNode:any){
+/**
+ *
+ * 我要生成代表视频文件的图片文件与其文件夹
+ * @param {Node} currentNode
+ */
+function cut(currentNode:Node){
   const re= /\.(mp4|avi)/
-  if (currentNode.data.search(re) != -1){
-    Trees!.getNodeDeepth(currentNode)
-
-    
-
+  if (currentNode.data.search(re) !== -1){//根据数据字符串来检索是否为合格视频文件
+    let nodedeepth = currentNode.NodeDeepth()
+    if (nodedeepth <= 2) {//当这个视频文件的文件深度不大于2时才会对视频文件进行操作
+      
+    }
   }
 }
 
