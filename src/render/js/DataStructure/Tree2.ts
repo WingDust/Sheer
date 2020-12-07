@@ -1,10 +1,10 @@
 import {
   Queue
-} from './Queue.js'
+} from './Queue'
 class Node {
-  data:any
-  parent:null |Node
-  children:any
+  data:any;
+  parent:null |Node;
+  children:Array<any>;
 
   constructor(data:any) {
     this.data = data
@@ -15,9 +15,9 @@ class Node {
 }
 export class Tree {
 
-  data:any
-  _root:Node
-  currentNodeDeepth:number
+  data:any;
+  _root:Node;
+  currentNodeDeepth:number;
   constructor(data:any) {
     let node = new Node(data)
     this._root = node
@@ -65,14 +65,14 @@ export class Tree {
     traversal.call(this, callback)
   }
   /**
-   * [add description: 为添加node子元素]
+   * [add description: 为 Node 添加 Node 子元素]
    * @param {[type]} data      [description: 要添加的数据]
    * @param {[type]} toData    [description: 为添加到那个节点上，用这个节点上的数据来表明]
    * @param {[type]} traversal [description: 以种方法来检索要被添加到的节点，用来添加]
    */
   add(data:any, toData:any, traversal:Function) {
     let child = new Node(data),
-      parent = null,
+      parent :null |Node =null,
       callback = function(node:Node) {
         if (node.data === toData) {
           parent = node
@@ -81,7 +81,7 @@ export class Tree {
     this.contains(callback, traversal)
 
     if (parent) {
-      parent.children.push(child)
+      parent!.children.push(child)
       child.parent = parent
     } else {
       throw new Error('Cannot add node to non-existent parent')
