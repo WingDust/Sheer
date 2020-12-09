@@ -1,15 +1,33 @@
 import {
   Queue
 } from './Queue'
-class Node {
+export class Node {
   data:any;
   parent:null |Node;
   children:Array<any>;
+  currentNodeDeepth:number;
 
   constructor(data:any) {
     this.data = data
     this.parent = null
     this.children = []
+    this.currentNodeDeepth = 0
+  }
+
+  /**
+   *
+   * 使用 Node实例来获取当前节点深度
+   * @return {*}  {(number|undefined)}
+   * @memberof Node
+   */
+  NodeDeepth():number|undefined{
+    if (this.parent !== null) {
+      this.currentNodeDeepth++
+      this.parent.NodeDeepth()
+    }else{
+      return this.currentNodeDeepth
+    }
+    this.data
   }
 
 }
@@ -87,13 +105,13 @@ export class Tree {
       throw new Error('Cannot add node to non-existent parent')
     }
   }
-  remove(data, fromData, traversal) {
+  remove(data:any, fromData:any, traversal:Function) {
     let tree = this,
-      parent = null,
+      parent:null | Node = null,
       childToRemove = null,
       index;
 
-    let callback = function(node) {
+    let callback = function(node:Node) {
       if (node.data === fromData) {
         parent = node
       }
@@ -102,11 +120,11 @@ export class Tree {
     this.contains(callback, traversal)
 
     if (parent) {
-      index = tree.findIndex(parent.children, data)
+      index = tree.findIndex(parent!.children, data)
       if (index === undefined) {
         throw new Error('Node to remove does not exist')
       } else {
-        childToRemove = parent.children.splice(index, 1)
+        childToRemove = parent!.children.splice(index, 1)
       }
     } else {
       throw new Error('Parent does not exist.')
@@ -117,10 +135,10 @@ export class Tree {
    * [findIndex description: ]
    * @param  {[type]} arr  [description]
    * @param  {[type]} data [description]
-   * @return {[type]}      [description]
+   * @return {number }      [description]
    */
-  findIndex(arr, data) {
-    let index
+  findIndex(arr:any, data:any):number {
+    let index:number = 0
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].data === data) {
         index = i
