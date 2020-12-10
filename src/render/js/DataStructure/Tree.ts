@@ -5,29 +5,26 @@ export class Node {
   data:any;
   parent:null |Node;
   children:Array<any>;
-  currentNodeDeepth:number;
 
   constructor(data:any) {
     this.data = data
     this.parent = null
     this.children = []
-    this.currentNodeDeepth = 0
   }
 
   /**
    *
    * 使用 Node实例来获取当前节点深度
-   * @return {*}  {(number|undefined)}
+   * @return {*}  {(number)}
    * @memberof Node
    */
-  NodeDeepth():number|undefined{
-    if (this.parent !== null) {
-      this.currentNodeDeepth++
-      this.parent.NodeDeepth()
-    }else{
-      return this.currentNodeDeepth
-    }
-    this.data
+  NodeDeepth():number{
+  let that:Node|null = this
+  let currentNodeDeepth = 0
+  for (;that.parent !== null; currentNodeDeepth++) {
+    that = that!.parent
+  }
+  return currentNodeDeepth 
   }
 
 }
@@ -165,6 +162,7 @@ export class Tree {
     return currentNodeDeepth
   }
   /**
+   * > 这个递归有问题
    * [NodeDeepth description: recursive式回计算节点的深度]
    * @param {[type]} node [description]
    */

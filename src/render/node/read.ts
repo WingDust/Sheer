@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-12-09 17:06:27
+ * @LastEditTime: 2020-12-10 11:24:12
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -14,7 +14,6 @@ import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
-import { transformVNodeArgs } from 'vue';
 
 
 /**
@@ -74,11 +73,8 @@ let Proxy_FLAG = new Proxy(FLAG,{
 function cut( currentNode:Node){
   const re= /\.(mp4|avi)/
   if (currentNode.data.search(re) !== -1){//根据数据字符串来检索是否为合格视频文件
-    let nodedeepth = currentNode.NodeDeepth()
-    // if (nodedeepth <= 2) {//当这个视频文件的文件深度不大于2时才会对视频文件进行操作
-    console.log(nodedeepth);
-    console.log(currentNode.data);
-    // }
+    if (currentNode.NodeDeepth() <= 2) {//当这个视频文件的文件深度不大于2时才会对视频文件进行操作
+    }
   }
 }
 
