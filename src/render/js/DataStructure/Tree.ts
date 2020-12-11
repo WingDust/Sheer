@@ -2,7 +2,7 @@ import {
   Queue
 } from './Queue'
 export class Node {
-  data:any;
+  data:string;
   parent:null |Node;
   children:Array<any>;
 

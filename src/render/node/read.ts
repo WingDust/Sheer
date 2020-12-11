@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-12-11 19:58:15
+ * @LastEditTime: 2020-12-11 20:40:04
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -82,7 +82,11 @@ function cut( currentNode:Node){
       break;}
       case 2:{ 
         // G:\Feature film\动画\声之形剧场版.2017.HD720P.日语中字.mp4
-        getPicture(currentNode.data,Yaml!.store![0])
+        let folderstr = currentNode.data.replace(Yaml!.film![0]+'\\','')
+        const re = /^.+\\/
+        let t = re.exec(folderstr)
+        let folder =path.join(Yaml!.store![0],t![0])
+        getPicture(currentNode.data,folder)
       break;}
       default:{
         console.log(`${currentNode.data}:没有被切帧`);
