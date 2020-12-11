@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-12-10 11:24:12
+ * @LastEditTime: 2020-12-11 19:58:15
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -14,6 +14,8 @@ import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
+
+const path = require('path');
 
 
 /**
@@ -49,7 +51,7 @@ let Proxy_FLAG = new Proxy(FLAG,{
   set:function(target ,propKey,value,receiver){
     console.log('set FLAG');
     if (propKey === 'flag') {
-      console.log(value);
+      // console.log(value);
       state.FilmPath.Trees= Trees;
       state.Flag.flag=true//这个是预先设置state 的设置
       state.FilmPath.checkline=checkline
@@ -57,7 +59,7 @@ let Proxy_FLAG = new Proxy(FLAG,{
 
       // store.commit(MutationTypes.setTrees,Trees)
       // 获取视频文件的帧
-      getPicture("G:\\Feature film\\非洲女王号.BD1280高清中英双字.mp4",Yaml!.store![0])
+      // getPicture("G:\\Feature film\\非洲女王号.BD1280高清中英双字.mp4",Yaml!.store![0])
   }
     return Reflect.set(target,propKey,value,receiver);
   }
@@ -73,7 +75,18 @@ let Proxy_FLAG = new Proxy(FLAG,{
 function cut( currentNode:Node){
   const re= /\.(mp4|avi)/
   if (currentNode.data.search(re) !== -1){//根据数据字符串来检索是否为合格视频文件
-    if (currentNode.NodeDeepth() <= 2) {//当这个视频文件的文件深度不大于2时才会对视频文件进行操作
+  //当这个视频文件的文件深度不大于2时才会对视频文件进行操作
+    switch (currentNode.NodeDeepth()) {
+      case 1:{ 
+        getPicture(currentNode.data,Yaml!.store![0])
+      break;}
+      case 2:{ 
+        // G:\Feature film\动画\声之形剧场版.2017.HD720P.日语中字.mp4
+        getPicture(currentNode.data,Yaml!.store![0])
+      break;}
+      default:{
+        console.log(`${currentNode.data}:没有被切帧`);
+      break;}
     }
   }
 }
