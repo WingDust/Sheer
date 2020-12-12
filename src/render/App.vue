@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-08-21 21:03:28
+ * @LastEditTime: 2020-12-12 11:07:42
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\App.vue
+-->
 <template>
   <titlebar></titlebar>
   <div id="RouterMenu">
@@ -7,16 +15,22 @@
   <router-view/>
 </template>
 
-<script>
+<script lang="ts">
 import router from './router/index';
 import titlebar from "./components/titlebar/titlebar.vue";
+import {onMounted,defineComponent} from 'vue'
 
-export default {
+export default defineComponent({
   name: 'App',
+  setup(){
+    onMounted(()=>{
+      console.log(`App`);
+    })
+  },
   components: {
     titlebar
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

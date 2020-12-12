@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2020-11-01 11:28:55
+ * @LastEditTime: 2020-12-12 11:19:18
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -47,19 +47,19 @@ function readfilmPath(p="../../../../../../src/render/public/film.yml"):ConfigYa
 
 /**
  * 调用opencv读取视频第一帧并保存成文件
- * @param film :视频文件路径
- * @param ThumbnailPath :保存帧文件路径
+ * @param film 视频文件路径
+ * @param ThumbnailPath 保存帧文件路径
  */
 function getPicture(film:string,ThumbnailPath:any) {
-    console.log(__dirname);
+    // console.log(__dirname);
     // "" 来去除文件名带有空格等其它情况
     let run = `E:\\python\\python3.8.1\\python.exe .\\src\\render\\python\\picture.py "${film}" ${ThumbnailPath}`
-    console.log(run);
+    // console.log(run);
     let python = child_pross.exec(run,{encoding:'arraybuffer'})
     const decoder = new TextDecoder('gbk')
 
     python.stdout.on('data',function(data:any){
-      console.log(typeof(data));
+    //   console.log(typeof(data));
 
       console.log(decoder.decode(data));
       })
@@ -67,8 +67,10 @@ function getPicture(film:string,ThumbnailPath:any) {
       console.log(decoder.decode(data));
       })
 
-      python.on('close',function(code:any){
-      console.log(code);
+      python.on('close',function(code:number){
+      if (code !== 0) {//0 为执行成功
+        console.log(code);
+      }
       })
 }
 

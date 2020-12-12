@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2020-11-01 15:39:56
+ * @LastEditTime: 2020-12-12 10:22:37
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -77,11 +77,11 @@ export class File extends Tool {
 
   /**
    * [FileTree 异步对文件树进行添加]
-   * @param {[type]}   dirPath  [视频文件根路径]
+   * @param {string}   dirPath  [视频文件根路径]
    * @param {[type]}   Tree     [被添加的文件树]
    * @param {Function} callback [可选回调函数]
    */
-  async FileTree(dirPath: any, Tree: any, callback?: any) {
+  async FileTree(dirPath: string, Tree: any, callback?: any) {
 
     /**
      * 1. 查找到所有这一层的路径

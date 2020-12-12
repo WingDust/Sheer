@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-12-11 20:40:04
+ * @LastEditTime: 2020-12-12 21:47:12
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -57,9 +57,6 @@ let Proxy_FLAG = new Proxy(FLAG,{
       state.FilmPath.checkline=checkline
       Trees!.traverseBF(cut)
 
-      // store.commit(MutationTypes.setTrees,Trees)
-      // 获取视频文件的帧
-      // getPicture("G:\\Feature film\\非洲女王号.BD1280高清中英双字.mp4",Yaml!.store![0])
   }
     return Reflect.set(target,propKey,value,receiver);
   }
@@ -68,7 +65,8 @@ let Proxy_FLAG = new Proxy(FLAG,{
 
 
 /**
- *
+ * > 对这个函数做函数节流
+ * > 判断函数运行完成
  * 我要生成代表视频文件的图片文件与其文件夹
  * @param {Node} currentNode
  */
@@ -94,6 +92,31 @@ function cut( currentNode:Node){
     }
   }
 }
+
+
+const fs = require("fs")
+
+function compareFiles(a:any,b:any){
+    // return b.isDirectory() - a.isDirectory() || a.name > b.name ? 1 : -1;
+    return a.name < b.name ? -1 : 1;
+}
+
+fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
+    items.sort(compareFiles)
+    console.log(items);
+    for (let i = 0; i < items.length; i++) {
+        if (!items[i].name.startsWith(".")) {
+            if(items[i].isFile()){
+
+            } else{
+                
+            }
+            
+        }
+        
+    }
+})
+
 
 
 /**

@@ -25,11 +25,13 @@ def getFrame(filePath,store):
                 # 解决 cv2.imwrite 无法写中文文件名问题
                 if os.path.exists(store):
                     cv2.imencode('.jpg',frame)[1].tofile(storepath)
-                    print('Done')
+                    if os.path.exists(storepath):
+                        print('Done')
                 else :
                     os.mkdir(store)
                     cv2.imencode('.jpg',frame)[1].tofile(storepath)
-                    print('Done')
+                    if os.path.exists(storepath):
+                        print('Done')
 
 
 if __name__ == '__main__':

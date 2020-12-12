@@ -205,7 +205,7 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
     defineComponent,
     ref,
@@ -225,7 +225,7 @@ export default defineComponent({
         })
         onMounted(()=>{
             // roote=document.getElementsByClassName("e")[0]
-            // console.log(roote);
+            console.log(`RootLayout`);
         })
         hotkeys('q',function(event,handler){
             event.preventDefault()
@@ -246,15 +246,15 @@ export default defineComponent({
         const view = computed(()=> storet.state.View.sibebar)
 
         // 防抖
-        function debounce(fn,wait) {
-            let timeoutID = null
+        function debounce(fn:Function,wait:number) {
+            let timeoutID:any = null
             let flag = true
-            return function (e) {
+            return function (e:any) {
                 if (timeoutID != null&&flag) clearTimeout(timeoutID) 
                 timeoutID = setTimeout(fn,wait,e,flag)
             }
         }
-        function wheel(e,flag){
+        function wheel(e:any,flag:any){
             console.log(e);
             console.log(flag);
             let currentT=e.target.scrollTop
@@ -265,15 +265,15 @@ export default defineComponent({
         }
         const mousewheel = debounce(wheel,1000)
 
-        function wheeldebounce(fn,wait) {
-            let  timeoutID = null
-            return function (e) {
+        function wheeldebounce(fn:Function,wait:number) {
+            let  timeoutID:any = null
+            return function (e:any) {
                 if (timeoutID !== null) clearTimeout(timeoutID)
                 setTimeout(fn,wait,e)
             }
             
         }
-        function wheelmove(e) {
+        function wheelmove(e:any) {
             console.log(e);
         }
         const touchwheel = wheeldebounce(wheelmove,1000)

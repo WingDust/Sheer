@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-08-22 09:45:26
+ * @LastEditTime: 2020-12-12 11:09:02
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\view\Main.vue
+-->
 <template>
     <rootlayout>
         <template v-slot:MainContent>
@@ -9,14 +17,17 @@
   <alertwarning></alertwarning>
 </template>
 
-<script>
-import { defineComponent, reactive } from "vue";
+<script lang="ts">
+import { defineComponent, reactive,onMounted } from "vue";
 import RootLayout from "../components/layout/RootLayout.vue";
 import HighLihgt from "../components/highlight/HighLihgt.vue";
 import folder from '../components/container/folder.vue'
 import AlertWarning  from "../components/container/alert/AlertWarning.vue";
 export default defineComponent({
     setup(){
+      onMounted(()=>{
+        console.log(`Main`);
+      })
         return reactive({qwe:`
     var pipe = function (value) {
     var funcStack = [];

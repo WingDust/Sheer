@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-22 09:36:23
+ * @LastEditTime: 2020-12-12 11:10:33
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\components\titlebar\titlebar.vue
+-->
 <template>
   <div class="titlebar container-fluid">
       <div class="row">
@@ -9,10 +17,13 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent,onMounted} from "vue";
 const {ipcRenderer} = require('electron')
 export default  defineComponent({
     setup(){
+        onMounted(()=>{
+            console.log(`titlebar.vue`);
+        })
         const max =():void =>{
             ipcRenderer.send('max')
         }
