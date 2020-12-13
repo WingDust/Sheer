@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-12-12 21:47:12
+ * @LastEditTime: 2020-12-13 11:43:15
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -94,11 +94,21 @@ function cut( currentNode:Node){
 }
 
 
+// ==============================================
+
+let c = [77,33,44,66,55]
+c.sort((a:any,b:any)=>{
+if (a<b){ console.log(c); return -1;}
+if (a>b){ console.log(c); return 1;}
+return 0;
+})
+
 const fs = require("fs")
 
 function compareFiles(a:any,b:any){
     // return b.isDirectory() - a.isDirectory() || a.name > b.name ? 1 : -1;
-    return a.name < b.name ? -1 : 1;
+    // return a.name < b.name ? -1 : 1;
+    return a.name.localeCompare(b.name)
 }
 
 fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
@@ -117,6 +127,7 @@ fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
     }
 })
 
+// ==============================================
 
 
 /**
