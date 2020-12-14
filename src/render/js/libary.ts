@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2020-12-12 10:22:37
+ * @LastEditTime: 2020-12-14 13:29:14
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -16,6 +16,7 @@ class Tool {
   constructor() {}
 }
 
+// 待添加注释
 interface data {
   dir: string;
   state: boolean;
