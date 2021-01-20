@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2020-12-18 11:12:38
+ * @LastEditTime: 2021-01-20 22:50:55
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -14,6 +14,7 @@ import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
+import { Dirent } from "fs";
 
 const path = require('path');
 
@@ -95,20 +96,12 @@ function cut( currentNode:Node){
 
 
 // ==============================================
-
-let c = [77,33,44,66,55]
-c.sort((a:any,b:any)=>{
-if (a<b){ console.log(c); return -1;}
-if (a>b){ console.log(c); return 1;}
-return 0;
-})
-
 const fs = require("fs")
 
-function compareFiles(a:any,b:any){
+function compareFiles(a:Dirent,b:Dirent){
     // return b.isDirectory() - a.isDirectory() || a.name > b.name ? 1 : -1;
-    // return a.name < b.name ? -1 : 1;
-    return a.name.localeCompare(b.name)
+    return b.isDirectory() - a.isDirectory() || a.name.localeCompare(b.name,"zh")
+    // return a.name.localeCompare(b.name)
 }
 
 fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
