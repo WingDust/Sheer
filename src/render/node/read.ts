@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-20 22:50:55
+ * @LastEditTime: 2021-01-21 12:19:23
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -100,8 +100,20 @@ const fs = require("fs")
 
 function compareFiles(a:Dirent,b:Dirent){
     // return b.isDirectory() - a.isDirectory() || a.name > b.name ? 1 : -1;
-    return b.isDirectory() - a.isDirectory() || a.name.localeCompare(b.name,"zh")
-    // return a.name.localeCompare(b.name)
+    const isLetterOrNumberReg = /[0-9a-z]+/ig //i 忽略大小写
+    // if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)){
+    //   return -1
+    // }
+    // if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)){
+    //   return 1
+    // }
+    isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name) ? 1 : -1;
+    return Number(b.isDirectory()) - Number(a.isDirectory()) || a.name.localeCompare(b.name,"zh")
+    /** 由于短路运算符 || 的原因 
+     *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
+     *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
+     *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
+    */
 }
 
 fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){

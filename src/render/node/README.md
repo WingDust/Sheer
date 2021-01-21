@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-13 11:43:40
- * @LastEditTime: 2021-01-20 13:49:46
+ * @LastEditTime: 2021-01-21 10:38:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\README.md
@@ -49,6 +49,11 @@
     - comparefn 是用来决定比较标准的，也就是用来修改`Array.sort()`的默认排序方法
       > 
   - String.localeCompare
+    - 默认排序将会把中文放到字母前面
+    ```js
+    ['牛','a', '阿尔','b', '木头', '3','c', '2', '1' ].sort((a,b)=>a.localeCompare(b))
+    // ["1", "2", "3", "阿尔", "木头", "牛", "a", "b", "c"]
+    ```
   - JavaScript 的字符串比较问题
     - Reference
       - [JavaScript 中文字符串之间是怎么比较大小的](https://segmentfault.com/q/1010000038462514)
