@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-13 11:43:40
- * @LastEditTime: 2021-01-21 10:38:24
+ * @LastEditTime: 2021-01-22 13:50:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\README.md
@@ -57,3 +57,4 @@
   - JavaScript 的字符串比较问题
     - Reference
       - [JavaScript 中文字符串之间是怎么比较大小的](https://segmentfault.com/q/1010000038462514)
+  - [JavaScript 编码规范](http://itmyhome.com/js/huan_xing.html)
