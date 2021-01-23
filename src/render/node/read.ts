@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-22 20:36:05
+ * @LastEditTime: 2021-01-23 09:27:36
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -41,8 +41,8 @@ let checkline:any
 
 // 使用空对象用 Proxy 来做响应式监听读取文件树是否读取完成,读取的次数
 let FLAG:Flag = Object.create(null); 
-FLAG.flag = false;
-FLAG.times = 0;
+    FLAG.flag = false;
+    FLAG.times = 0;
 //        |
 //        |
 //        v
@@ -95,7 +95,7 @@ function cut( currentNode:Node){
 }
 
 
-// ==============================================
+//#region 
 const fs = require("fs")
 
 function compareFiles(a:Dirent,b:Dirent){
@@ -132,7 +132,7 @@ fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
     }
 })
 
-// ==============================================
+//#endregion
 
 
 /**

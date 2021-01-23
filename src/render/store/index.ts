@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-08-22 09:36:48
+ * @LastEditTime: 2021-01-23 09:37:43
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\store\index.ts
+ */
 // import Vue from 'vue'
 import {createStore} from 'vuex'
 
