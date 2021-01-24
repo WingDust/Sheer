@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-13 11:43:40
- * @LastEditTime: 2021-01-22 13:50:49
+ * @LastEditTime: 2021-01-24 15:55:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\README.md
@@ -54,6 +54,11 @@
     ['牛','a', '阿尔','b', '木头', '3','c', '2', '1' ].sort((a,b)=>a.localeCompare(b))
     // ["1", "2", "3", "阿尔", "木头", "牛", "a", "b", "c"]
     ```
+    - Reference
+      - [js中的localeCompare到底是如何比较的？](http://www.qiutianaimeili.com/html/page/2020/07/20207171bfbctvh896.html)
+      - [js中sort方法的排序问题及localeCompare方法](https://juejin.cn/post/6844903816597504008)
+      - [JS排序：localeCompare() 方法实现中文排序、sort方法实现数字英文混合排序](https://www.cnblogs.com/goloving/p/7662676.html)
+  - [Intl.Collator.prototype.compare()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/compare)
   - JavaScript 的字符串比较问题
     - Reference
       - [JavaScript 中文字符串之间是怎么比较大小的](https://segmentfault.com/q/1010000038462514)

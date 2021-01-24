@@ -4,6 +4,10 @@ digraph construct {
     // dir [label="dir"];
     // file [label="file"];
 
+    subgraph dependencies{
+        Vue;
+        Vuex;
+    }
     Vuex -> Vue[arrowhead=none];
     Vuex -> {Sheer,state};
     Vue -> Sheer ;
@@ -24,9 +28,11 @@ digraph construct {
         >
     ];
 
-    local:port_one -> state;
+    cut
+
+    local:port_one -> state ;
     local:port_two -> state;
-    local:port_three -> state;
+    local:port_three -> state[label="readfilmPath"];
 
 
 }

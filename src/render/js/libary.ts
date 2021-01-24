@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2020-12-14 13:29:14
+ * @LastEditTime: 2021-01-24 15:39:46
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -29,7 +29,7 @@ export class File extends Tool {
   nextline: any[];
   /**
    * [constructor description]
-   * @return {[type]} [description]
+   * @return {[File]} [description]
    */
   constructor() {
     super();
