@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-24 16:06:22
+ * @LastEditTime: 2021-01-24 21:22:37
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -14,7 +14,6 @@ import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // import { store } from "../store/index";
 import { Flag,ConfigYaml } from "./config";
-import { Dirent } from "fs";
 
 const path = require('path');
 
@@ -122,39 +121,40 @@ function cut(currentNode:Node){
 
 
 //#region 
-const fs = require("fs")
+// const fs = require("fs");
+// // import {readdir} from "fs"
 
-function compareFiles(a:Dirent,b:Dirent){
-    // 我的问题是处理字符串前有字母
-    const LetterPrefixRegex = /[a-z]+/i //i 忽略大小写
-    return Number(b.isDirectory()) - Number(a.isDirectory())
-    || (Number(LetterPrefixRegex.test(a.name)) 
-    && !Number(LetterPrefixRegex.test(b.name)) ? 1: !LetterPrefixRegex.test(a.name)) 
-    && Number(LetterPrefixRegex.test(b.name)?-1:a.name.localeCompare(b.name,'zh')
-    )
-    // || new Intl.Collator().compare(a.name,b.name)
-    // || a.name.localeCompare(b.name,'zh')
-    /** 由于短路运算符 || 的原因 
-     *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
-     *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
-     *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
-    */
-}
+// function compareFiles(a:Dirent,b:Dirent){
+//     // 我的问题是处理字符串前有字母
+//     const LetterPrefixRegex = /[a-z]+/i //i 忽略大小写
+//     return Number(b.isDirectory()) - Number(a.isDirectory())
+//     || (Number(LetterPrefixRegex.test(a.name)) 
+//     && !Number(LetterPrefixRegex.test(b.name)) ? 1: !LetterPrefixRegex.test(a.name)) 
+//     && Number(LetterPrefixRegex.test(b.name)?-1:a.name.localeCompare(b.name,'zh')
+//     )
+//     // || new Intl.Collator().compare(a.name,b.name)
+//     // || a.name.localeCompare(b.name,'zh')
+//     /** 由于短路运算符 || 的原因 
+//      *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
+//      *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
+//      *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
+//     */
+// }
 
-fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
-    // 这个读取出来的都是字符串数组
-    items.sort(compareFiles)
-    console.log(items);
-    for (let i = 0; i < items.length; i++) {
-        if (!items[i].name.startsWith(".")) {
-            if(items[i].isFile()){
+// fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
+//     // 这个读取出来的都是字符串数组
+//     items.sort(compareFiles)
+//     console.log(items);
+//     for (let i = 0; i < items.length; i++) {
+//         if (!items[i].name.startsWith(".")) {
+//             if(items[i].isFile()){
 
-            } else{
+//             } else{
                 
-            }
+//             }
             
-        }
+//         }
         
-    }
-})
+//     }
+// })
 //#endregion

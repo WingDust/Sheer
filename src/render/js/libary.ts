@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-01-24 15:39:46
+ * @LastEditTime: 2021-01-24 21:22:47
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -11,6 +11,7 @@
 
 const fs = require("fs");
 const path = require("path");
+import {Stats,Dirent} from "fs"
 
 class Tool {
   constructor() {}
@@ -47,13 +48,14 @@ export class File extends Tool {
    * @param  {[type]} dir [description]
    * @return {[type]}     [description]
    */
-  fsReadDir(dir: any): Promise<any> {
+  fsReadDir(dir: string): Promise<Dirent[]> {
     return new Promise((resolve, reject) => {
-      fs.readdir(dir, (err: any, files: any) => {
+      fs.readdir(dir, {withFileTypes:true},(err: any, files: any) => {
         //异步
         if (err) {
           reject(err);
         }
+        // console.log(files);
         resolve(files);
       });
     });
@@ -61,10 +63,10 @@ export class File extends Tool {
 
   /**
    * [fsStat description: 异步 对传入的路径进行异步的文件、文件夹，信息读取，并返回一个，包含信息的Stat对象]
-   * @param  {[type]} path [description]
+   * @param  {[ String]} path [description]
    * @return {[stat]}      [description]
    */
-  fsStat(path: any): Promise<any> {
+  fsStat(path: string): Promise<Stats> {
     return new Promise((resolve, reject) => {
       fs.stat(path, (err: any, stat: any) => {
         if (err) {
@@ -94,7 +96,9 @@ export class File extends Tool {
      */
 
     // 1
-    let paths = await this.fsReadDir(dirPath);
+    let paths:Dirent[] = await this.fsReadDir(dirPath);
+    // console.log(paths);
+    paths.sort(this.compareFiles)
 
     // 2 同步
     this.checkFile(paths, Tree, dirPath);
@@ -112,16 +116,17 @@ export class File extends Tool {
     //#endregion
 
     // 3
-    let promises = paths.map((file: any) => {
-      return this.fsStat(path.join(dirPath, file)); //异步
+    let promises = paths.map((file:Dirent) => {
+      return this.fsStat(path.join(dirPath, file.name)); //异步
     });
 
     let datas = await Promise.all(promises).then((stats) => {
       //异步
+      let src:string[]=[];
       for (let index = 0; index < paths.length; index++) {
-        paths[index] = path.join(dirPath, paths[index]);
+        src[index] = path.join(dirPath, paths[index].name) as string;
       }
-      return { stats, paths };
+      return { stats, src };
     });
 
     // 4 同步
@@ -138,18 +143,15 @@ export class File extends Tool {
 
     // 6
     /** 对这一层子目录进行递归 */
-    datas.stats.forEach((stat: any) => {
+    datas.stats.forEach((stat:Stats) => {
       const isFile = stat.isFile();
       const isDir = stat.isDirectory();
       if (isDir) {
-        this.FileTree(datas.paths[datas.stats.indexOf(stat)], Tree, callback);
-        // console.log((this.a += 1) + " a"); //每一个目录都会+1 可以用来记录文件夹总数
-        // console.log("\n");
+        this.FileTree(datas.src[datas.stats.indexOf(stat)], Tree, callback);
       }
       if (isFile) {
         //添加一个判断是否为视频文件，根据文件的后缀名
-        console.log(datas.paths[datas.stats.indexOf(stat)]);
-        // console.log("\n");
+        console.log(datas.src[datas.stats.indexOf(stat)]);
       }
     });
     // 结束这个函数
@@ -170,7 +172,7 @@ export class File extends Tool {
         if (stat.isDirectory()) {
           //这个目录有文件 则还需要递归
           let data: data = {
-            dir: datas.paths[datas.stats.indexOf(stat)],
+            dir: datas.src[datas.stats.indexOf(stat)],
             state: false,
           };
           this.cacheline.push(data);
@@ -185,12 +187,12 @@ export class File extends Tool {
         if (data.dir === dirPath) {
           data.state = true;
           //
-          if (datas.paths.length != 0) {
+          if (datas.src.length != 0) {
             let layers: {}[] = [];
             datas.stats.forEach((stat: { isDirectory: () => any }) => {
               if (stat.isDirectory()) {
                 let data: data = {
-                  dir: datas.paths[datas.stats.indexOf(stat)],
+                  dir: datas.src[datas.stats.indexOf(stat)],
                   state: false,
                 };
                 layers.push(data);
@@ -259,7 +261,7 @@ export class File extends Tool {
    * @param  {[type]} dirPath [description:当前被查路径]
    */
   checkFile(
-    paths: any[],
+    paths: Dirent[],
     Tree: { add: (arg0: any, arg1: any, arg2: any) => void; traverseBF: any },
     dirPath: any
   ) {
@@ -271,13 +273,13 @@ export class File extends Tool {
      * 在最后删除这一层的非视频文件。
      */
     let deleteIndex: any[] = [];
-    paths.map((item: string, index: any) => {
+    paths.map((item: Dirent, index: any) => {
       /** 被查路径与子路径拼接 */
-      const abspath = path.join(dirPath, item);
+      const abspath = path.join(dirPath, item.name);
       /**在它是文件情况下*/
       if (fs.statSync(abspath).isFile()) {
         /**它为视频文件情况下 */
-        if (this.getFileType(item)) {
+        if (this.getFileType(item.name)) {
           Tree.add(abspath, dirPath, Tree.traverseBF);
         } else {
           /**它为非视频情况下 */
@@ -326,4 +328,20 @@ export class File extends Tool {
       return false;
     }
   }
+
+  compareFiles(a:Dirent,b:Dirent):number{
+    // 我的问题是处理字符串前有字母
+    const LetterPrefixRegex = /[a-z]+/i //i 忽略大小写
+    return Number(b.isDirectory()) - Number(a.isDirectory())
+    || (Number(LetterPrefixRegex.test(a.name)) 
+    && !Number(LetterPrefixRegex.test(b.name))) ? 1: (!LetterPrefixRegex.test(a.name) 
+    && Number(LetterPrefixRegex.test(b.name)))?-1:a.name.localeCompare(b.name,'zh')
+    // || new Intl.Collator().compare(a.name,b.name)
+    // || a.name.localeCompare(b.name,'zh')
+    /** 由于短路运算符 || 的原因 
+     *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
+     *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
+     *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
+    */
+}
 }

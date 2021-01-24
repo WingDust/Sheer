@@ -11,6 +11,9 @@ const config: UserConfig = {
   root: join(__dirname, 'src/render'),
   port: +process.env.PORT,
   base: './',
+  optimizeDeps:{
+    exclude:['keyevent']
+  }
 }
 
 export default config

@@ -68,6 +68,7 @@
   - dot
 ## DataStructure
   - [ ] Tree.js 的功能增强
+  - [ ] libary.ts 中 File 类的查询函数添加函数节流，次数记录，查询限额
 
 ## Try
   - AssemblyScript 的试验
@@ -83,7 +84,6 @@
   - [x] 处理 js-yaml 函数返回值问题
   - [x] 将 File 的 FileTree 函数运行返回出 checkline 
   - [ ] 将 Prism Vue 组件分离出去
-  - [ ] 对 File 加一个函数节流，限制它的运行次数 预定次数 为 60 次
 
 ## IDEA
   - [ ] 对 File 类中能一层的分块，进行一个探索
