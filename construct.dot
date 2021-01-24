@@ -1,0 +1,32 @@
+digraph construct {
+    node [color=gray,shape=box];
+
+    // dir [label="dir"];
+    // file [label="file"];
+
+    Vuex -> Vue[arrowhead=none];
+    Vuex -> {Sheer,state};
+    Vue -> Sheer ;
+    vite -> Vue;
+    vite -> Vuex;
+
+    local [
+        shape = plaintext
+        label =<
+        <table border='1' cellborder='1'>
+            <tr><td colspan="3">local</td></tr>
+             <tr>
+             <td port='port_one'>Dir</td>
+             <td port='port_two'>File</td>
+             <td port='port_three'>Film.yml</td>
+            </tr>
+        </table>
+        >
+    ];
+
+    local:port_one -> state;
+    local:port_two -> state;
+    local:port_three -> state;
+
+
+}

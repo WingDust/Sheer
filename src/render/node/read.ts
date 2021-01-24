@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-23 09:27:36
+ * @LastEditTime: 2021-01-24 11:56:09
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -18,22 +18,7 @@ import { Dirent } from "fs";
 
 const path = require('path');
 
-
-/**
- * Yaml -> Proxy_File(root)=>Tree -> Proxy_Flag
- * 1. 读取 Yaml 文件并保存至 state 对象属性上
- * 2. 初始化文件树、响应式监听对象
- *   - (文件树为一次读取完并生成树对象)
- *   - (响应式监听对象当文件树对象读取完成后执行可选函数)
- * 3. 
- */
-
 //#region 变量声明、初始化
-
-/** @type {*} */
-const Yaml = readfilmPath(undefined) 
-state.ConfigYaml.Yaml=Yaml
-
 // 用来保存文件树
 let Trees:Tree | undefined;
 // 保存默认分组
@@ -64,6 +49,30 @@ let Proxy_FLAG = new Proxy(FLAG,{
 })
 //#endregion
 
+/**
+ * 导出的运行时函数
+ * Yaml -> Proxy_File(root)=>Tree -> Proxy_Flag
+ * 1. 读取 Yaml 文件
+ * 2. 初始化文件树、响应式监听对象
+ *   - (文件树为一次读取完并生成树对象)
+ *   - (响应式监听对象当文件树对象读取完成后执行可选函数)
+ * 
+ * last. 保存至 state 对象属性上
+ * @export
+ */
+export function runtime() {
+  const Yaml: ConfigYaml |null = readfilmPath() 
+  state.ConfigYaml.Yaml=Yaml
+  if (Yaml && Yaml.film) {
+    // 初始化树
+  Trees =new Tree(Yaml.film[0]);   // 2
+
+  getPath(Proxy_FLAG,Yaml.film[0],Trees,undefined).then((result)=> checkline =result); // 3
+  }
+  // else{
+  //   alert(`你的 film.yml \n⇒为空`)
+  // }
+}
 
 /**
  * > 对这个函数做函数节流
@@ -93,6 +102,39 @@ function cut( currentNode:Node){
     }
   }
 }
+
+
+
+/**
+ * 通过对 File 类的实例、进行 Proxy ，
+ * 来监听这个对象上的 flag 属性，
+ * 当 File 内部的 flag 被设置为 True 时
+ * 意味着 Tree 加载完成
+ * 再将 外部的 Proxy_FLAG 的 flag 设置为 True 
+ * 就告知了文件树已经加载完成，确保后续依赖文件树的函数正常执行
+ * @param Proxy_FLAG :读取完文件树将 Flag 设 True
+ * @param root :本地视频文件的根路径
+ * @param Tree :保存文件树的树形对象
+ * @param callback :暂定的可选回调函数
+ */
+async function getPath(Proxy_FLAG: any,root:any,Tree:Tree,callback:any){
+  let file = new File();
+
+  let Proxy_file = new Proxy(file,{
+    set:function(target,propKey,value,receiver){
+      console.log(propKey);
+      if (propKey == 'flag') {
+        console.log('right');
+        Proxy_FLAG.flag=true// 改成依赖注入
+        //typeof Proxy
+      }
+    return Reflect.set(target,propKey,value,receiver);
+    }
+  });
+  await Proxy_file.FileTree(root,Tree,callback);
+  return Proxy_file.checkline
+}
+
 
 
 //#region 
@@ -131,54 +173,4 @@ fs.readdir('G:\\Feature film',{withFileTypes:true},function(err:any,items:any){
         
     }
 })
-
 //#endregion
-
-
-/**
- * 通过对 File 类的实例、进行 Proxy ，
- * 来监听这个对象上的 flag 属性，
- * 当 File 内部的 flag 被设置为 True 时
- * 意味着 Tree 加载完成
- * 再将 外部的 Proxy_FLAG 的 flag 设置为 True 
- * 就告知了文件树已经加载完成，确保后续依赖文件树的函数正常执行
- * @param Proxy_FLAG :读取完文件树将 Flag 设 True
- * @param root :本地视频文件的根路径
- * @param Tree :保存文件树的树形对象
- * @param callback :暂定的可选回调函数
- */
-async function getPath(Proxy_FLAG: any,root:any,Tree:Tree,callback:any){
-  let file = new File();
-
-  let Proxy_file = new Proxy(file,{
-    set:function(target,propKey,value,receiver){
-      console.log(propKey);
-      if (propKey == 'flag') {
-        console.log('right');
-        Proxy_FLAG.flag=true// 改成依赖注入
-        //typeof Proxy
-      }
-    return Reflect.set(target,propKey,value,receiver);
-    }
-  });
-  await Proxy_file.FileTree(root,Tree,callback);
-  return Proxy_file.checkline
-}
-
-
-
-/**
- * 导出的运行时函数
- * @export
- */
-export function runtime() {
-  if (Yaml && Yaml.film) {
-    // 初始化树
-  Trees =new Tree(Yaml.film[0]);   // 2
-
-  getPath(Proxy_FLAG,Yaml.film[0],Trees,undefined).then((result)=> checkline =result); // 3
-  }
-  // else{
-  //   alert(`你的 film.yml \n⇒为空`)
-  // }
-}

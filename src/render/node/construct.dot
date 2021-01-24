@@ -1,7 +1,0 @@
-graph construct {
-    node [color=gray];
-
-    Vuex -- Sheer;
-    Sheer -- Vue;
-    vite [shape=box];
-}
