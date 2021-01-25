@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-24 21:22:37
+ * @LastEditTime: 2021-01-25 09:27:01
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -17,7 +17,7 @@ import { Flag,ConfigYaml } from "./config";
 
 const path = require('path');
 
-//#region 变量声明、初始化
+//#region 变量声明
 let Yaml: ConfigYaml |null
 // 用来保存文件树
 let Trees:Tree | undefined;
@@ -75,7 +75,7 @@ async function getPath(root:any,Tree:Tree,callback?:any){
       console.log(propKey);
       if (propKey == 'flag') {
       // 当 flag 被设置时意味着文件树已经全部被读取完
-        console.log('right');
+        console.log('Tree is ready');
         // Proxy_FLAG.flag=true// 改成依赖注入
         state.FilmPath.Trees= Trees;
         state.Flag.flag=true//这个是预先设置state 的设置
@@ -97,13 +97,13 @@ async function getPath(root:any,Tree:Tree,callback?:any){
  * @param {Node} currentNode
  */
 function cut(currentNode:Node){
-  const re= /\.(mp4|avi)/
+  const re= /\.(mp4|avi|mkv)/
   if (currentNode.data.search(re) !== -1){//根据数据字符串来检索是否为合格视频文件
   //当这个视频文件的文件深度不大于2时才会对视频文件进行操作
     switch (currentNode.NodeDeepth()) {
       case 1:{ 
         getPicture(currentNode.data,Yaml!.store![0])
-      break;}
+        break;}
       case 2:{ 
         // G:\Feature film\动画\声之形剧场版.2017.HD720P.日语中字.mp4
         let folderstr = currentNode.data.replace(Yaml!.film![0]+'\\','')
@@ -111,10 +111,10 @@ function cut(currentNode:Node){
         let t = re.exec(folderstr)
         let folder =path.join(Yaml!.store![0],t![0])
         getPicture(currentNode.data,folder)
-      break;}
+        break;}
       default:{
         console.log(`${currentNode.data}:没有被切帧`);
-      break;}
+        break;}
     }
   }
 }

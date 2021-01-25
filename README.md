@@ -67,7 +67,7 @@
 ## GraphViz
   - dot
 ## DataStructure
-  - [ ] Tree.js 的功能增强
+  - [x] Tree.js 的功能增强
   - [ ] libary.ts 中 File 类的查询函数添加函数节流，次数记录，查询限额
 
 ## Try

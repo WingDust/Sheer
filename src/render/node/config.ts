@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2020-12-12 11:19:18
+ * @LastEditTime: 2021-01-25 09:31:44
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -61,17 +61,17 @@ function getPicture(film:string,ThumbnailPath:any) {
     python.stdout.on('data',function(data:any){
     //   console.log(typeof(data));
 
-      console.log(decoder.decode(data));
-      })
-      python.stderr.on('data',function(data:any){
-      console.log(decoder.decode(data));
-      })
+    // console.log(decoder.decode(data));
+    })
+    python.stderr.on('data',function(data:any){
+    console.log(decoder.decode(data));
+    })
 
-      python.on('close',function(code:number){
-      if (code !== 0) {//0 为执行成功
-        console.log(code);
-      }
-      })
+    python.on('close',function(code:number){
+    if (code !== 0) {//0 为执行成功
+    console.log(code);
+    }
+    })
 }
 
 

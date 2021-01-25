@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-01-24 21:22:47
+ * @LastEditTime: 2021-01-25 12:39:21
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -98,7 +98,7 @@ export class File extends Tool {
     // 1
     let paths:Dirent[] = await this.fsReadDir(dirPath);
     // console.log(paths);
-    paths.sort(this.compareFiles)
+    paths.sort(File.compareFiles)
 
     // 2 同步
     this.checkFile(paths, Tree, dirPath);
@@ -151,7 +151,7 @@ export class File extends Tool {
       }
       if (isFile) {
         //添加一个判断是否为视频文件，根据文件的后缀名
-        console.log(datas.src[datas.stats.indexOf(stat)]);
+        // console.log(datas.src[datas.stats.indexOf(stat)]);
       }
     });
     // 结束这个函数
@@ -329,7 +329,7 @@ export class File extends Tool {
     }
   }
 
-  compareFiles(a:Dirent,b:Dirent):number{
+  static  compareFiles(a:Dirent,b:Dirent):number{
     // 我的问题是处理字符串前有字母
     const LetterPrefixRegex = /[a-z]+/i //i 忽略大小写
     return Number(b.isDirectory()) - Number(a.isDirectory())

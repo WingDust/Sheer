@@ -1,38 +1,61 @@
 digraph construct {
     node [color=gray,shape=box];
-
-    // dir [label="dir"];
-    // file [label="file"];
-
-    subgraph dependencies{
-        Vue;
-        Vuex;
-    }
-    Vuex -> Vue[arrowhead=none];
-    Vuex -> {Sheer,state};
-    Vue -> Sheer ;
-    vite -> Vue;
-    vite -> Vuex;
+    {rank=max;Sheer}
 
     local [
         shape = plaintext
         label =<
         <table border='1' cellborder='1'>
-            <tr><td colspan="3">local</td></tr>
+            <tr><td colspan="1">local</td></tr>
              <tr>
              <td port='port_one'>Dir</td>
+            </tr>
+             <tr>
              <td port='port_two'>File</td>
+            </tr>
+             <tr>
              <td port='port_three'>Film.yml</td>
             </tr>
         </table>
         >
     ];
+    // dir [label="dir"];
+    // file [label="file"];
 
-    cut
+    subgraph dependencies{
+        // label="asd";
+        // labelloc= "t";
+        Vue;
+        Vuex;
+    }
+    { rank=same; Vue Vuex };
+    Vuex -> Vue[arrowhead=none];
+    Vuex -> {Sheer};
+    state -> Vuex;
+    Vue -> Sheer ;
+    vite -> Vue;
+    vite -> Vuex;
 
-    local:port_one -> state ;
-    local:port_two -> state;
-    local:port_three -> state[label="readfilmPath"];
+    // subgraph cluster_p{
+    subgraph cluster_datastructure{
+        // label="ad";
+        Tree
+        Yaml
+    }
+    { rank=same; Tree Yaml };
+    { rank=same; Tree实例 Yaml实例 state};
+    Tree -> Tree实例;
+    Yaml -> Yaml实例;
+    {Yaml实例,Tree实例} -> state;
+    Tree实例 -> local
+    // subgraph cluster_p{
+    //     a;
+    //     b;
+    // }
+
+    local:port_one -> Tree实例;
+    local:port_two -> Tree实例;
+    local:port_three -> Yaml实例[label="readfilmPath"];
 
 
 }
