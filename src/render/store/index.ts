@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-08-22 09:36:48
- * @LastEditTime: 2021-01-23 09:37:43
- * @LastEditors: your name
+ * @LastEditTime: 2021-01-26 13:06:11
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\index.ts
  */
@@ -14,21 +14,8 @@ import { state } from "./state";
 import { mutations } from "./mutations";
 
 
+
 export const store = createStore({
-  // state: {
-  //   FilmPath: {
-  //     Trees: Object.create(null),
-  //     status:""
-  //   },
-  //   Flag:{
-  //     flag:false,
-  //     times:0
-  //   },
-  //   ConfigYaml:{
-  //     Yaml:Object.create(null),
-  //     status:0
-  //   }
-  // },
   state:state,
   mutations:mutations,
   actions: {
@@ -40,4 +27,4 @@ export const store = createStore({
 
 
 runtime()
-// export type State = typeof store
+export type State = typeof store

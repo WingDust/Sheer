@@ -13,192 +13,10 @@
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="w">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
     <div class="item">
-        0
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        1
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        2
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        3
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        4
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        5
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        6
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        7
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        8
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        9
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        10
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        11
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        12
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
-    <div class="item">
-        13
         <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
     </div>
 </div>
@@ -231,19 +49,30 @@ export default defineComponent({
             event.preventDefault()
             console.log('q');
         })
-        const storet = useStore()
         document.addEventListener("keyup",(e)=>{
             if (e.altKey && e.ctrlKey&& e.keyCode == 32)
             {
-            storet.commit(MutationTypes.setViewStatus,undefined)
+            store.commit(MutationTypes.setViewStatus,undefined)
             }
             // e.preventDefault()
             })
 
-        console.log(storet.state);
-        console.log(toRaw(storet.state));
+        const store = useStore()
+        console.log(store.state);
+        console.log(toRaw(store.state));
         // let store = reactive(toRaw(storet))
-        const view = computed(()=> storet.state.View.sibebar)
+        // console.log(store.state.FilmPath.checkline);
+        
+        for (let line of store.state.FilmPath.checkline) {
+            // G:\test\
+            line.dir.replace(store.state.FilmPath.Trees!._root.data,store.state.ConfigYaml.Yaml!.store![0])
+        }
+
+        
+
+
+
+        const view = computed(()=> store.state.View.sibebar)
 
         // 防抖
         function debounce(fn:Function,wait:number) {

@@ -1,20 +1,21 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-25 09:27:01
+ * @LastEditTime: 2021-01-26 14:42:47
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
  */
 
-// import { registerRuntletmpiler } from 'vue';
-import { readfilmPath, getPicture } from "./config";
 import { File } from "../js/libary";
 import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
+// fn
+import { readfilmPath, getPicture } from "./utilFn";
 // import { store } from "../store/index";
-import { Flag,ConfigYaml } from "./config";
-
+// interface
+import { ConfigYaml } from "./utilInterface";
+// Flag,
 const path = require('path');
 
 //#region 变量声明
@@ -39,7 +40,7 @@ let checkline:any
  */
 export function runtime() {
   Yaml = readfilmPath() 
-  state.ConfigYaml.Yaml=Yaml
+  state.ConfigYaml!.Yaml!=Yaml
   if (Yaml && Yaml.film) {
     // 初始化文件树
   Trees =new Tree(Yaml.film[0]);   // 2

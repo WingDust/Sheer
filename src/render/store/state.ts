@@ -8,9 +8,15 @@
  */
 
 
+// interface
+import { State } from "../node/utilInterface";
 
 // TODO 这个每一项需要写注释
-export const state = {
+export const state:State = {
+    ConfigYaml:{
+        Yaml:Object.create(null),
+        status:0
+    },
     FilmPath:{
         Trees:Object.create(null),
         status:false,
@@ -20,12 +26,9 @@ export const state = {
         flag:false,
         times:0
     },
-    ConfigYaml:{
-        Yaml:Object.create(null),
-        status:0
-    },
     View:{// 有关于视图
         sibebar:false// 表示侧边栏的显隐状态
     }
 }
-export type State = typeof state
+
+// export type State = typeof state

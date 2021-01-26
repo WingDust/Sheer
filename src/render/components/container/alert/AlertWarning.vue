@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-10 17:32:51
+ * @LastEditTime: 2021-01-26 15:22:26
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\components\container\alert\AlertWarning.vue
+-->
 <template>
 <div class="row">
   <!-- 我得延时显示 -->
@@ -10,7 +18,7 @@
 import { defineComponent,reactive,watchEffect ,} from "vue";
 import { useStore } from "vuex";
 import { MutationTypes } from "../../../store/mutations";
-import { ConfigYaml } from "../../../node/config";
+import { ConfigYaml } from "../../../node/utilInterface";
 const fs = require("fs")
 export default defineComponent ({
     setup(){
