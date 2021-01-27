@@ -66,6 +66,9 @@
 
 ## GraphViz
   - dot
+
+## Git
+  - [如何规范你的Git commit？](https://zhuanlan.zhihu.com/p/182553920)
 ## DataStructure
   - [x] Tree.js 的功能增强
   - [ ] libary.ts 中 File 类的查询函数添加函数节流，次数记录，查询限额
@@ -86,8 +89,9 @@
   - [ ] 将 Prism Vue 组件分离出去
 
 ## IDEA
-  - [ ] 对 File 类中能一层的分块，进行一个探索
+  - [x] 对 File 类中能一层的分块，进行一个探索
   - [ ] 对背景做一个滑动过线性东西的动画尝试
+  - [ ] 对读取出来的 Tree 进行一个本地文件数据缓存，并要对它先进行规则排序后再缓存，以便于在本地数据变化时没有被响应，能直接反向比较求证。
 
 
 ## Mode

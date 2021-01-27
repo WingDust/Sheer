@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2020-11-14 17:52:07
- * @LastEditors: your name
+ * @LastEditTime: 2021-01-27 11:00:10
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
  */
@@ -27,7 +27,8 @@ export const state:State = {
         times:0
     },
     View:{// 有关于视图
-        sibebar:false// 表示侧边栏的显隐状态
+        sibebar:false,// 表示侧边栏的显隐状态
+        viewline:Object.create(null)
     }
 }
 

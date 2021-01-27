@@ -19,8 +19,28 @@ digraph construct {
         </table>
         >
     ];
-    // dir [label="dir"];
-    // file [label="file"];
+    state [
+        shape = plaintext
+        label =<
+        <table border='1' cellborder='1'>
+            <tr><td colspan="1">state</td></tr>
+             <tr>
+             <td port='port_one'>Yaml</td>
+            </tr>
+             <tr>
+             <td port='port_two'>Tree</td>
+            </tr>
+             <tr>
+             <td port='port_three'>View</td>
+            </tr>
+        </table>
+        >
+    ];
+    subgraph cluster_Init{
+        label = "Init";
+        Tree_Instance ;
+        Yaml_Instance;
+    }
 
     subgraph dependencies{
         // label="asd";
@@ -42,20 +62,18 @@ digraph construct {
         Tree
         Yaml
     }
+    // { rank=  };
     { rank=same; Tree Yaml };
-    { rank=same; Tree实例 Yaml实例 state};
-    Tree -> Tree实例;
-    Yaml -> Yaml实例;
-    {Yaml实例,Tree实例} -> state;
-    Tree实例 -> local
-    // subgraph cluster_p{
-    //     a;
-    //     b;
-    // }
+    { rank=same; Tree_Instance Yaml_Instance state};
+    Tree -> Tree_Instance;
+    Yaml -> Yaml_Instance;
+    {Tree_Instance} -> state:port_two;
+    Yaml_Instance -> state:port_one;
+    // Tree_Instance -> local
 
-    local:port_one -> Tree实例;
-    local:port_two -> Tree实例;
-    local:port_three -> Yaml实例[label="readfilmPath"];
+    local:port_one -> Tree_Instance;
+    local:port_two -> Tree_Instance;
+    local:port_three -> Yaml_Instance[label="readfilmPath"];
 
 
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-26 14:42:47
+ * @LastEditTime: 2021-01-27 11:01:27
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -14,7 +14,7 @@ import { state } from '../store/state';
 import { readfilmPath, getPicture } from "./utilFn";
 // import { store } from "../store/index";
 // interface
-import { ConfigYaml } from "./utilInterface";
+import { ConfigYaml,checkline } from "./utilInterface";
 // Flag,
 const path = require('path');
 
@@ -23,7 +23,7 @@ let Yaml: ConfigYaml |null
 // 用来保存文件树
 let Trees:Tree | undefined;
 // 保存默认分组
-let checkline:any
+let checkline:Array<checkline>
 
 //#endregion
 
@@ -39,7 +39,7 @@ let checkline:any
  * @export
  */
 export function runtime() {
-  Yaml = readfilmPath() 
+  Yaml = readfilmPath(undefined) 
   state.ConfigYaml!.Yaml!=Yaml
   if (Yaml && Yaml.film) {
     // 初始化文件树
@@ -82,7 +82,7 @@ async function getPath(root:any,Tree:Tree,callback?:any){
         state.Flag.flag=true//这个是预先设置state 的设置
         state.FilmPath.checkline=checkline
         Trees!.traverseBF(cut)
-        //typeof Proxy
+        state.View.viewline=Viewcheckline(checkline,Trees!,Yaml!)
       }
     return Reflect.set(target,propKey,value,receiver);
     }
@@ -120,6 +120,16 @@ function cut(currentNode:Node){
   }
 }
 
+function Viewcheckline(checkline:Array<checkline>,Tree:Tree,Yaml:ConfigYaml):Array<checkline> {
+  const viewfn:(line:checkline)=>checkline = (line) =>{ 
+    line.dir.replace(Tree._root.data, Yaml.store![0]) 
+    return line
+  }
+  // let viewdata = checkline.map((line)=>{
+  //   line.dir.replace(Tree._root.data, Yaml.store![0])
+  // })
+  return checkline.map(viewfn)
+}
 
 //#region 
 // const fs = require("fs");
