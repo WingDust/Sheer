@@ -58,14 +58,14 @@ export default defineComponent({
             })
 
         const store = useStore()
-        // console.log(store.state);
+        console.log(store.state);
         // console.log(toRaw(store.state));
         // let store = reactive(toRaw(storet))
         
-        for (let line of store.state.FilmPath.checkline) {
-            // G:\test\
-            line.dir.replace(store.state.FilmPath.Trees!._root.data,store.state.ConfigYaml.Yaml!.store![0])
-        }
+        // for (let line of store.state.FilmPath.checkline) {
+        //     // G:\test\
+        //     line.dir.replace(store.state.FilmPath.Trees!._root.data,store.state.ConfigYaml.Yaml!.store![0])
+        // }
 
         const view = computed(()=> store.state.View.sibebar)
 

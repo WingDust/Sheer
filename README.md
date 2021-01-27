@@ -24,6 +24,7 @@
   - 对于默认分类的第一层应该是否添加上字母序这一件事，在非可处理成与字母有关系的字符的情况下不适用，如：`氷`-日文、`악`-韩文，虽它也与字母有关系，但是这个超出我的知识范围内了。也不能允一个为标准文，那又给我增加文字翻译的工作。
     - 解决方案：
       - 是只对它做应该有的排序工作
+  - 在数据分流、错误分类上使用一个以某种规律组合成的字序，是能较低运行成本完成多种情况的处理，而当这个规律字序能在编写时以别另一名字使用时，而这一名字再以可读性高的字符组成表达，这样就能既保证了低运行成本，又达到很高的可读性。
 ## Subproject
   - Rust-Wasm
   - C/C++ - Emscripten
@@ -35,6 +36,7 @@
   - 将图片的宽高改成 256 × 144 (128 × 72 的两倍) 
     - 这样我好维护，并更容易地控制每一行一个元素的大小
   - 因为处理文件、文件夹需要几个函数，我将它组成一个 File 类 ，经过 File 类中方法的处理（其中有提纯数据）后得到为 Tree 结果
+  - 对于将数据处理成有序的样子，与直接使用数据展示出来的，这两个之间的区间即是这个前端与后端应该分开的事
 
 ## TypeScript
   - `global.d.ts` 当文件中出现 `import` 语句时它将不会是全局作用域，`declare` 也将无效 ，需要重新在 `declare gloabl{...}` 中写不再需要写 `declare` 直接定义
@@ -65,7 +67,11 @@
 
 
 ## GraphViz
-  - dot
+  - Reference
+    - [Graphviz (dot) examples](https://renenyffenegger.ch/notes/tools/Graphviz/examples/index)
+    - [Using Graphviz to Visualize Structured Content from Contentful Spaces](https://www.contentful.com/blog/2018/05/04/using-graphviz-to-visualize-structured-content-from-contentful-spaces/)
+    - [数据可视化（三）基于 Graphviz 实现程序化绘图 (应读)](https://riboseyim.github.io/2017/09/15/Visualization-Graphviz/#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96)
+    - [使用python库--Graphviz为论文画出漂亮的示意图 (应看)](https://www.cnblogs.com/marsggbo/p/10327618.html)
 
 ## Git
   - [如何规范你的Git commit？](https://zhuanlan.zhihu.com/p/182553920)

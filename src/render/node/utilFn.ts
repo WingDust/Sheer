@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-01-26 12:03:45
+ * @LastEditTime: 2021-01-27 16:27:42
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -12,7 +12,7 @@ const path = require("path");
 const child_pross = require("child_process")
 
 // interface
-import { ConfigYaml } from "./utilInterface";
+import { ConfigYaml,YamlError } from "./utilInterface";
 
 
 /**
@@ -60,5 +60,42 @@ function getPicture(film:string,ThumbnailPath:any) {
     })
 }
 
+/**
+ * 值没有 值错误 有两个所以是 4 种可能
+ * 第一位表示错误是什么，第二位表示错误等级
+ * 1 空 语法错误 
+ * 11 film 为空
+ * 20 film 为非路径数组
+ * 31 store 为空
+ * 40 store 为非路径数组
+ */
+function valuenSure(p:ConfigYaml | null):YamlError {
+  if (p === null){// yaml 为空文件或语法错误
+    return YamlError.None
+  }
+  else if (p!.film === null) {// film 为空
+    return YamlError.filmNone
+  }
+  else{
+    for (let i = 0; i < p!.film!.length; i++) {
+        if(!fs.existsSync(p!.film![i])){
+            return YamlError.filmPanic
+        }
+    }
+  }
+  if (p!.store === null) {
+    return YamlError.storeNone
+  }
+  else {
+    for (let i = 0; i < p!.store!.length; i++) {
+        if(!fs.existsSync(p!.store![i])){
+        return YamlError.storePanic
+        }
+    }
+  }
+  return YamlError.Normal
+// return store.commit(MutationTypes.setConfigYamlStatus,ValueError.storePanic)
+}
 
-export { readfilmPath, getPicture}
+
+export { readfilmPath, getPicture, valuenSure}

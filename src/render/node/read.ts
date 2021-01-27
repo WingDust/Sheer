@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-27 11:01:27
+ * @LastEditTime: 2021-01-27 17:05:42
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -11,11 +11,10 @@ import { File } from "../js/libary";
 import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // fn
-import { readfilmPath, getPicture } from "./utilFn";
-// import { store } from "../store/index";
+import { readfilmPath, getPicture,valuenSure } from "./utilFn";
 // interface
-import { ConfigYaml,checkline } from "./utilInterface";
-// Flag,
+import { ConfigYaml,checkline, YamlError } from "./utilInterface";
+
 const path = require('path');
 
 //#region 变量声明
@@ -24,7 +23,6 @@ let Yaml: ConfigYaml |null
 let Trees:Tree | undefined;
 // 保存默认分组
 let checkline:Array<checkline>
-
 //#endregion
 
 /**
@@ -40,20 +38,25 @@ let checkline:Array<checkline>
  */
 export function runtime() {
   Yaml = readfilmPath(undefined) 
-  state.ConfigYaml!.Yaml!=Yaml
-  if (Yaml && Yaml.film) {
-    // 初始化文件树
-  Trees =new Tree(Yaml.film[0]);   // 2
+  switch (valuenSure(Yaml)) {
+    case YamlError.Normal:{
+      // 初始化文件树
+      Trees =new Tree(Yaml!.film![0]);   // 2
+      getPath(Yaml!.film![0],Trees).then((result)=>{
+         checkline =result // result 为空待核查 @bug
+      }); // 3
+      break;
+    }
+    case YamlError.None:{
 
-  getPath(Yaml.film[0],Trees).then((result)=> checkline =result); // 3
+      break;
+    }
+      
+  
+    default:
+      break;
   }
-  // else{
-  //   alert(`你的 film.yml \n⇒为空`)
-  // }
 }
-
-
-
 
 /**
  * 通过对 File 类的实例、进行 Proxy ，
@@ -74,12 +77,13 @@ async function getPath(root:any,Tree:Tree,callback?:any){
   let Proxy_file = new Proxy(file,{
     set:function(target,propKey,value,receiver){
       console.log(propKey);
-      if (propKey == 'flag') {
+      if (propKey === 'flag') {
       // 当 flag 被设置时意味着文件树已经全部被读取完
         console.log('Tree is ready');
-        // Proxy_FLAG.flag=true// 改成依赖注入
+        // 改成依赖注入
+        // 这个是初始化设置state 的设置
+        state.ConfigYaml.Yaml=Yaml
         state.FilmPath.Trees= Trees;
-        state.Flag.flag=true//这个是预先设置state 的设置
         state.FilmPath.checkline=checkline
         Trees!.traverseBF(cut)
         state.View.viewline=Viewcheckline(checkline,Trees!,Yaml!)
@@ -125,11 +129,13 @@ function Viewcheckline(checkline:Array<checkline>,Tree:Tree,Yaml:ConfigYaml):Arr
     line.dir.replace(Tree._root.data, Yaml.store![0]) 
     return line
   }
-  // let viewdata = checkline.map((line)=>{
-  //   line.dir.replace(Tree._root.data, Yaml.store![0])
-  // })
-  return checkline.map(viewfn)
+  let a = checkline.map(viewfn)
+  console.log(a);
+  return a
+  // return checkline.map(viewfn)
 }
+
+
 
 //#region 
 // const fs = require("fs");

@@ -61,6 +61,7 @@ digraph construct {
         // label="ad";
         Tree
         Yaml
+        pos = "1,2!"
     }
     // { rank=  };
     { rank=same; Tree Yaml };
