@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-01-27 15:46:00
+ * @LastEditTime: 2021-01-27 19:04:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -33,7 +33,7 @@ interface State{
     FilmPath:{
         Trees:Tree | undefined
         status:boolean
-        checkline:Array<checkline>
+        checkline:Array<Array<checkline>>
     }
     Flag:Flag
     View:View

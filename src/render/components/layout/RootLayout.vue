@@ -2,7 +2,6 @@
 <!-- 
                 <div :ref="el => {dom[0]=el} " class="c">9</div>
                 <div :ref="el => {dom[1]=el} " class="c">10</div>
-
 </div>  
 -->
 
@@ -13,6 +12,9 @@
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
+    <div :key="i" v-for="(i,line) in viewline">
+        <img :src="`safe-file-protocol:://`+line.dir" alt="">
+    </div>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
@@ -37,6 +39,7 @@ import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
 import TagsContainer from "../Tags/TagsContainer.vue"
 import { MutationTypes } from "../../store/mutations";
+const fs = require("fs") ;
 export default defineComponent({
     setup() {
         onBeforeMount(()=>{
@@ -63,9 +66,8 @@ export default defineComponent({
         // let store = reactive(toRaw(storet))
         
         // for (let line of store.state.FilmPath.checkline) {
-        //     // G:\test\
-        //     line.dir.replace(store.state.FilmPath.Trees!._root.data,store.state.ConfigYaml.Yaml!.store![0])
         // }
+        const viewline =computed(()=> store.state.View.viewline) 
 
         const view = computed(()=> store.state.View.sibebar)
 
@@ -103,7 +105,7 @@ export default defineComponent({
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            hotkeys,mousewheel,touchwheel,view
+            hotkeys,mousewheel,touchwheel,view,viewline,fs
         }
     },
     components:{

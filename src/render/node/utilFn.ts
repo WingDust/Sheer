@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-01-27 16:27:42
+ * @LastEditTime: 2021-01-27 21:47:54
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -73,7 +73,7 @@ function valuenSure(p:ConfigYaml | null):YamlError {
   if (p === null){// yaml 为空文件或语法错误
     return YamlError.None
   }
-  else if (p!.film === null) {// film 为空
+  else if (p.film === null) {// film 为空
     return YamlError.filmNone
   }
   else{
@@ -83,7 +83,7 @@ function valuenSure(p:ConfigYaml | null):YamlError {
         }
     }
   }
-  if (p!.store === null) {
+  if (p.store === null) {
     return YamlError.storeNone
   }
   else {
@@ -97,5 +97,12 @@ function valuenSure(p:ConfigYaml | null):YamlError {
 // return store.commit(MutationTypes.setConfigYamlStatus,ValueError.storePanic)
 }
 
+import {readdir} from "fs"
+function picturepath(viewpaths:Array<checkline>) {
+  for (const path of viewpaths) {
+    fs.readdir(path.dir)
+    
+  }
+}
 
 export { readfilmPath, getPicture, valuenSure}

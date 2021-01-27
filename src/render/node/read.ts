@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-27 17:05:42
+ * @LastEditTime: 2021-01-27 20:23:39
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -15,6 +15,7 @@ import { readfilmPath, getPicture,valuenSure } from "./utilFn";
 // interface
 import { ConfigYaml,checkline, YamlError } from "./utilInterface";
 
+
 const path = require('path');
 
 //#region 变量声明
@@ -22,7 +23,7 @@ let Yaml: ConfigYaml |null
 // 用来保存文件树
 let Trees:Tree | undefined;
 // 保存默认分组
-let checkline:Array<checkline>
+let checkline:Array<Array<checkline>>
 //#endregion
 
 /**
@@ -82,6 +83,7 @@ async function getPath(root:any,Tree:Tree,callback?:any){
         console.log('Tree is ready');
         // 改成依赖注入
         // 这个是初始化设置state 的设置
+        // console.log(checkline);
         state.ConfigYaml.Yaml=Yaml
         state.FilmPath.Trees= Trees;
         state.FilmPath.checkline=checkline
@@ -124,15 +126,12 @@ function cut(currentNode:Node){
   }
 }
 
-function Viewcheckline(checkline:Array<checkline>,Tree:Tree,Yaml:ConfigYaml):Array<checkline> {
+function Viewcheckline(checkline:Array<Array<checkline>>,Tree:Tree,Yaml:ConfigYaml):Array<checkline> {
   const viewfn:(line:checkline)=>checkline = (line) =>{ 
-    line.dir.replace(Tree._root.data, Yaml.store![0]) 
+    line.dir=line.dir.replace(Tree._root.data, Yaml.store![0]) 
     return line
   }
-  let a = checkline.map(viewfn)
-  console.log(a);
-  return a
-  // return checkline.map(viewfn)
+  return checkline[0].map(viewfn)
 }
 
 
