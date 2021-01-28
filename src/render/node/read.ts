@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-27 20:23:39
+ * @LastEditTime: 2021-01-28 12:53:20
  * @LastEditors: Please set LastEditors
  * @Description: 读取文件树的运行函数文件
  * @FilePath: \electron-vue-vite\src\render\node\read.ts
@@ -11,7 +11,7 @@ import { File } from "../js/libary";
 import { Tree,Node } from "../js/DataStructure/Tree";
 import { state } from '../store/state';
 // fn
-import { readfilmPath, getPicture,valuenSure } from "./utilFn";
+import { readfilmPath, getPicture,valuenSure, picturepath } from "./utilFn";
 // interface
 import { ConfigYaml,checkline, YamlError } from "./utilInterface";
 
@@ -88,7 +88,9 @@ async function getPath(root:any,Tree:Tree,callback?:any){
         state.FilmPath.Trees= Trees;
         state.FilmPath.checkline=checkline
         Trees!.traverseBF(cut)
-        state.View.viewline=Viewcheckline(checkline,Trees!,Yaml!)
+        let viewline = Viewcheckline(checkline,Trees!,Yaml!)
+        picturepath(viewline)
+        state.View.viewline= viewline
       }
     return Reflect.set(target,propKey,value,receiver);
     }

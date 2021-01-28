@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-01-27 21:47:54
+ * @LastEditTime: 2021-01-28 16:52:58
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -11,6 +11,7 @@ const fs = require("fs");
 const path = require("path");
 const child_pross = require("child_process")
 
+import { File } from "../js/libary";
 // interface
 import { ConfigYaml,YamlError } from "./utilInterface";
 
@@ -97,12 +98,21 @@ function valuenSure(p:ConfigYaml | null):YamlError {
 // return store.commit(MutationTypes.setConfigYamlStatus,ValueError.storePanic)
 }
 
-import {readdir} from "fs"
-function picturepath(viewpaths:Array<checkline>) {
+// import {readdir} from "fs"
+async function picturepath(viewpaths:Array<checkline>) {
+  let picture:any[]=[];
   for (const path of viewpaths) {
-    fs.readdir(path.dir)
-    
+    try {
+      let files:string[] = fs.readdirSync(path.dir)
+      picture = picture.concat(files.sort(File.compareFiles))
+    } catch (error) {
+      console.log(error);
+    }
   }
+  // for (const iterator of ) {
+    
+  // }
+  console.log(picture);
 }
 
-export { readfilmPath, getPicture, valuenSure}
+export { readfilmPath, getPicture, valuenSure, picturepath}

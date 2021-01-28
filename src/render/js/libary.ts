@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-01-25 12:39:21
+ * @LastEditTime: 2021-01-28 22:07:52
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -50,8 +50,8 @@ export class File extends Tool {
    */
   fsReadDir(dir: string): Promise<Dirent[]> {
     return new Promise((resolve, reject) => {
-      fs.readdir(dir, {withFileTypes:true},(err: any, files: any) => {
-        //异步
+      fs.readdir(dir, {withFileTypes:true},(err: any, files: Dirent[]) => {
+        //异步 {withFileTypes:true}为 true 则为 Dirent[]
         if (err) {
           reject(err);
         }
@@ -329,13 +329,18 @@ export class File extends Tool {
     }
   }
 
-  static  compareFiles(a:Dirent,b:Dirent):number{
+  static compareFiles(a:string |Dirent,b:string |Dirent):number{
     // 我的问题是处理字符串前有字母
     const LetterPrefixRegex = /[a-z]+/i //i 忽略大小写
+    if (typeof a === "string"&& typeof b === "string") {
+      return 1
+    }
+    else if ( a instanceof Dirent &&  b instanceof Dirent) {
     return Number(b.isDirectory()) - Number(a.isDirectory())
     || (Number(LetterPrefixRegex.test(a.name)) 
     && !Number(LetterPrefixRegex.test(b.name))) ? 1: (!LetterPrefixRegex.test(a.name) 
     && Number(LetterPrefixRegex.test(b.name)))?-1:a.name.localeCompare(b.name,'zh')
+    }
     // || new Intl.Collator().compare(a.name,b.name)
     // || a.name.localeCompare(b.name,'zh')
     /** 由于短路运算符 || 的原因 
@@ -343,5 +348,6 @@ export class File extends Tool {
      *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
      *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
     */
+   // string Dirent
 }
 }

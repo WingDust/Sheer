@@ -12,9 +12,9 @@
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
-    <div :key="i" v-for="(i,line) in viewline">
+    <!-- <div :key="i" v-for="(i,line) in viewline">
         <img :src="`safe-file-protocol:://`+line.dir" alt="">
-    </div>
+    </div> -->
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
