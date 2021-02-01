@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-01-27 19:04:10
+ * @LastEditTime: 2021-02-01 11:43:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -23,7 +23,7 @@ interface checkline{
 }
 interface View{
     sibebar:boolean
-    viewline:Array<checkline>
+    viewline:Array<string>
 }
 interface State{
     ConfigYaml:{

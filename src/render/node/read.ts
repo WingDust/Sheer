@@ -89,8 +89,7 @@ async function getPath(root:any,Tree:Tree,callback?:any){
         state.FilmPath.checkline=checkline
         Trees!.traverseBF(cut)
         let viewline = Viewcheckline(checkline,Trees!,Yaml!)
-        picturepath(viewline)
-        state.View.viewline= viewline
+        state.View.viewline= picturepath(viewline)
       }
     return Reflect.set(target,propKey,value,receiver);
     }

@@ -36,6 +36,7 @@
     - 这样我好维护，并更容易地控制每一行一个元素的大小
   - 因为处理文件、文件夹需要几个函数，我将它组成一个 File 类 ，经过 File 类中方法的处理（其中有提纯数据）后得到为 Tree 结果
   - 对于将数据处理成有序的样子，与直接使用数据展示出来的，这两个之间的区间即是这个前端与后端应该分开的事
+  - 端口为 3000 和 3344
 
 ## TypeScript
   - `global.d.ts` 当文件中出现 `import` 语句时它将不会是全局作用域，`declare` 也将无效 ，需要重新在 `declare gloabl{...}` 中写不再需要写 `declare` 直接定义
@@ -66,7 +67,9 @@
 
 ## Tool
   - rollup
-    - 
+    - ele:` "dev:ele": "node script/build --env=development --watch",`
+    - "dev:ele": "electron src/main/_.js",
+
 
 
 ## GraphViz

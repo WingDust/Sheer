@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-01-28 16:52:58
+ * @LastEditTime: 2021-02-01 20:30:22
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -97,22 +97,39 @@ function valuenSure(p:ConfigYaml | null):YamlError {
   return YamlError.Normal
 // return store.commit(MutationTypes.setConfigYamlStatus,ValueError.storePanic)
 }
+interface picture{
+  filename:string
+  dirname:string
+}
 
-// import {readdir} from "fs"
-async function picturepath(viewpaths:Array<checkline>) {
-  let picture:any[]=[];
-  for (const path of viewpaths) {
+import { readdirSync } from "fs";
+// const {readdirSync} = require("fs")
+// import type readdirSync from "fs"
+// fs.readdirSync as typeof readdirSync;
+function picturepath(viewpaths:Array<checkline>):string[]{
+  let picture:string[]=[];
+  for (const p of viewpaths) {
     try {
-      let files:string[] = fs.readdirSync(path.dir)
+      let files =readdirSync(p.dir)
+      // let files = fs.readdirSync(p.dir).map(file => {
+      //   let d:picture = Object.create(null)
+      //   d.filename=file
+      //   d.dirname=p.dir
+      //   return d
+      // })
+      
+      // for (let f of files){
+      //   f = path.dirname(f)
+      // }
       picture = picture.concat(files.sort(File.compareFiles))
     } catch (error) {
       console.log(error);
     }
   }
-  // for (const iterator of ) {
-    
-  // }
-  console.log(picture);
+  // const fix:(p:string)=>string = (p)=>{p = path.dirname(p) as string;return p}
+  // return picture.map(fix)
+  return picture
+  // console.log(picture);
 }
 
 export { readfilmPath, getPicture, valuenSure, picturepath}

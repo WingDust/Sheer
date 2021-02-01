@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-22 09:36:23
- * @LastEditTime: 2020-12-12 11:10:33
- * @LastEditors: your name
+ * @LastEditTime: 2021-02-01 11:34:49
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\titlebar\titlebar.vue
 -->

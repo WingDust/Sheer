@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-01-29 10:24:32
+ * @LastEditTime: 2021-02-01 09:48:03
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -9,11 +9,11 @@
 // import fs from 'fs'
 // import path from 'path'
 
-// const fs = require("fs");
+const fs = require("fs");
 // const {Dirent} = require("fs");
 const path = require("path");
 import {Stats,Dirent} from "fs"
-import fs from "fs"
+// import fs from "fs"
 
 class Tool {
   constructor() {}
@@ -333,7 +333,7 @@ export class File extends Tool {
 
   static compareFiles(a:string,b:string):number
   static compareFiles(a:Dirent,b:Dirent):number
-  static compareFiles(a:string |Dirent,b:string|Dirent){
+  static compareFiles(a:any,b:any){
     // 我的问题是处理字符串前有字母
     const LetterPrefixRegex = /[a-z]+/i //i 忽略大小写
     if (typeof a === "string"&& typeof b === "string") {
@@ -341,7 +341,8 @@ export class File extends Tool {
       && !Number(LetterPrefixRegex.test(b))) ? 1: (!LetterPrefixRegex.test(a) 
       && Number(LetterPrefixRegex.test(b)))?-1:a.localeCompare(b,'zh')
     }
-    else if ( a instanceof Dirent &&  b instanceof Dirent) {
+    // else if ( a instanceof Dirent &&  b instanceof Dirent) {
+    else {
       return Number(b.isDirectory()) - Number(a.isDirectory())
       || (Number(LetterPrefixRegex.test(a.name)) 
       && !Number(LetterPrefixRegex.test(b.name))) ? 1: (!LetterPrefixRegex.test(a.name) 

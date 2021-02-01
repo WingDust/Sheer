@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2020-11-14 18:44:57
+ * @LastEditTime: 2021-02-01 11:36:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -19,10 +19,10 @@ import "./css/GlobalImpact/global.scss"
 
 // import "../../keyevent/pkg/keyevent_bg.wasm"
 // 不能写相对路径
-import "keyevent/keyevent_bg.wasm"
+// import "keyevent/keyevent_bg.wasm"
 // import "keyevent"
 
-import init,{hidesibebar} from "keyevent/keyevent.js"
+// import init,{hidesibebar} from "keyevent/keyevent.js"
 
 
 
@@ -31,10 +31,10 @@ import init,{hidesibebar} from "keyevent/keyevent.js"
 // fetch('http://localhost:3344/@modules/keyevent/keyevent_bg.wasm').then(response =>
 //   response.arrayBuffer()
 // )
-    async function run() {
-        await init()
-    }
-    run()
+    // async function run() {
+    //     await init()
+    // }
+    // run()
 
 
 // import { see } from "./node/veiw";

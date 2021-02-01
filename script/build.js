@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-08-21 21:03:28
+ * @LastEditTime: 2021-02-01 11:14:55
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\script\build.js
+ */
 /**
  * electron 打包
  */
@@ -17,7 +25,7 @@ const spinner = ora(`${TAG} Electron build...`);
 
 if (argv.watch) {
   waitOn({
-    resources: [`http://localhost:${process.env.PORT}`],
+    resources: [`http://localhost:${process.env.PORT}/index.html`],
     log: false,
   }, err => {
     if (err) {
