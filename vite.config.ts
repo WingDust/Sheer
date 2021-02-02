@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-01 20:26:03
+ * @LastEditTime: 2021-02-02 21:17:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\vite.config.ts
@@ -18,6 +18,7 @@ dotenv.config({ path: join(__dirname, '.env') })
 
  function electron_commonjs():Plugin {
     const nodeAPI = /(fs|path)/
+    const ext = /\.(ts|vue)$/
     return {
         name:'electron_commonjs',
         resolveId(id){
@@ -27,11 +28,19 @@ dotenv.config({ path: join(__dirname, '.env') })
             }
         },
         transform(raw,id){// id 为 文件名 raw 为文件内容
-          if (nodeAPI.test(raw)){
-            return `const ${raw} = require("${id}")`
+          if (ext.test(id)) {
+            return {
+              code:raw.replace(/import \{ [a-zA-Z,]+ \} from "fs"/, replacer),
+              map:null
+            } 
           }
         }
     }
+}
+function replacer(match:string,p1:any,p2:any,offset:any,string:any){
+  match = match.replace(/f.+$/," = require(\"fs\")")
+  match = match.replace(/.+t/,"const ")
+  return match
 }
 
 
