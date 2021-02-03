@@ -1,21 +1,20 @@
 <template>
 <!-- 
-                <div :ref="el => {dom[0]=el} " class="c">9</div>
-                <div :ref="el => {dom[1]=el} " class="c">10</div>
-</div>  
+<div :ref="el => {dom[0]=el} " class="c">9</div>
+<div :ref="el => {dom[1]=el} " class="c">10</div>
 -->
 
 <div class="root">
 <!-- <div class="container-fluid"> -->
-    <!-- <div>{{view}}</div> -->
     <!-- <Suspense> -->
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
-    <div :key="line.dirname" v-for="line in viewline">
+    <singleblock :datas="viewline"></singleblock>
+    <!-- <div :key="line.dirname" v-for="line in viewline">
         <img :src="`safe-file-protocol:://${line.dirname+'/'+line.filename}`" alt="">
-        <div>{{line.filename}}</div>
-    </div>
+        <div class="">{{line.filename}}</div>
+    </div> -->
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
@@ -38,8 +37,9 @@ import {
 } from "vue";
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
-import TagsContainer from "../Tags/TagsContainer.vue"
 import { MutationTypes } from "../../store/mutations";
+import TagsContainer from "../Tags/TagsContainer.vue"
+import singleblock  from "../container/Film/singleblock.vue";
 export default defineComponent({
     setup() {
         onBeforeMount(()=>{
@@ -108,7 +108,8 @@ export default defineComponent({
         }
     },
     components:{
-        'tagscontainer':TagsContainer
+        'tagscontainer':TagsContainer,
+        'singleblock ':singleblock 
     }
 })
 </script>
@@ -150,8 +151,8 @@ export default defineComponent({
     width: 1920px;
     .r{
         justify-items: center;
-        align-items: center;
-        // justify-content: center;
+        // align-items: center;
+        justify-content: center;
         display: inline-grid;
         width: 1644px;
         transition: width .4s;

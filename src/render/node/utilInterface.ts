@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-03 12:06:11
+ * @LastEditTime: 2021-02-03 18:31:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -25,6 +25,11 @@ interface View{
     sibebar:boolean
     viewline:Array<picture>
 }
+interface Vim{
+    cursor:{
+        postion:[number,number]
+    },
+}
 interface State{
     ConfigYaml:{
         Yaml:ConfigYaml | null
@@ -37,6 +42,7 @@ interface State{
     }
     Flag:Flag
     View:View
+    Vim:Vim
 }
 
 const enum YamlError{

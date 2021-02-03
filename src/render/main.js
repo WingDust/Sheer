@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-01 11:36:56
+ * @LastEditTime: 2021-02-03 22:07:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -55,6 +55,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
 
+/** [解决Electron Security Warning (Node.js Integration with Remote Content) This renderer process has Nod](https://blog.csdn.net/eyulove/article/details/104955782)  */
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 const app = createApp(App)
 app.use(router)

@@ -1,21 +1,21 @@
 <template>
-  <div>
-      <img src="" alt="">
+  <div :key="data.dirname" v-for="data in datas">
+    <img :src="`safe-file-protocol:://${data.dirname+'/'+data.filename}`" alt="">
+    <div class="">{{data.filename}}</div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent,h } from "vue";
-// import { useStore } from "vuex"
+import { defineComponent,PropType } from "vue";
+import { picture } from "../../../node/utilInterface";
 export default defineComponent({
     setup(){
-        // const store = useStore()
-        // store.state
 
     },
     props:{
-        data:{
-            type:String
+        datas:{
+            // type:Array as PropType<picture[]>
+            type: Object
         }
     }
 })

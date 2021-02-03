@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-03 18:18:35
+ * @LastEditTime: 2021-02-03 19:02:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
@@ -37,6 +37,11 @@ export const state:State = {
     View:{// 有关于视图
         sibebar:false,// 表示侧边栏的显隐状态
         viewline:Object.create(null)
+    },
+    Vim:{
+      cursor:{
+        postion:[0,0]
+      }
     }
 }
 
