@@ -1,29 +1,30 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2020-11-18 12:03:26
+ * @LastEditTime: 2021-02-03 18:12:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
 import { MutationTree } from 'vuex';
-import { State } from "./state";
+import { State,ConfigYaml,picture } from "../node/utilInterface";
 
 // TODO 需要做注释
 export const enum MutationTypes{
     setConfigYaml="setConfigYaml",
     setConfigYamlStatus="setConfigYamlStatus",
     setTrees="setTrees",
-    setViewStatus="setViewStatus"
+    setViewStatus="setViewStatus",
+    setViewline ="setViewline"
 }
 
 type Mutation<S= State> = {
-    [MutationTypes.setConfigYaml](state:S,value:number):void
+    [MutationTypes.setConfigYaml](state:S,value:any):void
 }
 
 export const mutations:Mutation & MutationTree<State> = {
     // []中为方法名 () 为参数类型断言
-    [MutationTypes.setConfigYaml](state:State,value:number):void{
+    [MutationTypes.setConfigYaml](state:State,value:ConfigYaml):void{
         state.ConfigYaml.Yaml=value
     },
     [MutationTypes.setConfigYamlStatus](state:State,value:number):void{
@@ -39,5 +40,9 @@ export const mutations:Mutation & MutationTree<State> = {
         }else{
         state.View.sibebar=value
         }
+    },
+    [MutationTypes.setViewline](state:State,value:Array<picture>){
+        state.View.viewline=value
     }
+
 }

@@ -12,8 +12,9 @@
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
-    <div :key="i" v-for="(i,line) in viewline">
-        <img :src="`safe-file-protocol:://${line}`" alt="">
+    <div :key="line.dirname" v-for="line in viewline">
+        <img :src="`safe-file-protocol:://${line.dirname+'/'+line.filename}`" alt="">
+        <div>{{line.filename}}</div>
     </div>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
@@ -39,7 +40,6 @@ import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
 import TagsContainer from "../Tags/TagsContainer.vue"
 import { MutationTypes } from "../../store/mutations";
-const fs = require("fs") ;
 export default defineComponent({
     setup() {
         onBeforeMount(()=>{
@@ -68,7 +68,6 @@ export default defineComponent({
         // for (let line of store.state.FilmPath.checkline) {
         // }
         const viewline =computed(()=> store.state.View.viewline) 
-
         const view = computed(()=> store.state.View.sibebar)
 
         // 防抖
@@ -105,7 +104,7 @@ export default defineComponent({
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            hotkeys,mousewheel,touchwheel,view,viewline,fs
+            hotkeys,mousewheel,touchwheel,view,viewline
         }
     },
     components:{

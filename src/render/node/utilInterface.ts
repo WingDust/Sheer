@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-01 11:43:18
+ * @LastEditTime: 2021-02-03 12:06:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -23,7 +23,7 @@ interface checkline{
 }
 interface View{
     sibebar:boolean
-    viewline:Array<string>
+    viewline:Array<picture>
 }
 interface State{
     ConfigYaml:{
@@ -48,6 +48,11 @@ const enum YamlError{
     storePanic  =40         //4
 }
 
+interface picture{
+  filename:string
+  dirname:string
+}
 
 
-export {ConfigYaml,Flag,State,checkline,YamlError}
+
+export {ConfigYaml,Flag,State,checkline,YamlError,picture}

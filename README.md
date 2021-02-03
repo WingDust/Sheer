@@ -58,7 +58,7 @@
     ```
 
 ## Python
-  - [ ] 将 picture.py 或 TypeScript 中的文件添加检查帧是否重复写入
+  - [x] 将 picture.py 或 TypeScript 中的文件添加检查帧是否重复写入
 
 
 ## Rust

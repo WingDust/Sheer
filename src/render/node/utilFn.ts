@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-01 20:30:22
+ * @LastEditTime: 2021-02-03 12:36:18
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -13,7 +13,7 @@ const child_pross = require("child_process")
 
 import { File } from "../js/libary";
 // interface
-import { ConfigYaml,YamlError } from "./utilInterface";
+import { ConfigYaml,YamlError,picture } from "./utilInterface";
 
 
 /**
@@ -97,39 +97,27 @@ function valuenSure(p:ConfigYaml | null):YamlError {
   return YamlError.Normal
 // return store.commit(MutationTypes.setConfigYamlStatus,ValueError.storePanic)
 }
-interface picture{
-  filename:string
-  dirname:string
-}
 
-import { readdirSync } from "fs";
-// const {readdirSync} = require("fs")
-// import type readdirSync from "fs"
-// fs.readdirSync as typeof readdirSync;
-function picturepath(viewpaths:Array<checkline>):string[]{
-  let picture:string[]=[];
+function picturepath(viewpaths:Array<checkline>):picture[]{
+  let picture:picture[]=[];
   for (const p of viewpaths) {
     try {
-      let files =readdirSync(p.dir)
-      // let files = fs.readdirSync(p.dir).map(file => {
-      //   let d:picture = Object.create(null)
-      //   d.filename=file
-      //   d.dirname=p.dir
-      //   return d
-      // })
-      
-      // for (let f of files){
-      //   f = path.dirname(f)
-      // }
-      picture = picture.concat(files.sort(File.compareFiles))
+      let files = fs.readdirSync(p.dir) as string[]
+      let picutres:picture[] =files.map(file=> {
+        let d:picture = Object.create(null)
+        d.filename=file
+        d.dirname=p.dir
+        return d
+      })
+      picture = picture.concat(picutres.sort(File.compareFiles))
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
-  // const fix:(p:string)=>string = (p)=>{p = path.dirname(p) as string;return p}
-  // return picture.map(fix)
   return picture
-  // console.log(picture);
 }
 
+// function isPicture(p:picture|string):p is picture{
+//   return (<picture>p).dirname !== undefined
+// }
 export { readfilmPath, getPicture, valuenSure, picturepath}
