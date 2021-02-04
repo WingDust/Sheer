@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-03 18:12:25
+ * @LastEditTime: 2021-02-04 11:27:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
@@ -15,7 +15,8 @@ export const enum MutationTypes{
     setConfigYamlStatus="setConfigYamlStatus",
     setTrees="setTrees",
     setViewStatus="setViewStatus",
-    setViewline ="setViewline"
+    setViewline ="setViewline",
+    setcheckline = "setcheckline "
 }
 
 type Mutation<S= State> = {
@@ -43,6 +44,9 @@ export const mutations:Mutation & MutationTree<State> = {
     },
     [MutationTypes.setViewline](state:State,value:Array<picture>){
         state.View.viewline=value
+    },
+    [MutationTypes.setcheckline](state:State,value:checkline[][]){
+        state.FilmPath.checkline=value
     }
 
 }

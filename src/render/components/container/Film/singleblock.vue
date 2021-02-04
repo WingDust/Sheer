@@ -1,15 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-05 12:19:26
- * @LastEditTime: 2021-02-04 11:10:06
+ * @LastEditTime: 2021-02-04 19:46:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\container\Film\singleblock.vue
 -->
 <template>
-  <div class="block">
-    <img :src="`safe-file-protocol:://${data.dirname+'/'+data.filename}`" alt="">
-    <div class="filename">{{data.filename.replace(/\.jpg/,'')}}</div>
+  <div class="inline-flex flex-col">
+    <img class="vim-cursor w-64 h-36" :src="`safe-file-protocol:://${data.dirname+'/'+data.filename}`" alt="">
+    <div class="break-words w-64 h-12">{{data.filename.replace(/\.jpg/,'')}}</div>
   </div>
 </template>
 
@@ -31,14 +31,9 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-.block{
-  img{
-    width: 256px;
-    height: 144px;
-  }
-  .filename{
-    width: 256px;
-  }
+.vim-cursor{
+  border-right: 1px solid #f0aa0b;
+  border-left: 1px solid  #f0aa0b;
 }
 
 </style>

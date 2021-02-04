@@ -5,11 +5,10 @@
 -->
 
 <div class="root">
-<!-- <div class="container-fluid"> -->
     <!-- <Suspense> -->
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
-<div class="r" :class="{widthmax:view}">
+<div class="r align-top text-center" :class="{widthmax:view}" >
     <singleblock :key="line.filename" :data="line" v-for="line in viewline">
     </singleblock>
 </div>

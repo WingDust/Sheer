@@ -1,13 +1,12 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-01 16:09:13
- * @LastEditTime: 2020-11-20 14:15:36
+ * @LastEditTime: 2021-02-04 13:22:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\Tags\TagsContainer.vue
 -->
 <template>
-      <!-- <div class="TagsContainer" @keydown="hidesibebar"> -->
       <div class="TagsContainer" :class="{hided:sibebar}" >
           <ul>
               <li :key="i" v-for="(tag,i) in tags">{{getTagPath(tag.dir)}}</li>
@@ -47,14 +46,26 @@ export default defineComponent({
     transition: width .4s;
     vertical-align: top;
     ul li{
+        width:0px;
+        opacity: 0;
+        transition: width .4s,opacity .4s;
         list-style: none;
         margin: 10px 0 10px 0;
+    }
+    ul {
+        width:0px;
+        transition: width .4s;
     }
 }
 
 .hided{
     width: 274px;
-    transition: width .4s;
+    ul li{
+        width: 274px;
+        opacity: 1;
+        list-style: none;
+        margin: 10px 0 10px 0;
+    }
 }
 
 

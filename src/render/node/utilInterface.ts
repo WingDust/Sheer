@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-03 18:31:59
+ * @LastEditTime: 2021-02-04 11:25:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -20,6 +20,10 @@ interface Flag{
 interface checkline{
     dir:string,
     state:boolean
+}
+interface picture{
+  filename:string
+  dirname:string
 }
 interface View{
     sibebar:boolean
@@ -54,10 +58,6 @@ const enum YamlError{
     storePanic  =40         //4
 }
 
-interface picture{
-  filename:string
-  dirname:string
-}
 
 
 

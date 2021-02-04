@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-03 13:16:50
+ * @LastEditTime: 2021-02-04 13:37:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\vite.config.ts
@@ -59,7 +59,7 @@ export default defineConfig({
     outDir: "pre_build/render",
   },
   optimizeDeps:{
-    exclude:['keyevent',"Stats","Dirent","fs",'path']
+    exclude:['keyevent',"Stats","Dirent","fs",'path','electron-window-state']
   },
   plugins: [vue()]
 })

@@ -1,5 +1,5 @@
 (module 
-(func $add (param $line i32) (param $rhs i32) (param $lhs i32) (result i32)
+(func $add (param $line i64) (param $rhs i64) (param $lhs i64) (result i32)
     get_local $line
     get_local $rhs
     i32.add)
