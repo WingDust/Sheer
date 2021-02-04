@@ -10,11 +10,8 @@
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r" :class="{widthmax:view}">
-    <singleblock :datas="viewline"></singleblock>
-    <!-- <div :key="line.dirname" v-for="line in viewline">
-        <img :src="`safe-file-protocol:://${line.dirname+'/'+line.filename}`" alt="">
-        <div class="">{{line.filename}}</div>
-    </div> -->
+    <singleblock :key="line.filename" :data="line" v-for="line in viewline">
+    </singleblock>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
@@ -34,7 +31,8 @@ import {
     onBeforeMount,
     reactive,
     computed
-} from "vue";
+    } from "vue";
+// import defineComponent from 'vue';
 import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
@@ -109,7 +107,7 @@ export default defineComponent({
     },
     components:{
         'tagscontainer':TagsContainer,
-        'singleblock ':singleblock 
+        'singleblock':singleblock 
     }
 })
 </script>
@@ -178,11 +176,11 @@ export default defineComponent({
         // width: 274px;
         // height: 154px;
     // }
-    img{
-        width: 256px;
-        height: 144px;
-    }
     // width: 100%;
     // height: auto;
+  img{
+    width: 256px;
+    height: 144px;
+  }
 }
 </style>

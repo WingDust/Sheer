@@ -7,7 +7,7 @@
  * @FilePath: \electron-vue-vite\src\render\view\Main.vue
 -->
 <template>
-    <rootlayout>
+  <rootlayout>
         <template v-slot:MainContent>
         <folder>
           <hightLight :code="qwe"></hightLight>
