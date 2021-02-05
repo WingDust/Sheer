@@ -9,7 +9,7 @@
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r align-top text-center" :class="{widthmax:view}" >
-    <singleblock :key="line.filename" :data="line" v-for="line in viewline">
+    <singleblock :key="line.filename" :data="line" v-for="(line,i) in viewline" :class="i==0 ? vimcursor:''">
     </singleblock>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
@@ -31,8 +31,6 @@ import {
     reactive,
     computed
     } from "vue";
-// import defineComponent from 'vue';
-import hotkeys from 'hotkeys-js';
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
 import TagsContainer from "../Tags/TagsContainer.vue"
@@ -42,30 +40,29 @@ export default defineComponent({
         onBeforeMount(()=>{
         })
         onMounted(()=>{
-            // roote=document.getElementsByClassName("e")[0]
+            document.addEventListener("keyup",(e)=>{
+                console.log(e.key);
+                if (e.isComposing){return}
+                if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
+                store.commit(MutationTypes.setViewStatus,undefined)
+                }
+                switch (e.code) {
+                    case 'h':break;
+                    case 'j':break;
+                    case 'k':break;
+                    case 'l':break;
+                }
+            })
             console.log(`RootLayout`);
         })
-        hotkeys('q',function(event,handler){
-            event.preventDefault()
-            console.log('q');
-        })
-        document.addEventListener("keyup",(e)=>{
-            if (e.altKey && e.ctrlKey&& e.keyCode == 32)
-            {
-            store.commit(MutationTypes.setViewStatus,undefined)
-            }
-            // e.preventDefault()
-            })
 
         const store = useStore()
         console.log(store.state);
         // console.log(toRaw(store.state));
-        // let store = reactive(toRaw(storet))
         
-        // for (let line of store.state.FilmPath.checkline) {
-        // }
         const viewline =computed(()=> store.state.View.viewline) 
         const view = computed(()=> store.state.View.sibebar)
+        const vimcursor = computed(() => store.state.Vim.cursor.postion)
 
         // 防抖
         function debounce(fn:Function,wait:number) {
@@ -101,7 +98,7 @@ export default defineComponent({
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            hotkeys,mousewheel,touchwheel,view,viewline
+            mousewheel,touchwheel,view,viewline,vimcursor
         }
     },
     components:{
@@ -181,5 +178,9 @@ export default defineComponent({
     width: 256px;
     height: 144px;
   }
+}
+.vim-cursor{
+  border-right: 1px solid #f0aa0b;
+  border-left: 1px solid  #f0aa0b;
 }
 </style>
