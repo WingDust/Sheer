@@ -1,11 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-05 14:01:24
+ * @LastEditTime: 2021-02-05 14:31:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
  */
+import devtools from "@vue/devtools";
+if(process.env.NODE_ENV === 'development'){
+    devtools.connect('localhost',8098)
+}
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
