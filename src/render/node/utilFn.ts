@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-03 12:36:18
+ * @LastEditTime: 2021-02-05 16:40:11
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -120,4 +120,11 @@ function picturepath(viewpaths:Array<checkline>):picture[]{
 // function isPicture(p:picture|string):p is picture{
 //   return (<picture>p).dirname !== undefined
 // }
-export { readfilmPath, getPicture, valuenSure, picturepath}
+
+async function initwasm(init:any) {
+  const {add} = await init()
+  return add
+}
+
+
+export { readfilmPath, getPicture, valuenSure, picturepath,initwasm}

@@ -39,6 +39,8 @@
   - 端口为 3000 和 3344
   -  "vue": "^3.0.0-rc.1",
 
+## CSS
+  - [对img标签使用after和before伪元素失效的原因](https://blog.csdn.net/qq_35630674/article/details/97398054)
 ## TypeScript
   - `global.d.ts` 当文件中出现 `import` 语句时它将不会是全局作用域，`declare` 也将无效 ，需要重新在 `declare gloabl{...}` 中写不再需要写 `declare` 直接定义
     - Node 全局对象 `global` 上的挂载

@@ -1,12 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-08-22 09:45:26
- * @LastEditTime: 2021-02-05 15:11:31
+ * @LastEditTime: 2021-02-05 20:58:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\view\Main.vue
 -->
 <template>
+<Suspense>
   <rootlayout>
         <template v-slot:MainContent>
         <folder>
@@ -14,6 +15,7 @@
         </folder>
         </template>
   </rootlayout>
+</Suspense>
   <!-- <alertwarning></alertwarning> -->
 </template>
 

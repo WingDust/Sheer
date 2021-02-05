@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-05 15:12:13
+ * @LastEditTime: 2021-02-05 20:47:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -42,13 +42,15 @@ import "./css/GlobalImpact/global.scss"
 
 import add from './Webassemly/wast/add.wasm'
 
-const im = {console:{log:(arg)=>{console.log(arg)}}}
+// const im = {console:{log:(arg)=>{console.log(arg)}}}
 // [WebAssembly.instantiateStreaming](https://github.com/vitejs/vite/blob/2286f629ab6d96fb0b90c9825582962bf8f0f2a5/packages/vite/src/node/plugins/wasm.ts#L20)
 // WebAssembly.instantiateStreaming(fetch('http://localhost:3344/Webassembly/wast/add.wasm?import'),im)
 // .then(i =>  console.log(i.exports.add(6,0,0)))
 async function wasm(init){
-    const {add} = await init(im)
-    console.log(add(6n,4n,0n)); 
+    // const {add} = await init(im)
+    const {add} = await init()
+    // console.log(add(6n,4n,2n)); 
+    console.log(add(6,4,2)); 
 }
 wasm(add)
 

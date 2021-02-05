@@ -3,20 +3,14 @@
 <div :ref="el => {dom[0]=el} " class="c">9</div>
 <div :ref="el => {dom[1]=el} " class="c">10</div>
 -->
-
 <div class="root w-full">
-    <!-- <Suspense> -->
-    <tagscontainer></tagscontainer>
-    <!-- </Suspense> -->
+<tagscontainer></tagscontainer>
 <div class="r align-top text-center" :class="{widthmax:view}" >
-    <singleblock :key="line.filename" :data="line" v-for="(line,i) in viewline" :class="i==0 ? 'vim-cursor':''">
+    <singleblock :key="line.filename" :data="line" v-for="(line,i) in viewline" :position="i==a(6,vimcursor[0],vimcursor[1])">
     </singleblock>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
-    <div class="item">
-        <img src="safe-file-protocol:://G:/test/1.PNG" alt="">
-    </div>
 </div>
 </div>
 </template>
@@ -33,15 +27,16 @@ import {
     } from "vue";
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
+import add from '../../Webassemly/wast/add.wasm'
+import {initwasm} from '../../node/utilFn'
 import TagsContainer from "../Tags/TagsContainer.vue"
 import singleblock  from "../container/Film/singleblock.vue";
 export default defineComponent({
-    setup() {
+   async setup() {
         onBeforeMount(()=>{
         })
         onMounted(()=>{
             document.addEventListener("keyup",(e)=>{
-                console.log(e.key);
                 if (e.isComposing){return}
                 if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
                 store.commit(MutationTypes.setViewStatus,undefined)
@@ -63,6 +58,8 @@ export default defineComponent({
         const viewline =computed(()=> store.state.View.viewline) 
         const view = computed(()=> store.state.View.sibebar)
         const vimcursor = computed(() => store.state.Vim.cursor.postion)
+
+        const a = await initwasm(add)
 
         // 防抖
         function debounce(fn:Function,wait:number) {
@@ -98,7 +95,7 @@ export default defineComponent({
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            mousewheel,touchwheel,view,viewline,vimcursor
+            mousewheel,touchwheel,view,viewline,vimcursor,a
         }
     },
     components:{
@@ -139,15 +136,6 @@ export default defineComponent({
   img{
     width: 256px;
     height: 144px;
-  }
-}
-.vim-cursor{
-  border-right: 1px solid #f0aa0b;
-  border-left: 1px solid  #f0aa0b;
-  &::after{
-      width: 30rem;
-      height: 40rem;
-      z-index: 1;
   }
 }
 </style>

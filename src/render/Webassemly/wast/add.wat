@@ -1,11 +1,11 @@
 (module 
-    (import "console" "log" (func $log (param i64)))
-    (func $add (param $width i64) (param $x i64) (param $y i64) (result i64)
+    ;; (import "console" "log" (func $log (param i32)))
+    (func $add (param $width i32) (param $x i32) (param $y i32) (result i32)
         get_local $x
         get_local $width
-        i64.mul
+        i32.mul
         get_local $y
-        i64.add
+        i32.add
         )
     (export "add" (func $add))
 )
