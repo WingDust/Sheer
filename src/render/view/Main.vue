@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-08-22 09:45:26
- * @LastEditTime: 2020-12-12 11:09:02
+ * @LastEditTime: 2021-02-05 15:11:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\view\Main.vue
@@ -14,7 +14,7 @@
         </folder>
         </template>
   </rootlayout>
-  <alertwarning></alertwarning>
+  <!-- <alertwarning></alertwarning> -->
 </template>
 
 <script lang="ts">

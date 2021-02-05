@@ -7,7 +7,9 @@
 //     margin: 0px;
 // }
 body{
-  background-image: url(../../assets/26-edit.webp);
+  // background-image: url(../../assets/26-edit.webp);
+  // background-color: #f3f3f3;//备选
+  background: #eee;
 }
 
 @font-face{
@@ -15,7 +17,22 @@ body{
   src:url(../../assets/font/codicon.ttf) format("truetype");
 }
 
+/*
+* 修改页面选中文字的颜色
+*/
+::selection{
+  // background: #d7d4f0;
+  background: #d7d4f0ea;
+  // 配 background: #333642; 作底
+}
 
+/**
+* 所有图片无法被选中
+*/
+img{
+  // pointer-events: none;
+  user-select: none;
+}
 
 /*
 * 引用自定义字体文件

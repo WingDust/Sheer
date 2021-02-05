@@ -4,12 +4,12 @@
 <div :ref="el => {dom[1]=el} " class="c">10</div>
 -->
 
-<div class="root">
+<div class="root w-full">
     <!-- <Suspense> -->
     <tagscontainer></tagscontainer>
     <!-- </Suspense> -->
 <div class="r align-top text-center" :class="{widthmax:view}" >
-    <singleblock :key="line.filename" :data="line" v-for="(line,i) in viewline" :class="i==0 ? vimcursor:''">
+    <singleblock :key="line.filename" :data="line" v-for="(line,i) in viewline" :class="i==0 ? 'vim-cursor':''">
     </singleblock>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
@@ -109,38 +109,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.container-fluid {
-    [class*="col"] {
-        height: 1000px;
-        padding: 1rem;
-        // background-color: #33b5e5;
-
-        border: 2px solid #fff;
-        color: #fff;
-        text-align: center;
-    }
-
-    [class*="con"] {
-        padding: 1rem;
-        // background-color: #9e33e5;
-        border: 2px solid #fff;
-        color: #fff;
-        text-align: center;
-    }
-
-    .a {
-        // display: flex;
-        flex-direction: column;
-        // flex-wrap: wrap;
-
-        .c {
-            // display: inline;
-            border: 1px solid green;
-            width: 192px;
-            height: 108px;
-        }
-    }
-}
 .root {
     width: 1920px;
     .r{
@@ -168,12 +136,6 @@ export default defineComponent({
         display: inline-grid;
         grid-row-gap: 1rem;
     }
-    // .w{
-        // width: 274px;
-        // height: 154px;
-    // }
-    // width: 100%;
-    // height: auto;
   img{
     width: 256px;
     height: 144px;
@@ -182,5 +144,10 @@ export default defineComponent({
 .vim-cursor{
   border-right: 1px solid #f0aa0b;
   border-left: 1px solid  #f0aa0b;
+  &::after{
+      width: 30rem;
+      height: 40rem;
+      z-index: 1;
+  }
 }
 </style>

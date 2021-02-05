@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-01 16:09:13
- * @LastEditTime: 2021-02-04 13:22:59
+ * @LastEditTime: 2021-02-05 15:10:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\Tags\TagsContainer.vue
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import "keyevent/keyevent_bg.wasm"
-import init,{hidesibebar} from "keyevent/keyevent.js"
 import {defineComponent,ref,computed} from "vue"
 import { useStore } from "vuex";
 import {  getTagPath } from "../../utils/utils.ts";

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-05 14:31:57
+ * @LastEditTime: 2021-02-05 15:12:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -63,8 +63,8 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css"
 
 
 /** Bootstrap */
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap";
 
 
 /** [解决Electron Security Warning (Node.js Integration with Remote Content) This renderer process has Nod](https://blog.csdn.net/eyulove/article/details/104955782)  */

@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-22 09:36:23
- * @LastEditTime: 2021-02-01 11:34:49
+ * @LastEditTime: 2021-02-05 15:19:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\titlebar\titlebar.vue
 -->
 <template>
-  <div class="titlebar container-fluid">
-      <div class="row">
+  <div class="titlebar w-full">
+      <div class="row flex">
         <span class="titlebtn fonticon-CHROME-CLOSE col-xl-1" @click="close"></span>
         <span class="titlebtn fonticon-CHROME-MAXIMIZE col-xl-1" @click="max"></span >
         <span class="titlebtn fonticon-CHROME-MINIMIZE col-xl-1" @click="min"></span>
@@ -45,7 +45,6 @@ export default  defineComponent({
     position: fixed;
     top: 0;
     z-index: 1;// 保证不被覆盖
-    // width: 100%;
     height: 32px;
     -webkit-app-region:drag;
     background:rgba(51, 51, 51, .6);
