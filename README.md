@@ -101,6 +101,7 @@
   - [x] 数据获取响应成功
   - [x] 处理 js-yaml 函数返回值问题
   - [x] 将 File 的 FileTree 函数运行返回出 checkline 
+  - [ ] 寄存器实现
   - [ ] 将 Prism Vue 组件分离出去
 
 ## IDEA

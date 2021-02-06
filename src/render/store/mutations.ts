@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-04 11:27:41
+ * @LastEditTime: 2021-02-06 11:48:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
@@ -16,7 +16,8 @@ export const enum MutationTypes{
     setTrees="setTrees",
     setViewStatus="setViewStatus",
     setViewline ="setViewline",
-    setcheckline = "setcheckline "
+    setcheckline = "setcheckline ",
+    setVimCursorPosition = "setVimCursorPosition"
 }
 
 type Mutation<S= State> = {
@@ -47,6 +48,29 @@ export const mutations:Mutation & MutationTree<State> = {
     },
     [MutationTypes.setcheckline](state:State,value:checkline[][]){
         state.FilmPath.checkline=value
+    },
+    [MutationTypes.setVimCursorPosition](state:State,value:string){
+        switch (value) {
+            case 'h':{
+                let result = state.Vim.cursor.postion[1]-=1
+                if (result<0) { // 最小为 0
+                    state.Vim.cursor.postion[1]=0
+                }
+                break;}
+            case 'j':{
+                state.Vim.cursor.postion[0]+=1;
+                break;}
+            case 'k':{
+                let result = state.Vim.cursor.postion[0]-=1;
+                if (result <0) {
+                    state.Vim.cursor.postion[0]=0
+                }
+                break;}
+            case 'l':{
+                 state.Vim.cursor.postion[1]+=1;
+                break;}
+            case 'r':{
+                break;}
+        }
     }
-
 }
