@@ -31,8 +31,13 @@ interface View{
 }
 interface Vim{
     cursor:{
-        postion:[number,number]
+        postion:[number,number],
     },
+    movtion:{
+        Rename:boolean, 
+        Yank:boolean,
+        Del:boolean
+    }
 }
 interface State{
     ConfigYaml:{

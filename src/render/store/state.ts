@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-04 11:48:47
+ * @LastEditTime: 2021-02-06 16:36:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
@@ -41,6 +41,11 @@ export const state:State = {
     Vim:{
       cursor:{
         postion:[0,0]
+      },
+      movtion:{
+        Rename:false, // r
+        Yank:false,   // y
+        Del:false,    // x
       }
     }
 }

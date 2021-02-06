@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-05 12:19:26
- * @LastEditTime: 2021-02-06 12:38:10
+ * @LastEditTime: 2021-02-06 16:22:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\container\Film\singleblock.vue
@@ -13,14 +13,7 @@
     :src="`safe-file-protocol:://${data.dirname+'/'+data.filename}`" alt="">
     </div>
     <singlevil 
-    class="break-words w-64 h-12 " 
     :placeholder="data.filename.replace(/\.jpg/,'')"
-    readonly="readonly"
-    />
-    <input 
-    class="break-words w-64 h-12 " 
-    :placeholder="data.filename.replace(/\.jpg/,'')"
-    readonly="readonly"
     />
   </div>
 </template>
@@ -28,7 +21,7 @@
 <script lang='ts'>
 import { defineComponent,PropType,toRefs } from "vue";
 import { picture } from "../../../node/utilInterface";
-import singlevil from "../../vim/SingleEvil.vue";
+import singlevil from "../../vim/SinglEvil.vue";
 export default defineComponent({
     props:{
         data:{
@@ -81,27 +74,5 @@ export default defineComponent({
     top: 144px;
     left: 2rem;
   }
-}
-input{
-  outline-style: none;
-  border: 0px;
-}
-input::-ms-input-placeholder{
-  text-align: center;
-}
-input::-webkit-input-placeholder{
-  text-align: center;
-}
-::-webkit-input-placeholder {
-  color: black;
-}
-:-moz-placeholder {/* Firefox 18- */
-  color: black;
-}
-::-moz-placeholder{/* Firefox 19+ */
- color: black;
-}
-:-ms-input-placeholder {
-  color: black;
 }
 </style>

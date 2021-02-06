@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-05 20:47:26
+ * @LastEditTime: 2021-02-06 21:51:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -73,6 +73,7 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css"
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 const app = createApp(App)
+
 app.use(router)
 app.use(store)
 

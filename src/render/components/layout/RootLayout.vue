@@ -4,14 +4,13 @@
 <div :ref="el => {dom[1]=el} " class="c">10</div>
 -->
 <div class="root w-full">
-<tagscontainer></tagscontainer>
+<tagscontainer/>
 <div class="r align-top text-center" :class="{widthmax:view}" >
   <singleblock 
-  :key="line.filename" 
+  :key="i" 
   :data="line" v-for="(line,i) in viewline" 
-  :position="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1">
-  </singleblock>
-</div>
+  :position="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
+  /></div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
 </div>
@@ -32,8 +31,8 @@ import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
 import {initwasm} from '../../node/utilFn'
-import TagsContainer from "../Tags/TagsContainer.vue"
-import singleblock  from "../container/Film/SingleBlock.vue";
+import TagsContainer from "../Tags/TagsContainer.vue";
+import SingleBlock  from "../container/Film/SingleBlock.vue";
 export default defineComponent({
    async setup() {
         onBeforeMount(()=>{
@@ -45,11 +44,11 @@ export default defineComponent({
                 store.commit(MutationTypes.setViewStatus,undefined)
                 }
                 switch (e.code) { // @bug 行列数限制
-                    case 'KeyH':{store.commit(MutationTypes.setVimCursorPosition,'h'); break;}
-                    case 'KeyJ':{ store.commit(MutationTypes.setVimCursorPosition,'j'); break;}
-                    case 'KeyK':{store.commit(MutationTypes.setVimCursorPosition,'k'); break;}
-                    case 'KeyL':{ store.commit(MutationTypes.setVimCursorPosition,'l'); break;}
-                    case 'KeyR':{ store.commit(MutationTypes.setVimCursorPosition,'r'); break;}
+                    case 'KeyH':{store.commit(MutationTypes.callVimStatus,'h'); break;}
+                    case 'KeyJ':{store.commit(MutationTypes.callVimStatus,'j'); break;}
+                    case 'KeyK':{store.commit(MutationTypes.callVimStatus,'k'); break;}
+                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,'l'); break;}
+                    case 'KeyR':{store.commit(MutationTypes.callVimStatus,'r'); break;}
                 }
             })
             console.log(`RootLayout`);
@@ -104,7 +103,7 @@ export default defineComponent({
     },
     components:{
         'tagscontainer':TagsContainer,
-        'singleblock':singleblock 
+        'singleblock':SingleBlock
     }
 })
 </script>
