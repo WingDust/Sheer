@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-02-03 13:48:23
+ * @LastEditTime: 2021-02-07 22:13:05
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -31,6 +31,7 @@ export class File extends Tool {
   flag: boolean;
   checkline: any[];
   nextline: any[];
+  addTimes:number
   /**
    * [constructor description]
    * @return {[File]} [description]
@@ -45,6 +46,8 @@ export class File extends Tool {
     this.checkline = [];
     //缓存着下一层的文件夹，它会一小个的组合成一个大数组
     this.nextline = [];
+    // 记录添加到树上的次数以做throttle
+    this.addTimes = 0
   }
   /**
    * [fsReadDir description]

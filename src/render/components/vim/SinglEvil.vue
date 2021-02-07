@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-06 12:29:00
- * @LastEditTime: 2021-02-07 18:05:42
+ * @LastEditTime: 2021-02-07 21:53:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\vim\SingleVim.vue
@@ -19,7 +19,7 @@
   ref="input"
   @keyup.ctrl.f="forward"
   @keyup.ctrl.b="backword"
-  @keyup.ctrl.u="backword"
+  @keyup.ctrl.u="undo"
   @keyup.ctrl.p="previous"
   @keyup.ctrl.n="next"
   @keyup.ctrl.w="killaword"
@@ -53,7 +53,6 @@ export default defineComponent({
         if (binding.value) {
           el.focus()
         }
-        console.log('focus');
       }
     }
   },
@@ -67,7 +66,10 @@ export default defineComponent({
     })
 
     function forward(){
-      console.log('forward');
+      // let selectionStart= input!.value!.selectionStart
+      // input.setSelectionRange(selectionStart-1,selectionStart-1)
+      // console.log(input);
+      // console.log('forward');
     }
     function backword(){
       console.log('backword');
@@ -81,8 +83,11 @@ export default defineComponent({
     function killaword(){
 
     }
+    function undo(){
+
+    }
     return {
-      isRename,input,forward,previous,next,backword,killaword
+      isRename,input,forward,previous,next,backword,killaword,undo
     }
   }
 })

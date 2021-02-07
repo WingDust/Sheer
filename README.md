@@ -37,7 +37,6 @@
   - 因为处理文件、文件夹需要几个函数，我将它组成一个 File 类 ，经过 File 类中方法的处理（其中有提纯数据）后得到为 Tree 结果
   - 对于将数据处理成有序的样子，与直接使用数据展示出来的，这两个之间的区间即是这个前端与后端应该分开的事
   - 端口为 3000 和 3344
-  -  "vue": "^3.0.0-rc.1",
 
 ## CSS
   - [对img标签使用after和before伪元素失效的原因](https://blog.csdn.net/qq_35630674/article/details/97398054)
@@ -145,6 +144,10 @@
     - [文本缓冲区重新实现](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
   - Vue
     - [Vue中文件社区](https://www.vue-js.com/)
+    - [从Vue3源码中再谈nextTick](https://blog.csdn.net/weixin_44475093/article/details/110003633)
+    - [面试官：为什么Vue中的v-if和v-for不建议一起用?](https://blog.csdn.net/weixin_44475093/article/details/110607035)
+  - Vuex
+    - [Vue3 中让 Vuex 的 useStore 具有完整的 state 和 modules 类型推测](https://juejin.cn/post/6896367626441654279)
   - Webassembly 
     - [How to add keyboard events in Rust Webassembly?](https://www.webassemblyman.com/rustwasm/how_to_add_keyboard_events_in_rust_webassembly.html)
     - [部署Emscripten编译后页面](https://emcc.zcopy.site/docs/compiling/deploying-pages/)
@@ -154,7 +157,15 @@
     - [wasm-pack docs](https://rustwasm.github.io/docs/wasm-pack/introduction.html)
     - [Rust wasm : How to access HTMLDocument from web-sys](https://stackoverflow.com/questions/61635487/rust-wasm-how-to-access-htmldocument-from-web-sys)
   - CCS 
-    - 
+    - [28 CSS Border Animations](https://freefrontend.com/css-border-animations/)
+    - [夹边角](https://www.jq22.com/code3104)
+    - [使用 Snap.svg 制作动画](https://aotu.io/notes/2017/01/22/snapsvg/index.html)
+  - Tailwind CSS
+    - [how to use calc() in tailwind CSS?](https://stackoverflow.com/questions/65976223/how-to-use-calc-in-tailwind-css)
+  - JavaScript
+    - [ECMAScript 6之数值的扩展](https://blog.csdn.net/qq_41863849/article/details/104498544)
+  - TypeScript
+    - [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
   - Electron
     - [大型Electron应用本地数据库技术选型](https://www.cnblogs.com/liulun/p/13061672.html)
-    - 
+    - [Electron中使用sql.js操作SQLite数据库](https://www.mdeditor.tw/pl/przn)
