@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-06 21:57:27
+ * @LastEditTime: 2021-02-07 11:06:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
@@ -58,7 +58,17 @@ export const mutations:Mutation & MutationTree<State> = {
                 }
                 break;}
             case 'j':{
-                state.Vim.cursor.postion[0]+=1;
+               let result =  state.Vim.cursor.postion[0]+=1;
+               let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
+                if (result==lines){ //进入最后一行
+                    let remainder =state.View.viewline.length%6-1
+                    if (state.Vim.cursor.postion[1]>remainder) {
+                        state.Vim.cursor.postion[1]=remainder
+                    }
+                }
+                else if (result>lines){
+                    state.Vim.cursor.postion[0]=lines
+                }
                 break;}
             case 'k':{
                 let result = state.Vim.cursor.postion[0]-=1;
@@ -68,8 +78,14 @@ export const mutations:Mutation & MutationTree<State> = {
                 break;}
             case 'l':{
                  let result = state.Vim.cursor.postion[1]+=1;
-                 if (result >5) { // 6 列
-                     state.Vim.cursor.postion[1]=5
+                 if (state.Vim.cursor.postion[0] == Math.ceil(state.View.viewline.length/6)-1) {
+                     let remainder =state.View.viewline.length%6-1
+                     if (result>remainder) {
+                         result=remainder
+                     }
+                 }
+                 else if (result >5) { // 6 列
+                    state.Vim.cursor.postion[1]=5
                  }
                 break;} // setVimCursorPosition
             case 'r':{

@@ -33,10 +33,23 @@ digraph construct {
              <tr>
              <td port='port_three'>View</td>
             </tr>
+             <tr>
+             <td port='port_four'>position</td>
+            </tr>
         </table>
         >
     ];
-    subgraph cluster_Init{
+    subgraph cluster_vim{
+        l;
+        k;
+        j;
+        h;
+    }
+    h -> state:port_four
+    j -> state:port_four
+    k -> state:port_four
+    l -> state:port_four
+    subgraph cluster_init{
         label = "Init";
         Tree_Instance ;
         Yaml_Instance;

@@ -70,8 +70,12 @@
 
 ## Tool
   - rollup
-    - ele:` "dev:ele": "node script/build --env=development --watch",`
-    - "dev:ele": "electron src/main/_.js",
+    - [Rollup 配置详解](https://blog.cjw.design/blog/old/rollup)
+    - [Rollup打包工具的使用（超详细，超基础，附代码截图超简单）](https://juejin.cn/post/6844904058394771470)
+    - `"dev:ele": "node script/build --env=development --watch",`
+    - `"dev:ele": "electron src/main/_.js"`
+  - npm
+    -[npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
 
 
 
@@ -128,7 +132,7 @@
 
 
 ## Reference
-  - VSCode 方向
+  - VSCode 
     - 搜索关键词：Monaco源码分析
     - [VSCode技术揭秘（一）](https://segmentfault.com/a/1190000020833042?utm_source=tag-newest)
     - [monaco-editor实现全局内容和文件搜索](https://blog.csdn.net/weixin_42084197/article/details/90486243)
@@ -136,9 +140,12 @@
     - [monaco editor各种功能实现总结](https://blog.csdn.net/gao_grace/article/details/88890895)
     - [Monaco Editor使用](https://tangpengfei111.github.io/2019/12/21/monaco-editor%E4%BD%BF%E7%94%A8/)
     - [Editor源码阅读](http://gwiki.cn/2018/01/editor%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB)
-  - Vue 方向
+    - [从 VSCode 看大型 IDE 技术架构](https://zhuanlan.zhihu.com/p/96041706)
+    - [如何用最简单的方式解释依赖注入？依赖注入是如何实现解耦的](https://www.zhihu.com/question/32108444/answer/309208647)
+    - [文本缓冲区重新实现](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
+  - Vue
     - [Vue中文件社区](https://www.vue-js.com/)
-  - Webassembly 方向
+  - Webassembly 
     - [How to add keyboard events in Rust Webassembly?](https://www.webassemblyman.com/rustwasm/how_to_add_keyboard_events_in_rust_webassembly.html)
     - [部署Emscripten编译后页面](https://emcc.zcopy.site/docs/compiling/deploying-pages/)
     - [调试 Rust 生成的 WebAssembly 的工具和方法](http://llever.com/rustwasm-book/game-of-life/debugging.zh.html)
@@ -146,5 +153,8 @@
     - [wasm-bindgen](https://rustwasm.github.io/docs/wasm-bindgen/introduction.html)
     - [wasm-pack docs](https://rustwasm.github.io/docs/wasm-pack/introduction.html)
     - [Rust wasm : How to access HTMLDocument from web-sys](https://stackoverflow.com/questions/61635487/rust-wasm-how-to-access-htmldocument-from-web-sys)
-  - CCS 方向
+  - CCS 
+    - 
+  - Electron
+    - [大型Electron应用本地数据库技术选型](https://www.cnblogs.com/liulun/p/13061672.html)
     - 

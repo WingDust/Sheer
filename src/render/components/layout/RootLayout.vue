@@ -10,9 +10,19 @@
   :key="i" 
   :data="line" v-for="(line,i) in viewline" 
   :position="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
-  /></div>
+  >
+    <template v-slot:in>
+        <singlevil 
+        :placeholder="line.filename.replace(/\.jpg/,'')"
+        :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
+        />
+    </template>
+  </singleblock >
+
+</div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
+    <cursor />
 </div>
 </div>
 </template>
@@ -33,17 +43,17 @@ import add from '../../Webassemly/wast/add.wasm'
 import {initwasm} from '../../node/utilFn'
 import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
+import cursor from "../vim/cursor.vue";
+import singlevil from "../vim/SinglEvil.vue";
 export default defineComponent({
-   async setup() {
-        onBeforeMount(()=>{
-        })
+  async setup() {
         onMounted(()=>{
             document.addEventListener("keyup",(e)=>{
                 if (e.isComposing){return}
                 if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
                 store.commit(MutationTypes.setViewStatus,undefined)
                 }
-                switch (e.code) { // @bug 行列数限制
+                switch (e.code) { // 行列数限制
                     case 'KeyH':{store.commit(MutationTypes.callVimStatus,'h'); break;}
                     case 'KeyJ':{store.commit(MutationTypes.callVimStatus,'j'); break;}
                     case 'KeyK':{store.commit(MutationTypes.callVimStatus,'k'); break;}
@@ -61,9 +71,11 @@ export default defineComponent({
         const viewline =computed(()=> store.state.View.viewline) 
         const view = computed(()=> store.state.View.sibebar)
         const vimcursor = computed(() => store.state.Vim.cursor.postion)
-
+        // let a 
+        // const loadwasm = async () =>{ a = await initwasm(add)} 
         const a = await initwasm(add)
 
+        // onBeforeMount(loadwasm)
         // 防抖
         function debounce(fn:Function,wait:number) {
             let timeoutID:any = null
@@ -103,7 +115,9 @@ export default defineComponent({
     },
     components:{
         'tagscontainer':TagsContainer,
-        'singleblock':SingleBlock
+        'singleblock':SingleBlock,
+        'cursor':cursor,
+        'singlevil':singlevil
     }
 })
 </script>
