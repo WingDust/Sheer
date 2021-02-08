@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-05 12:19:26
- * @LastEditTime: 2021-02-07 14:56:53
+ * @LastEditTime: 2021-02-08 11:26:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\container\Film\singleblock.vue
@@ -10,18 +10,14 @@
   <div class="inline-flex flex-col">
     <div :class="{'vim-cursor':position}">
     <img class="w-64 h-36"  
-    :src="`safe-file-protocol:://${data.dirname+'/'+data.filename}`" alt="">
+    :src="`safe-file-protocol:://${data.dirname+data.filename}`" alt="">
     </div>
     <slot name="in"></slot>
-    <!-- <singlevil 
-    :placeholder="data.filename.replace(/\.jpg/,'')"
-    /> -->
-    <!-- :ref="el =>{if (position) el.fcous}" -->
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent,PropType,toRefs,onUpdated } from "vue";
+import { defineComponent,PropType} from "vue";
 import { picture } from "../../../node/utilInterface";
 import singlevil from "../../vim/SinglEvil.vue";
 export default defineComponent({
@@ -39,11 +35,6 @@ export default defineComponent({
     },
     // inheritAttrs: false,
     setup(props){
-      onUpdated(()=>{
-        // console.log(el.value);
-      })
-      // console.log(props);
-      // const {datas} = toRefs(props)
       return {}
     },
 })

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-06 12:29:00
- * @LastEditTime: 2021-02-07 21:53:22
+ * @LastEditTime: 2021-02-08 11:32:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\vim\SingleVim.vue
@@ -23,13 +23,24 @@
   @keyup.ctrl.p="previous"
   @keyup.ctrl.n="next"
   @keyup.ctrl.w="killaword"
+  @keyup.ctrl.h="backspace"
+  @keyup.enter="enter"
    />
   <!-- :readonly="Rename ? '' : 'readonly'" //不能写空字符 -->
 
 </template>
 
 <script lang="ts">
-import { defineComponent,DirectiveBinding,watchEffect,ref,onUpdated, getCurrentInstance } from "vue";
+import { 
+  defineComponent,
+  DirectiveBinding,
+  watchEffect,
+  ref,
+  Ref,
+  onUpdated,
+  getCurrentInstance,
+} from "vue";
+import { MutationTypes } from "../../store/mutations";
 import { useStore } from "vuex";
 export default defineComponent({
   props:{
@@ -58,7 +69,7 @@ export default defineComponent({
   },
   setup(){
     let isRename=ref(false)
-    let input = ref(null) 
+    let input:Ref<HTMLInputElement|null> = ref(null) 
     const store = useStore();
     watchEffect(()=>{ isRename.value=store.state.Vim.movtion.Rename})
     onUpdated(()=>{
@@ -66,12 +77,14 @@ export default defineComponent({
     })
 
     function forward(){
-      // let selectionStart= input!.value!.selectionStart
-      // input.setSelectionRange(selectionStart-1,selectionStart-1)
-      // console.log(input);
-      // console.log('forward');
+      let selectionStart= input.value!.selectionStart
+      input.value!.setSelectionRange(selectionStart!+1,selectionStart!+1)
     }
     function backword(){
+      let selectionStart= input.value!.selectionStart
+      if ( selectionStart !=0) {
+        input.value!.setSelectionRange(selectionStart!-1,selectionStart!-1)
+      }
       console.log('backword');
     }
     function previous(){
@@ -84,10 +97,19 @@ export default defineComponent({
 
     }
     function undo(){
-
+      input.value!.value=''
     }
+    function enter(){
+      if (input.value!.value != '') {
+        store.commit(MutationTypes.adjustViewline,input.value!.value)
+      }
+      else{
+
+      }
+    }
+    const backspace = ()=>{}
     return {
-      isRename,input,forward,previous,next,backword,killaword,undo
+      isRename,input,forward,previous,next,backword,killaword,undo,enter,backspace 
     }
   }
 })

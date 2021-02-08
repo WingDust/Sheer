@@ -1,13 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-07 11:06:31
+ * @LastEditTime: 2021-02-08 11:29:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
 import { MutationTree } from 'vuex';
 import { State,ConfigYaml,picture } from "../node/utilInterface";
+import { renamefile} from "../node/utilFn"
+// import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释
 export const enum MutationTypes{
@@ -16,8 +18,9 @@ export const enum MutationTypes{
     setTrees="setTrees",
     setViewStatus="setViewStatus",
     setViewline ="setViewline",
-    setcheckline = "setcheckline ",
-    callVimStatus = "callVimStatus "
+    setcheckline = "setcheckline",
+    callVimStatus = "callVimStatus",
+    adjustViewline ="adjustViewline ",
 }
 
 type Mutation<S= State> = {
@@ -92,5 +95,11 @@ export const mutations:Mutation & MutationTree<State> = {
                 state.Vim.movtion.Rename=true
                 break;}
         }
+    },
+    [MutationTypes.adjustViewline](state:State,value:string){
+        let position = state.Vim.cursor.postion[0]*6+state.Vim.cursor.postion[1]
+        let p = state.View.viewline[position]
+        renamefile(p,p.dirname+value+'.jpg')
+        p.filename=value+'.jpg'
     }
 }

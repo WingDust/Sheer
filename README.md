@@ -104,6 +104,7 @@
   - [x] 数据获取响应成功
   - [x] 处理 js-yaml 函数返回值问题
   - [x] 将 File 的 FileTree 函数运行返回出 checkline 
+  - [ ] 将 add.wasm 做成一个 vuex 函数
   - [ ] 寄存器实现
   - [ ] 将 Prism Vue 组件分离出去
 
@@ -169,3 +170,4 @@
   - Electron
     - [大型Electron应用本地数据库技术选型](https://www.cnblogs.com/liulun/p/13061672.html)
     - [Electron中使用sql.js操作SQLite数据库](https://www.mdeditor.tw/pl/przn)
+    - [Electron-vue实现后台多进程](https://www.cnblogs.com/webbery/p/12751933.html)

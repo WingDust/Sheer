@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-05 16:40:11
+ * @LastEditTime: 2021-02-08 11:22:35
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -106,7 +106,7 @@ function picturepath(viewpaths:Array<checkline>):picture[]{
       let picutres:picture[] =files.map(file=> {
         let d:picture = Object.create(null)
         d.filename=file
-        d.dirname=p.dir
+        d.dirname=p.dir+'/'
         return d
       })
       picture = picture.concat(picutres.sort(File.compareFiles))
@@ -126,5 +126,13 @@ async function initwasm(init:any) {
   return add
 }
 
+const renamefile = (p:picture,val:string)=>{
+  try {
+    fs.rename(p.dirname+p.filename,p.dirname+val)
+  } catch (error) {
+    
+  }
+}
 
-export { readfilmPath, getPicture, valuenSure, picturepath,initwasm}
+
+export { readfilmPath, getPicture, valuenSure, picturepath,initwasm,renamefile }
