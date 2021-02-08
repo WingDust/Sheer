@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-06 12:29:00
- * @LastEditTime: 2021-02-08 11:32:11
+ * @LastEditTime: 2021-02-08 13:46:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\vim\SingleVim.vue
@@ -37,7 +37,6 @@ import {
   watchEffect,
   ref,
   Ref,
-  onUpdated,
   getCurrentInstance,
 } from "vue";
 import { MutationTypes } from "../../store/mutations";
@@ -72,17 +71,23 @@ export default defineComponent({
     let input:Ref<HTMLInputElement|null> = ref(null) 
     const store = useStore();
     watchEffect(()=>{ isRename.value=store.state.Vim.movtion.Rename})
-    onUpdated(()=>{
-      console.dir(input);
-    })
 
     function forward(){
       let selectionStart= input.value!.selectionStart
-      input.value!.setSelectionRange(selectionStart!+1,selectionStart!+1)
+      let selection = window.getSelection()
+      // console.log(selection);
+      let maxselection = input.value!.value.length-1
+      if (maxselection>selectionStart!+1) {
+        input.value!.setSelectionRange(maxselection,maxselection)
+      }
+      else{
+        input.value!.setSelectionRange(selectionStart!+1,selectionStart!+1)
+      }
     }
     function backword(){
       let selectionStart= input.value!.selectionStart
-      if ( selectionStart !=0) {
+      if (selectionStart! == 0) return
+      if (selectionStart! > 0) {
         input.value!.setSelectionRange(selectionStart!-1,selectionStart!-1)
       }
       console.log('backword');

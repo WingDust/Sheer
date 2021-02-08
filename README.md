@@ -171,3 +171,4 @@
     - [大型Electron应用本地数据库技术选型](https://www.cnblogs.com/liulun/p/13061672.html)
     - [Electron中使用sql.js操作SQLite数据库](https://www.mdeditor.tw/pl/przn)
     - [Electron-vue实现后台多进程](https://www.cnblogs.com/webbery/p/12751933.html)
+    - [electron发送windows消息](https://leehaoze.com/2020/07/02/electron%E5%8F%91%E9%80%81windows%E6%B6%88%E6%81%AF/)

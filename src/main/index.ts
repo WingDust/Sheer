@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2020-11-15 11:10:35
- * @LastEditors: your name
+ * @LastEditTime: 2021-02-08 15:40:59
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
  */
@@ -17,6 +17,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: join(__dirname, '../../.env') })
 
 let win: BrowserWindow | null = null
+let serverwin: BrowserWindow | null = null
 
 function createWin() {
   // 创建浏览器窗口
@@ -34,8 +35,6 @@ function createWin() {
       // allowRunningInsecureContent:true
       // experimentalFeatures:true
     }
-
-
   })
 
   const URL = is_dev
@@ -45,8 +44,27 @@ function createWin() {
   win.loadURL(URL)
   /** 默认打开 devtool */
   win.webContents.openDevTools()
-
 }
+
+const createServerProcess = () =>{
+  serverwin = new BrowserWindow({
+    show:true,
+    webPreferences: {
+      nodeIntegration: true,
+    }
+  })
+  serverwin.loadFile(is_dev ? 'safe-file-protocol:://'+'../src/render/server.html':'')
+  // 打包加载使用 loadFile
+}
+
+function sendWindowMessage(targetWindow:BrowserWindow, message:string, payload:any) {
+  if (typeof targetWindow === 'undefined') {
+    console.log('Target window does not exist')
+    return
+  }
+  targetWindow.webContents.send(message, payload)
+}
+
 app.on('ready',async ()=>{
   // [Electron doesn't allow windows with webSecurity: true to load files](https://stackoverflow.com/questions/61623156/electron-throws-not-allowed-to-load-local-resource-when-using-showopendialog/61623585#61623585)
   const protocalName = 'safe-file-protocol'
@@ -57,13 +75,21 @@ app.on('ready',async ()=>{
     } catch (error) {
       console.error(error);
     }
-
+  })
+  ipcMain.on('message-from-worker', (event, arg) => {
+    sendWindowMessage(win!, 'message-to-renderer', arg)
+  })
+  ipcMain.on('message-from-renderer', (event, arg) => {
+    sendWindowMessage(serverwin!, 'message-from-main', arg)
+  })
+  ipcMain.on('ready', (event, arg) => {
+    console.info('child process ready')
   })
 })
 
 // 
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
-app.whenReady().then(createWin)
+app.whenReady().then(createServerProcess).then(createWin)
 
 /**
  * 监听渲染进程发出的信号触发事件
