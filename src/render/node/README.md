@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-13 11:43:40
- * @LastEditTime: 2021-01-27 09:46:41
+ * @LastEditTime: 2021-02-09 17:52:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\README.md
@@ -9,7 +9,7 @@
 ## JavaScript 使用细节小结
   - `for in` 使用对象应为 Object
   - `for of` 使用对象应为 Array
-  - `Array.mpa()` 返回一个新数组
+  - `Array.map()` 返回一个新数组
   - `true` 与 `false` 可进行值计算
     - Rerference
       - [b.isDirectory() - a.isDirectory() 返回的是 true 和 false 可用来计算](https://segmentfault.com/q/1010000038460792/a-1020000038462319)

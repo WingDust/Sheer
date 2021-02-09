@@ -24,6 +24,9 @@
     - 解决方案：
       - 是只对它做应该有的排序工作
   - 在数据分流、错误分类上使用一个以某种规律组合成的字序，是能较低运行成本完成多种情况的处理，而当这个规律字序能在编写时以别另一名字使用时，而这一名字再以可读性高的字符组成表达，这样就能既保证了低运行成本，又达到很高的可读性。
+  - Cancel Infinite Recursive Read File and Dir with mount on Tree
+    - 在最开始的代码设计中，我对读取文件这个功能的设定是越强大越好，所以我将写了一个能无限递归读取文件树，并挂载到 Tree 类上。相反的是，我现在认为更优秀的使用规范比强大的工具健壮。
+    - be a better man , not be a better tool
 ## Subproject
   - Rust-Wasm
   - C/C++ - Emscripten

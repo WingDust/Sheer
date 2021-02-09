@@ -1,14 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-08 11:29:53
+ * @LastEditTime: 2021-02-09 20:39:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
 import { MutationTree } from 'vuex';
-import { State,ConfigYaml,picture } from "../node/utilInterface";
+import { State,ConfigYaml,picture,checkline } from "../node/utilInterface";
 import { renamefile} from "../node/utilFn"
+import { Tree } from '@/js/DataStructure/Tree';
 // import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释
@@ -35,7 +36,7 @@ export const mutations:Mutation & MutationTree<State> = {
     [MutationTypes.setConfigYamlStatus](state:State,value:number):void{
         state.ConfigYaml.status=value
     },
-    [MutationTypes.setTrees](state:State,value:any):void{
+    [MutationTypes.setTrees](state:State,value:Tree):void{
             state.FilmPath.Trees=value
     },
     // 在函数中设立两个默认参数，先判断要改变值的信号，只需每一次将值改变成不同上一次就行

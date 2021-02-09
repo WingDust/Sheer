@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-09 12:30:40
+ * @LastEditTime: 2021-02-09 16:30:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -28,3 +28,8 @@ ipcRenderer.on('message-to-renderer', (event, arg) => {
 })
 
 ipcRenderer.send('message-from-worker',"asdqqqq")
+
+
+
+
+

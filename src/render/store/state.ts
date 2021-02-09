@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-06 16:36:08
+ * @LastEditTime: 2021-02-09 21:24:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
@@ -78,7 +78,7 @@ export function runtime() {
       // 初始化文件树
       Trees =new Tree(Yaml!.film![0]);   // 2
       getPath(Yaml!.film![0],Trees).then((result)=>{
-         checkline =result // result 为空待核查 @bug
+         checkline =result // result 为空待核查 @warning
       }); // 3
       break;
     }
@@ -114,13 +114,14 @@ async function getPath(root:any,Tree:Tree,callback?:any){
     set:function(target,propKey,value,receiver){
       console.log(propKey);
       if (propKey === 'flag') {
+      // if (propKey === 'level') {
       // 当 flag 被设置时意味着文件树已经全部被读取完
         console.log('Tree is ready');
         // 改成依赖注入
         // 这个是初始化设置state 的设置
         // console.log(checkline);
-        state.ConfigYaml.Yaml=Yaml
-        state.FilmPath.Trees= Trees;
+        store.commit(MutationTypes.setConfigYaml,Yaml)
+        store.commit(MutationTypes.setTrees,Trees)
         store.commit(MutationTypes.setcheckline,checkline)
         Trees!.traverseBF(cut)
         let viewline = Viewcheckline(checkline,Trees!,Yaml!)
