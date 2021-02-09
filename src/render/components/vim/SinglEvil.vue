@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-06 12:29:00
- * @LastEditTime: 2021-02-08 13:46:19
+ * @LastEditTime: 2021-02-09 12:35:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\vim\SingleVim.vue
@@ -24,6 +24,7 @@
   @keyup.ctrl.n="next"
   @keyup.ctrl.w="killaword"
   @keyup.ctrl.h="backspace"
+  @keyup.ctrl.e="end"
   @keyup.enter="enter"
    />
   <!-- :readonly="Rename ? '' : 'readonly'" //不能写空字符 -->
@@ -113,8 +114,12 @@ export default defineComponent({
       }
     }
     const backspace = ()=>{}
+    const end = ()=>{
+      let maxselection = input.value!.value.length-1
+      input.value!.setSelectionRange(maxselection,maxselection)
+    }
     return {
-      isRename,input,forward,previous,next,backword,killaword,undo,enter,backspace 
+      isRename,input,forward,previous,next,backword,killaword,undo,enter,backspace,end
     }
   }
 })

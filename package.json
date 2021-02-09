@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm run dev:all",
-    "dev:all": "concurrently -n=vue,ele -c=green,blue \"npm run dev:vue\" \"npm run dev:ele\"",
-    "dev:devtools":"./node_modules/.bin/vue-devtools.cmd",
+    "dev:all": "concurrently -n=vue,ele -c=green,blue \"npm run dev:devtools\" \"npm run dev:vue\" \"npm run dev:ele\"",
+    "dev:devtools":"vue-devtools",
     "dev:vue": "vite",
     "dev:ele": "node script/build --env=development --watch",
     "build:vue": "vite build",

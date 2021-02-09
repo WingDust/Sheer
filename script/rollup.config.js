@@ -11,6 +11,13 @@ module.exports = (env = 'production') => {
       format: 'cjs',
       name: 'ElectronMainBundle',
       sourcemap: true,
+    }, // [如果要输出多个，可以是一个数组，如果是数组，Rollup 会把每一个数组元素当成一个配置输出结果](http://www.sosout.com/2018/08/04/rollup-tutorial.html)
+    input:path.join(__dirname, '../src/render/server/main.ts'),
+    output:{
+      file: path.join(__dirname, '../src/render/server/main.js'),
+      format: 'cjs',
+      name: 'ElectronMainBundle',
+      sourcemap: true,
     },
     plugins: [
       nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告

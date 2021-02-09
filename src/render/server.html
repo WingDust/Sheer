@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-08 15:22:37
- * @LastEditTime: 2021-02-08 15:42:01
+ * @LastEditTime: 2021-02-09 10:26:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server.html
@@ -16,15 +16,6 @@
     <title>Server</title>
 </head>
 <body>
-    
-    <script>
-        process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-        const { ipcRenderer } = require('electron')
-  
-        ipcRenderer.on('message-from-main', (event, arg) => {
-            console.info('arg', arg)
-        })
-
-    </script>
+    <script src="./server/main.js"></script>
 </body>
 </html>

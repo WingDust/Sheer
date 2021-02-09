@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-08 15:40:59
+ * @LastEditTime: 2021-02-09 11:42:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
@@ -13,6 +13,8 @@ import { join } from 'path'
 import { app, BrowserWindow,protocol,ipcMain } from 'electron'
 import is_dev from 'electron-is-dev'
 import dotenv from 'dotenv'
+
+console.log("Main 进程");
 
 dotenv.config({ path: join(__dirname, '../../.env') })
 
@@ -48,15 +50,24 @@ function createWin() {
 
 const createServerProcess = () =>{
   serverwin = new BrowserWindow({
-    show:true,
+    show:false,
     webPreferences: {
       nodeIntegration: true,
     }
   })
   serverwin.loadFile(is_dev ? 'safe-file-protocol:://'+'../src/render/server.html':'')
   // 打包加载使用 loadFile
+  serverwin.webContents.openDevTools()
+  sendWindowMessage(serverwin!, 'messagefrommain', "woooooooooh")
 }
 
+/**
+ *
+ * 从主进程向渲染进程发送消息
+ * @param {BrowserWindow} targetWindow
+ * @param {string} message
+ * @param {*} payload
+ */
 function sendWindowMessage(targetWindow:BrowserWindow, message:string, payload:any) {
   if (typeof targetWindow === 'undefined') {
     console.log('Target window does not exist')
@@ -76,20 +87,11 @@ app.on('ready',async ()=>{
       console.error(error);
     }
   })
-  ipcMain.on('message-from-worker', (event, arg) => {
-    sendWindowMessage(win!, 'message-to-renderer', arg)
-  })
-  ipcMain.on('message-from-renderer', (event, arg) => {
-    sendWindowMessage(serverwin!, 'message-from-main', arg)
-  })
-  ipcMain.on('ready', (event, arg) => {
-    console.info('child process ready')
-  })
 })
 
 // 
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
-app.whenReady().then(createServerProcess).then(createWin)
+app.whenReady().then(createWin).then(createServerProcess)
 
 /**
  * 监听渲染进程发出的信号触发事件
@@ -103,4 +105,13 @@ ipcMain.on('max',e=>{
   }
 });
 ipcMain.on('close',e=>win!.close())
-
+  ipcMain.on('message-from-worker', (event, arg) => {
+    console.log("109l "+arg);
+    sendWindowMessage(serverwin!, 'message-to-renderer', arg)
+  })
+  ipcMain.on('message-from-renderer', (event, arg) => {
+    // sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")
+  })
+  ipcMain.on('ready', (event, arg) => {
+    console.info('child process ready')
+  })
