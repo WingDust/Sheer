@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-02-09 22:03:29
+ * @LastEditTime: 2021-02-10 21:50:06
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -101,18 +101,22 @@ export class File {
     let paths: Dirent[] = await this.fsReadDir(dirPath);
 
     paths.sort(File.compareFiles);
-    // 缓存它的绝对路径
-
-    this.checkFile(paths, Tree, dirPath);
 
     let len:number = paths.length
     while (len--){
       const abspath = path.join(dirPath,paths[len].name);
-      if (paths[len].isDirectory()&&this.level<3){
+      if(paths[len].isFile()&&this.getFileType(paths[len].name)){
+        Tree.add(abspath, dirPath, Tree.traverseBF);
+        this.addTimes++;
+      }
+      else if (this.level<3&&paths[len].isDirectory()){
         this.FileTree2(abspath, Tree, callback);
       }
+      else if(this.level<2){
+        paths.splice(len,1)
+      }
     }
-    this.level++
+    if(this.level<2) this.level++
   }
 
   /**

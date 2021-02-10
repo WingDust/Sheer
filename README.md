@@ -67,8 +67,6 @@
 
 
 ## Rust
-  - 对于 Rust-wasm 使用在哪里的问题
-    > 暂时尝试替换hotkey包
 
 ## Tool
   - rollup
@@ -88,11 +86,14 @@
     - [数据可视化（三）基于 Graphviz 实现程序化绘图 (应读)](https://riboseyim.github.io/2017/09/15/Visualization-Graphviz/#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96)
     - [使用python库--Graphviz为论文画出漂亮的示意图 (应看)](https://www.cnblogs.com/marsggbo/p/10327618.html)
 
+## Latex & TikZ & PGF
+  - 
 ## Git
   - [如何规范你的Git commit？](https://zhuanlan.zhihu.com/p/182553920)
 ## DataStructure
   - [x] Tree.js 的功能增强
   - [ ] libary.ts 中 File 类的查询函数添加函数节流，次数记录，查询限额
+    - 改写成 Generator 函数 来控制运行次数 
 
 ## Try
   - AssemblyScript 的试验
