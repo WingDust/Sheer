@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-10 22:25:28
+ * @LastEditTime: 2021-02-11 18:50:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -42,24 +42,11 @@ interface data {
  class Files {
 
   /**
-   * 缓存这一层中待被检查的路径数组
-   * @type {data[]}
-   * @memberof File
-   */
-  cacheline: data[];
-  /**
    * 监测 Tree 是否添加完成
    * @type {boolean}
    * @memberof File
    */
   flag: boolean;
-  checkline: any[];
-  /**
-   * 缓存着下一层的文件夹，它会一小个的组合成一个大数组
-   * @type {data[][]}
-   * @memberof File
-   */
-  nextline: data[][];
   /**
    * 记录添加到 Tree 上的次数以做throttle
    * @type {number}
@@ -72,11 +59,7 @@ interface data {
    * @return {[File]} [description]
    */
   constructor() {
-    this.cacheline = [];
     this.flag = false;
-    //缓存根路径下每一层的文件夹，为一个数组嵌套
-    this.checkline = [];
-    this.nextline = [];
     this.addTimes = 0;
     this.level = 1;
   }
@@ -88,18 +71,16 @@ interface data {
   fsReadDir(dir: string): Promise<Dirent[]> {
     return new Promise((resolve, reject) => {
       fs.readdir(dir, { withFileTypes: true }, (err: any, files: Dirent[]) => {
-        //异步 {withFileTypes:true}为 true 则为 Dirent[]
         if (err) {
           reject(err);
         }
-        // console.log(files);
         resolve(files);
       });
     });
   }
 
-  async FileTree2(dirPath: string, Tree: Tree, callback?: any) {
-    let paths: Dirent[] = await this.fsReadDir(dirPath);
+  * FileTree2(dirPath: string, Tree: Tree, callback?: any) {
+    let paths: Dirent[] =  fs.readdirSync(dirPath);
     paths.sort(File.compareFiles);
     let len:number = paths.length
     while (len--){
@@ -109,7 +90,7 @@ interface data {
         this.addTimes++;
       }
       else if (paths[len].isDirectory()){
-        let path2s: Dirent[] = await this.fsReadDir(paths[len].name);
+        let path2s: Dirent[] =  fs.readdirSync(paths[len].name);
         path2s.sort(File.compareFiles)
         let len2:number = path2s.length
         while (len2--) {
