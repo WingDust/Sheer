@@ -77,6 +77,9 @@
   - npm
     -[npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
 
+## Electron
+  - 打印当前 Electron 所使用 Node 的 Version 
+    - 在 Devtools 中 写 process
 
 
 ## GraphViz
@@ -133,6 +136,7 @@
 ## Reference
   - VSCode 
     - 搜索关键词：Monaco源码分析
+    - [vscode源码分析【一】从源码运行vscode](https://codeteenager.github.io/vscode-analysis/learn/)
     - [VSCode技术揭秘（一）](https://segmentfault.com/a/1190000020833042?utm_source=tag-newest)
     - [monaco-editor实现全局内容和文件搜索](https://blog.csdn.net/weixin_42084197/article/details/90486243)
     - [VsCode源码分析之布局](https://www.cnblogs.com/youcong/p/10295335.html)

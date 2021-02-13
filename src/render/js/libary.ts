@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-02-10 21:50:06
+ * @LastEditTime: 2021-02-12 17:20:55
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -332,7 +332,7 @@ export class File {
     ];
     //let imagesuffix = ["gif", "jpeg", "jpg", "bmp", "webp", "png"]
 
-    RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false
+   return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false
   }
 
   static compareFiles(a: picture, b: picture): number;

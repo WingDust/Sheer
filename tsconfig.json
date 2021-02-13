@@ -4,6 +4,7 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "lib": ["es2015","es2019"],                             /* Specify library files to be included in the compilation. */
     "importHelpers": true,
     "jsx": "react",
     "esModuleInterop": true,

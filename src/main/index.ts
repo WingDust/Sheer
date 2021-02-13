@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-09 11:42:07
+ * @LastEditTime: 2021-02-13 14:45:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
@@ -14,7 +14,7 @@ import { app, BrowserWindow,protocol,ipcMain } from 'electron'
 import is_dev from 'electron-is-dev'
 import dotenv from 'dotenv'
 
-console.log("Main 进程");
+console.log("Main 进程 运行时修改会自动重新编译");
 
 dotenv.config({ path: join(__dirname, '../../.env') })
 
@@ -55,7 +55,7 @@ const createServerProcess = () =>{
       nodeIntegration: true,
     }
   })
-  serverwin.loadFile(is_dev ? 'safe-file-protocol:://'+'../src/render/server.html':'')
+  serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested/index.html` :'file://'+'../src/render/nested/index.html')
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
   sendWindowMessage(serverwin!, 'messagefrommain', "woooooooooh")
