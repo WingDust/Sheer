@@ -225,7 +225,7 @@ class Tree {
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-13 14:53:25
+ * @LastEditTime: 2021-02-13 20:42:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -252,6 +252,7 @@ class Files {
         this.flag = false;
         this.addTimes = 0;
         this.level = 1;
+        this.handlesecondpath = this.handlesecondpath.bind(this);
     }
     /**
      * [fsReadDir description]
@@ -268,15 +269,15 @@ class Files {
             });
         });
     }
-    *handlesecondpath(path2s, Tree) {
+    *handlesecondpath(dirPath, path2s, Tree) {
         let len2 = path2s.length;
         while (len2--) {
             const abspath = path.join(path2s[len2].name, path2s[len2].name);
-            if (path2s[len2].isDirectory() || path2s[len2].isFile() && this.getFileType(path2s[len2].name)) {
-                Tree.add(abspath, path2s[len2].name, Tree.traverseBF);
+            if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) {
+                Tree.add(abspath, dirPath, Tree.traverseBF);
                 if (this.addTimes > 4) {
                     this.addTimes = 0;
-                    yield;
+                    // yield
                 }
                 this.addTimes++;
             }
@@ -288,14 +289,15 @@ class Files {
         let len = paths.length;
         while (len--) {
             const abspath = path.join(dirPath, paths[len].name);
-            if (paths[len].isFile() && this.getFileType(paths[len].name)) {
+            if (paths[len].isFile() && Files.getFileType(paths[len].name)) {
                 Tree.add(abspath, dirPath, Tree.traverseBF);
             }
             else if (paths[len].isDirectory()) {
                 Tree.add(paths[len].name, dirPath, Tree.traverseBF);
                 let path2s = await this.fsReadDir(abspath);
                 path2s.sort(Files.compareFiles);
-                handle2(path2s, Tree);
+                let handle = handle2(paths[len].name, path2s, Tree);
+                handle.next();
             }
             else {
                 paths.splice(len, 1);
@@ -316,7 +318,7 @@ class Files {
         //     let len2:number = path2s.length
         //     while (len2--) {
         //       const abspath = path.join(paths[len].name,path2s[len].name);
-        //       if(paths[len].isDirectory()||paths[len].isFile()&&this.getFileType(paths[len].name)){
+        //       if(paths[len].isFile()&&this.getFileType(paths[len].name)){
         //     // Tree.add(abspath, dirPath, Tree.traverseBF);
         //         this.addTimes++;
         //       }
@@ -338,19 +340,19 @@ class Files {
      * @param  {[type]} name [description]
      * @return {[BOOL]}      [description]
      */
-    getFileType(name) {
+    static getFileType(name) {
         let videosuffix = [
+            "3gp",
             "avi",
-            "wmv",
+            "flv",
+            "rm",
+            "rmvb",
+            "mov",
             "mkv",
             "mp4",
-            "mov",
-            "rm",
-            "3gp",
-            "flv",
-            "mpg",
-            "rmvb",
             "mpeg",
+            "mpg",
+            "wmv",
             "ts",
         ];
         //let imagesuffix = ["gif", "jpeg", "jpg", "bmp", "webp", "png"]

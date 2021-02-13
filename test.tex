@@ -1,8 +1,7 @@
-%\documentclass{article}
-% 这里是导言区
-%Hello, world!
 
-\documentclass{article}
+\documentclass[UTF8]{ctexart}
+%\documentclass[UTF8]{article}
+
 \title{Sheer}
 \author{WingDust}
 
@@ -12,12 +11,13 @@
 
 \begin{document} 
 \maketitle
-Sheer
 \section{Sheer}
 %
 \begin{tikzpicture}
-  \node[draw,rounded corners] (start) {Renderer};
-  \node[draw,below=of start] (step 1) {Main};
+  \node[draw,rounded corners] (start) {服务进程};
+  \node[draw,below=of start] (step 1) {主进程};
+  \node[black](init){aaa};
+
 
   
 %  \draw[->] (0,0)--(7,0);

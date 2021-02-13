@@ -146,6 +146,7 @@
     - [从 VSCode 看大型 IDE 技术架构](https://zhuanlan.zhihu.com/p/96041706)
     - [如何用最简单的方式解释依赖注入？依赖注入是如何实现解耦的](https://www.zhihu.com/question/32108444/answer/309208647)
     - [文本缓冲区重新实现](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
+    - [vscode源码剖析](https://ashan.org/archives/959)
   - Vue
     - [Vue中文件社区](https://www.vue-js.com/)
     - [从Vue3源码中再谈nextTick](https://blog.csdn.net/weixin_44475093/article/details/110003633)
@@ -168,6 +169,7 @@
     - [how to use calc() in tailwind CSS?](https://stackoverflow.com/questions/65976223/how-to-use-calc-in-tailwind-css)
   - JavaScript
     - [ECMAScript 6之数值的扩展](https://blog.csdn.net/qq_41863849/article/details/104498544)
+    - [this](https://tsejx.github.io/javascript-guidebook/core-modules/executable-code-and-execution-contexts/execution/this)
   - TypeScript
     - [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
   - Electron

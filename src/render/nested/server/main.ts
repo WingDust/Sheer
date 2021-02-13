@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-13 14:53:25
+ * @LastEditTime: 2021-02-13 20:42:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -41,7 +41,6 @@ ipcRenderer.send('message-from-worker',"asdqqqq")
 
 
 /*\
-|*| tsc --target es2017 src\render\server\main.ts
 |*|
 |*|
 |*|
@@ -72,10 +71,11 @@ interface data {
    * [constructor description]
    * @return {[File]} [description]
    */
-  constructor() {
+  constructor(){
     this.flag = false;
     this.addTimes = 0;
     this.level = 1;
+    this.handlesecondpath=this.handlesecondpath.bind(this)
   }
   /**
    * [fsReadDir description]
@@ -93,35 +93,36 @@ interface data {
     });
   }
 
-  * handlesecondpath(path2s:Dirent[],Tree:Tree){
+  * handlesecondpath(dirPath:string,path2s:Dirent[],Tree:Tree){
     let len2:number = path2s.length
     while (len2--) {
       const abspath = path.join(path2s[len2].name,path2s[len2].name);
-      if(path2s[len2].isDirectory()||path2s[len2].isFile()&&this.getFileType(path2s[len2].name)){
-      Tree.add(abspath, path2s[len2].name, Tree.traverseBF);
-      if (this.addTimes>4) {
-        this.addTimes=0
-        yield
-      }
+      if(path2s[len2].isFile()&&Files.getFileType(path2s[len2].name)){
+      Tree.add(abspath, dirPath, Tree.traverseBF);
+        if (this.addTimes>4) {
+          this.addTimes=0
+          // yield
+        }
         this.addTimes++;
       }
     }
   }
 
- async FileTree(dirPath: string, Tree: Tree,handle2:(path2s: Dirent[], Tree: Tree) => Generator<undefined, void, unknown> ) {
+ async FileTree(dirPath: string, Tree: Tree,handle2:(dirPath:string,path2s: Dirent[], Tree: Tree) => Generator<undefined, void, unknown> ) {
     let paths: Dirent[] = await this.fsReadDir(dirPath);
     paths.sort(Files.compareFiles)
     let len:number = paths.length
     while (len--){
       const abspath = path.join(dirPath,paths[len].name);
-      if(paths[len].isFile()&&this.getFileType(paths[len].name)){
+      if(paths[len].isFile()&&Files.getFileType(paths[len].name)){
         Tree.add(abspath, dirPath, Tree.traverseBF);
       }
       else if (paths[len].isDirectory()) {
         Tree.add(paths[len].name,dirPath , Tree.traverseBF);
         let path2s: Dirent[] = await  this.fsReadDir(abspath);
         path2s.sort(Files.compareFiles)
-        handle2(path2s,Tree)
+        let handle = handle2(paths[len].name,path2s,Tree)
+        handle.next()
       }
       else {
         paths.splice(len,1)
@@ -142,7 +143,7 @@ interface data {
     //     let len2:number = path2s.length
     //     while (len2--) {
     //       const abspath = path.join(paths[len].name,path2s[len].name);
-    //       if(paths[len].isDirectory()||paths[len].isFile()&&this.getFileType(paths[len].name)){
+    //       if(paths[len].isFile()&&this.getFileType(paths[len].name)){
     //     // Tree.add(abspath, dirPath, Tree.traverseBF);
     //         this.addTimes++;
     //       }
@@ -165,19 +166,19 @@ interface data {
    * @param  {[type]} name [description]
    * @return {[BOOL]}      [description]
    */
-  getFileType(name: string) {
+  static getFileType(name: string) {
     let videosuffix = [
+      "3gp",
       "avi",
-      "wmv",
+      "flv",
+      "rm",
+      "rmvb",
+      "mov",
       "mkv",
       "mp4",
-      "mov",
-      "rm",
-      "3gp",
-      "flv",
-      "mpg",
-      "rmvb",
       "mpeg",
+      "mpg",
+      "wmv",
       "ts",
     ];
     //let imagesuffix = ["gif", "jpeg", "jpg", "bmp", "webp", "png"]
