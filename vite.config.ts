@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-13 14:31:45
+ * @LastEditTime: 2021-02-14 21:27:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\vite.config.ts
@@ -50,6 +50,7 @@ export default defineConfig({
   root: join(__dirname, 'src/render'),
   server:{
     port: +process.env.PORT,
+    hmr: { overlay: false },
   },
   build: {
     assetsDir: ".",

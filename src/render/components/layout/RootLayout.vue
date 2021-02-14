@@ -18,7 +18,13 @@
         />
     </template>
   </singleblock >
+  <loading 
+  :color="'#3399FF'"
+  :disable="true"
+  :class="'w-20'"
+  >
 
+  </loading>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
@@ -45,6 +51,7 @@ import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
 import cursor from "../vim/cursor.vue";
 import singlevil from "../vim/SinglEvil.vue";
+import loading from "../animation/Loading.vue";
 export default defineComponent({
   async setup() {
         onMounted(()=>{
@@ -64,7 +71,13 @@ export default defineComponent({
             console.log(`RootLayout`);
         })
 
-        const ins = new IntersectionObserver(()=>{})
+        let options:IntersectionObserverInit = {
+            root:null,
+            rootMargin:'0px',
+            threshold:1.0
+        }
+        let callback = () =>{}
+        const ins = new IntersectionObserver(callback,options)
         const store = useStore()
         console.log(store.state);
         // console.log(toRaw(store.state));
@@ -118,7 +131,8 @@ export default defineComponent({
         'tagscontainer':TagsContainer,
         'singleblock':SingleBlock,
         'cursor':cursor,
-        'singlevil':singlevil
+        'singlevil':singlevil,
+        'loading':loading
     }
 })
 </script>

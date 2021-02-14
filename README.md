@@ -181,6 +181,7 @@
     - [循环删除数组元素的几种姿势](https://www.jianshu.com/p/951036a5e8db)
   - TypeScript
     - [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
+    - [TypeScript 进阶](https://itdashu.com/docs/typescriptlesson/e6771/bigint.html)
   - Electron
     - [大型Electron应用本地数据库技术选型](https://www.cnblogs.com/liulun/p/13061672.html)
     - [Electron中使用sql.js操作SQLite数据库](https://www.mdeditor.tw/pl/przn)
