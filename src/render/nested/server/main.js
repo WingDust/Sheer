@@ -225,22 +225,21 @@ class Tree {
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-13 20:42:36
+ * @LastEditTime: 2021-02-14 10:58:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
  */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-console.log("asd");
 electron.ipcRenderer.on('messagefrommain', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg);
-    console.log(arg);
+    // console.log(arg);
 });
 electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg);
-    console.log(arg);
+    // console.log(arg);
 });
 electron.ipcRenderer.send('message-from-worker', "asdqqqq");
 class Files {
@@ -269,6 +268,8 @@ class Files {
             });
         });
     }
+    // * handlesecondpath(){
+    //#region 
     *handlesecondpath(dirPath, path2s, Tree) {
         let len2 = path2s.length;
         while (len2--) {
@@ -277,17 +278,20 @@ class Files {
                 Tree.add(abspath, dirPath, Tree.traverseBF);
                 if (this.addTimes > 4) {
                     this.addTimes = 0;
-                    // yield
+                    yield;
                 }
                 this.addTimes++;
             }
         }
     }
-    async FileTree(dirPath, Tree, handle2) {
+    //#endregion
+    // }
+    async *FileTree(dirPath, Tree) {
         let paths = await this.fsReadDir(dirPath);
         paths.sort(Files.compareFiles);
+        paths.reverse();
         let len = paths.length;
-        while (len--) {
+        while (len--) { // 倒序
             const abspath = path.join(dirPath, paths[len].name);
             if (paths[len].isFile() && Files.getFileType(paths[len].name)) {
                 Tree.add(abspath, dirPath, Tree.traverseBF);
@@ -296,8 +300,20 @@ class Files {
                 Tree.add(paths[len].name, dirPath, Tree.traverseBF);
                 let path2s = await this.fsReadDir(abspath);
                 path2s.sort(Files.compareFiles);
-                let handle = handle2(paths[len].name, path2s, Tree);
-                handle.next();
+                let len2 = path2s.length;
+                while (len2--) {
+                    const abspath = path.join(path2s[len2].name, path2s[len2].name);
+                    if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) {
+                        Tree.add(abspath, paths[len].name, Tree.traverseBF);
+                        if (this.addTimes > 2) {
+                            this.addTimes = 0;
+                            yield;
+                        }
+                        this.addTimes++;
+                    }
+                }
+                // let handle = handle2(paths[len].name,path2s,Tree)
+                // handle.next()
             }
             else {
                 paths.splice(len, 1);
@@ -401,6 +417,20 @@ class Files {
     }
 }
 let f = new Files();
-let t = new Tree("G:\\Feature film/");
-f.FileTree('G:\\Feature film/', t, f.handlesecondpath);
+let t = new Tree("G:\\Feature film\\");
+let gen = f.FileTree('G:\\Feature film\\', t);
+console.log(gen.next());
+console.log(gen.next());
+function getdata() {
+    return Promise.resolve(['aaa', 'bbb', 'ccc']);
+}
+async function* FileTree() {
+    let data = await getdata();
+    yield;
+    console.log(data);
+}
+let c = FileTree();
+console.log(c);
+console.log(c.next());
+// console.log(c.next());
 //# sourceMappingURL=main.js.map

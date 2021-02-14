@@ -75,7 +75,7 @@
     - `"dev:ele": "node script/build --env=development --watch",`
     - `"dev:ele": "electron src/main/_.js"`
   - npm
-    -[npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
+    - [npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
 
 ## Electron
   - 打印当前 Electron 所使用 Node 的 Version 
@@ -147,6 +147,14 @@
     - [如何用最简单的方式解释依赖注入？依赖注入是如何实现解耦的](https://www.zhihu.com/question/32108444/answer/309208647)
     - [文本缓冲区重新实现](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
     - [vscode源码剖析](https://ashan.org/archives/959)
+    - [VSCode技术揭秘（一）](https://segmentfault.com/a/1190000020833042)
+    - [vscode源码分析【二】程序的启动逻辑，第一个窗口是如何创建的](https://cloud.tencent.com/developer/article/1454979)
+    - [vscode 定制开发 —— Workbench 源码解读及实战](https://zhaomenghuan.js.org/blog/vscode-workbench-source-code-interpretation.html)
+    - [VSCode 源码解读 - NLS(多语言) 的实现](https://zhuanlan.zhihu.com/p/107779792)
+    - [VSCode 源码解读：事件系统设计](https://godbasin.github.io/2020/07/05/vscode-event/)
+    - [VSCode 多进程架构](https://godbasin.github.io/front-end-playground/front-end-basic/deep-learning/vscode-ipc.html#vscode-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84)
+    - [Visual Studio Code 是如何办到高效处理大文件的](https://www.zhihu.com/question/30011019)
+    - [vscode编辑器打开大项目能够快速预览，这是如何做到的？软件算法比atom做的好?](https://www.zhihu.com/question/52470898)
   - Vue
     - [Vue中文件社区](https://www.vue-js.com/)
     - [从Vue3源码中再谈nextTick](https://blog.csdn.net/weixin_44475093/article/details/110003633)
@@ -170,6 +178,7 @@
   - JavaScript
     - [ECMAScript 6之数值的扩展](https://blog.csdn.net/qq_41863849/article/details/104498544)
     - [this](https://tsejx.github.io/javascript-guidebook/core-modules/executable-code-and-execution-contexts/execution/this)
+    - [循环删除数组元素的几种姿势](https://www.jianshu.com/p/951036a5e8db)
   - TypeScript
     - [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
   - Electron

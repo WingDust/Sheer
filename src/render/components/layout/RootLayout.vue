@@ -64,6 +64,7 @@ export default defineComponent({
             console.log(`RootLayout`);
         })
 
+        const ins = new IntersectionObserver(()=>{})
         const store = useStore()
         console.log(store.state);
         // console.log(toRaw(store.state));
