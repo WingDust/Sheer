@@ -34,7 +34,9 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
+import { webContents } from "electron";
+// import * as electron from "electron";
+// const {webContents} = require("electron") ;
 import {
     defineComponent,
     ref,
@@ -81,6 +83,8 @@ export default defineComponent({
         const ins = new IntersectionObserver(callback,options)
         const store = useStore()
         console.log(store.state);
+        console.log(webContents);
+        
         // console.log(toRaw(store.state));
         
         const viewline =computed(()=> store.state.View.viewline) 

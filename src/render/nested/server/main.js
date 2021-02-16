@@ -225,23 +225,12 @@ class Tree {
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-14 10:58:07
+ * @LastEditTime: 2021-02-16 20:44:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
  */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-electron.ipcRenderer.on('messagefrommain', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg);
-    // console.log(arg);
-});
-electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg);
-    // console.log(arg);
-});
-electron.ipcRenderer.send('message-from-worker', "asdqqqq");
 class Files {
     /**
      * [constructor description]
@@ -250,8 +239,9 @@ class Files {
     constructor() {
         this.flag = false;
         this.addTimes = 0;
+        this.times = 0;
         this.level = 1;
-        this.handlesecondpath = this.handlesecondpath.bind(this);
+        // this.handlesecondpath=this.handlesecondpath.bind(this)
     }
     /**
      * [fsReadDir description]
@@ -268,24 +258,6 @@ class Files {
             });
         });
     }
-    // * handlesecondpath(){
-    //#region 
-    *handlesecondpath(dirPath, path2s, Tree) {
-        let len2 = path2s.length;
-        while (len2--) {
-            const abspath = path.join(path2s[len2].name, path2s[len2].name);
-            if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) {
-                Tree.add(abspath, dirPath, Tree.traverseBF);
-                if (this.addTimes > 4) {
-                    this.addTimes = 0;
-                    yield;
-                }
-                this.addTimes++;
-            }
-        }
-    }
-    //#endregion
-    // }
     async *FileTree(dirPath, Tree) {
         let paths = await this.fsReadDir(dirPath);
         paths.sort(Files.compareFiles);
@@ -305,15 +277,13 @@ class Files {
                     const abspath = path.join(path2s[len2].name, path2s[len2].name);
                     if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) {
                         Tree.add(abspath, paths[len].name, Tree.traverseBF);
-                        if (this.addTimes > 2) {
+                        if (this.addTimes > 30) {
                             this.addTimes = 0;
                             yield;
                         }
                         this.addTimes++;
                     }
                 }
-                // let handle = handle2(paths[len].name,path2s,Tree)
-                // handle.next()
             }
             else {
                 paths.splice(len, 1);
@@ -419,18 +389,26 @@ class Files {
 let f = new Files();
 let t = new Tree("G:\\Feature film\\");
 let gen = f.FileTree('G:\\Feature film\\', t);
-console.log(gen.next());
-console.log(gen.next());
-function getdata() {
-    return Promise.resolve(['aaa', 'bbb', 'ccc']);
-}
-async function* FileTree() {
-    let data = await getdata();
-    yield;
-    console.log(data);
-}
-let c = FileTree();
-console.log(c);
-console.log(c.next());
-// console.log(c.next());
+new Proxy(f, {
+    set: function (target, propKey, value, receiver) {
+        console.log(propKey);
+        if (propKey === 'times') {
+            // 当 times 被设置时意味着文件树已经全部被读取完
+            console.log('Tree 加载了30次');
+            electron.ipcRenderer.send('message-from-server', t);
+            // 这个是初始化设置state 的设置
+        }
+        return Reflect.set(target, propKey, value, receiver);
+    }
+});
+electron.ipcRenderer.on('message-from-main', (event, ...arg) => {
+    console.log(event);
+    console.info('arg', arg);
+    gen.next();
+});
+electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
+    console.log(event);
+    console.info('arg', arg);
+    // console.log(arg);
+});
 //# sourceMappingURL=main.js.map

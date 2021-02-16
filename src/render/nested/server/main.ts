@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-15 15:17:09
+ * @LastEditTime: 2021-02-16 20:44:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -23,13 +23,7 @@ import * as path from "path";
 import {  Dirent } from "fs";
 
 
-ipcRenderer.on('message-to-renderer', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg)
-    // console.log(arg);
-})
 
-ipcRenderer.send('message-from-worker',"asdqqqq")
 
 
 /*\
@@ -229,7 +223,7 @@ let proxy_Files = new Proxy(f,{
       if (propKey === 'times') {
       // 当 times 被设置时意味着文件树已经全部被读取完
         console.log('Tree 加载了30次');
-        ipcRenderer.send('message-from-worker',t)
+        ipcRenderer.send('message-from-server',t)
         // 这个是初始化设置state 的设置
       }
     return Reflect.set(target,propKey,value,receiver);
@@ -242,4 +236,9 @@ ipcRenderer.on('message-from-main', (event, ...arg) => {
     gen.next()
 })
 
+ipcRenderer.on('message-to-renderer', (event, ...arg) => {
+    console.log(event);
+    console.info('arg', arg)
+    // console.log(arg);
+})
 

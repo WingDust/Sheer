@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-16 20:33:16
+ * @LastEditTime: 2021-02-16 21:58:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
@@ -58,7 +58,7 @@ const createServerProcess = () =>{
   serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested/index.html` :'file://'+'../src/render/nested/index.html')
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
-  sendWindowMessage(serverwin!, 'messagefrommain', "woooooooooh")
+  // sendWindowMessage(serverwin!, 'messagefrommain', "woooooooooh")
 }
 
 /**
@@ -93,9 +93,6 @@ app.on('ready',async ()=>{
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 app.whenReady()
 .then(createWin)
-.then(()=>{
-  sendWindowMessage(win!, 'message-to-renderer', 're')
-})
 .then(createServerProcess)
 
 /**
@@ -110,13 +107,13 @@ ipcMain.on('max',e=>{
   }
 });
 ipcMain.on('close',e=>win!.close())
-  ipcMain.on('message-from-worker', (event, arg) => {
-    console.log("109l "+arg);
-    sendWindowMessage(serverwin!, 'message-to-renderer', arg)
-  })
-  ipcMain.on('message-from-renderer', (event, arg) => {
-    sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")
-  })
-  ipcMain.on('ready', (event, arg) => {
-    console.info('child process ready')
-  })
+ipcMain.on('message-from-server', (event, arg) => {
+  console.log("109l "+arg);
+  sendWindowMessage(serverwin!, 'message-to-renderer', arg)
+})
+ipcMain.on('message-from-renderer', (event, arg) => {
+  sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")
+})
+ipcMain.on('ready', (event, arg) => {
+  console.info('child process ready')
+})

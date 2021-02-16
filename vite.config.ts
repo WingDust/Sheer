@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-14 21:27:14
+ * @LastEditTime: 2021-02-16 22:48:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\vite.config.ts
@@ -27,18 +27,22 @@ dotenv.config({ path: join(__dirname, '.env') })
                 return `const fs = require("fs")`
             }
         },
-        transform(raw,id){// id 为 文件名 raw 为文件内容
+        transform(source,id){// id 为 文件名 raw 为文件内容
           if (ext.test(id)) {
             return {
-              code:raw.replace(/import \{ [a-zA-Z,]+ \} from "fs"/, replacer),
-              map:null
-            } 
+              code:source.replace(/import \{ [a-zA-Z,]+ \} from "electron"/,'import * as electron from "electron";')
+            }
+            // return {
+            //   code:raw.replace(/import \{ [a-zA-Z,]+ \} from "electron"/, replacer),
+            //   map:null
+            // } 
           }
         }
     }
 }
-function replacer(match:string,p1:any,p2:any,offset:any,string:any){
-  match = match.replace(/f.+$/," = require(\"fs\")")
+///@fs/ElectronProject/Electron_Vue/electron-vue-vite/node_modules/electron/index.js?
+function replacer(match:string){
+  match = match.replace(/f.+$/," = require(\"electron\")")
   match = match.replace(/.+t/,"const ")
   return match
 }
@@ -57,9 +61,9 @@ export default defineConfig({
     outDir: "dist",
   },
   optimizeDeps:{
-    exclude:['keyevent',"Stats","Dirent","fs",'path','electron-window-state']
+    exclude:['keyevent',"Stats","Dirent","fs",'path','electron-window-state','electron']
   },
-  plugins: [vue()]
+  plugins: [vue(),electron_commonjs()]
 })
 // const config: UserConfig = {
 //   root: join(__dirname, 'src/render'),
