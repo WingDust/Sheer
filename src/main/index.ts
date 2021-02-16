@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-13 14:45:53
+ * @LastEditTime: 2021-02-16 20:33:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
@@ -91,7 +91,12 @@ app.on('ready',async ()=>{
 
 // 
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
-app.whenReady().then(createWin).then(createServerProcess)
+app.whenReady()
+.then(createWin)
+.then(()=>{
+  sendWindowMessage(win!, 'message-to-renderer', 're')
+})
+.then(createServerProcess)
 
 /**
  * 监听渲染进程发出的信号触发事件
@@ -110,7 +115,7 @@ ipcMain.on('close',e=>win!.close())
     sendWindowMessage(serverwin!, 'message-to-renderer', arg)
   })
   ipcMain.on('message-from-renderer', (event, arg) => {
-    // sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")
+    sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")
   })
   ipcMain.on('ready', (event, arg) => {
     console.info('child process ready')

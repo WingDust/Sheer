@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-14 10:58:07
+ * @LastEditTime: 2021-02-15 15:17:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -23,11 +23,6 @@ import * as path from "path";
 import {  Dirent } from "fs";
 
 
-ipcRenderer.on('messagefrommain', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg)
-    // console.log(arg);
-})
 ipcRenderer.on('message-to-renderer', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg)
@@ -63,6 +58,7 @@ interface data {
    * @memberof File
    */
   addTimes: number;
+  times:number;
   level:number;
   /**
    * [constructor description]
@@ -71,8 +67,9 @@ interface data {
   constructor(){
     this.flag = false;
     this.addTimes = 0;
+    this.times=0;
     this.level = 1;
-    this.handlesecondpath=this.handlesecondpath.bind(this)
+    // this.handlesecondpath=this.handlesecondpath.bind(this)
   }
   /**
    * [fsReadDir description]
@@ -89,27 +86,6 @@ interface data {
       });
     });
   }
-
-  // * handlesecondpath(){
-    
-
-    //#region 
-    * handlesecondpath(dirPath:string,path2s:Dirent[],Tree:Tree){
-    let len2:number = path2s.length
-    while (len2--) {
-      const abspath = path.join(path2s[len2].name,path2s[len2].name);
-      if(path2s[len2].isFile()&&Files.getFileType(path2s[len2].name)){
-      Tree.add(abspath, dirPath, Tree.traverseBF);
-        if (this.addTimes>4) {
-          this.addTimes=0
-          yield
-        }
-        this.addTimes++;
-      }
-    }
-    }
-    //#endregion
-  // }
 
  async * FileTree(dirPath: string, Tree: Tree){
     let paths: Dirent[] = await this.fsReadDir(dirPath);
@@ -130,15 +106,13 @@ interface data {
           const abspath = path.join(path2s[len2].name,path2s[len2].name);
           if(path2s[len2].isFile()&&Files.getFileType(path2s[len2].name)){
           Tree.add(abspath,paths[len].name,Tree.traverseBF);
-            if (this.addTimes>2) {
+            if (this.addTimes>30) {
               this.addTimes=0
               yield
             }
             this.addTimes++;
           }
         }
-        // let handle = handle2(paths[len].name,path2s,Tree)
-        // handle.next()
       }
       else {
         paths.splice(len,1)
@@ -182,7 +156,7 @@ interface data {
    * @param  {[type]} name [description]
    * @return {[BOOL]}      [description]
    */
-  static getFileType(name: string) {
+  static getFileType(name: string):boolean {
     let videosuffix = [
       "3gp",
       "avi",
@@ -249,20 +223,23 @@ interface data {
 let f = new Files()
 let t = new Tree("G:\\Feature film\\")
 let gen= f.FileTree('G:\\Feature film\\',t)
-console.log(gen.next());
-console.log(gen.next());
+let proxy_Files = new Proxy(f,{
+    set:function(target,propKey,value,receiver){
+      console.log(propKey);
+      if (propKey === 'times') {
+      // 当 times 被设置时意味着文件树已经全部被读取完
+        console.log('Tree 加载了30次');
+        ipcRenderer.send('message-from-worker',t)
+        // 这个是初始化设置state 的设置
+      }
+    return Reflect.set(target,propKey,value,receiver);
+    }
+})
+
+ipcRenderer.on('message-from-main', (event, ...arg) => {
+    console.log(event);
+    console.info('arg', arg)
+    gen.next()
+})
 
 
-function getdata() {
-  return Promise.resolve(['aaa','bbb','ccc'])
-}
-  
-async function * FileTree() {
-  let data = await getdata()
-  yield
-  console.log(data);
-}
-let c = FileTree()
-console.log(c);
-console.log(c.next());
-// console.log(c.next());

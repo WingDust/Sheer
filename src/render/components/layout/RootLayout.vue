@@ -1,7 +1,7 @@
 <template>
 <!-- 
-<div :ref="el => {dom[0]=el} " class="c">9</div>
-<div :ref="el => {dom[1]=el} " class="c">10</div>
+<div :ref="el => {dom[0]=el} " >9</div>
+<div :ref="el => {dom[1]=el} " >10</div>
 -->
 <div class="root w-full">
 <tagscontainer/>
@@ -18,12 +18,12 @@
         />
     </template>
   </singleblock >
+
   <loading 
   :color="'#3399FF'"
   :disable="true"
-  :class="'w-20'"
+  :class="'w-20 grid-load'"
   >
-
   </loading>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer } from "electron";
 import {
     defineComponent,
     ref,
@@ -150,6 +151,11 @@ export default defineComponent({
         grid-template-columns:repeat(6,1fr);
         // grid-column-gap: 1rem;
         grid-row-gap: 1rem;
+    }
+    .grid-load{
+        grid-column-start: 1;
+        grid-column-end: span 6;
+        grid-row-start: auto;
     }
     .widthmax{
         width: 1370px;

@@ -89,7 +89,7 @@
     - [数据可视化（三）基于 Graphviz 实现程序化绘图 (应读)](https://riboseyim.github.io/2017/09/15/Visualization-Graphviz/#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96)
     - [使用python库--Graphviz为论文画出漂亮的示意图 (应看)](https://www.cnblogs.com/marsggbo/p/10327618.html)
 
-## Latex & TikZ & PGF
+## Latex (TikZ & PGF & ctex) 
   - 
 ## Git
   - [如何规范你的Git commit？](https://zhuanlan.zhihu.com/p/182553920)

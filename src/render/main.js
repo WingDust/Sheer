@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-06 21:51:33
+ * @LastEditTime: 2021-02-15 14:34:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\main.js
@@ -10,6 +10,9 @@ import devtools from "@vue/devtools";
 if(process.env.NODE_ENV === 'development'){
     devtools.connect('localhost',8098)
 }
+
+import VueLazyLoad from "vue3-lazyload";
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
@@ -76,6 +79,6 @@ const app = createApp(App)
 
 app.use(router)
 app.use(store)
-
+app.use(VueLazyLoad,{})
 
 app.mount('#app')
