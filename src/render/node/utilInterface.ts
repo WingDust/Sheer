@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-17 20:17:23
+ * @LastEditTime: 2021-02-17 22:10:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -23,7 +23,7 @@ interface picture{
 }
 interface View{
     sibebar:boolean
-    viewline:Array<picture>
+    viewline:string[][]
 }
 interface Vim{
     cursor:{
@@ -40,7 +40,7 @@ interface State{
     FilmPath:{
         Trees:Tree | undefined
         status:boolean
-        checkline:Array<Array<checkline>>
+        checkline:string[]
     }
     View:View
     Vim:Vim

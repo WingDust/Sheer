@@ -1,26 +1,23 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-17 20:19:56
+ * @LastEditTime: 2021-02-17 21:51:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
  */
 
-import path from "path";
-
-import { ipcRenderer } from "electron";
+import { ipcRenderer} from "electron";
+import { remote } from "electron";
 import { Dirent } from "fs";
 
 
 // interface
 import { State } from "../node/utilInterface";
-// fn
 // Config
 import { Config } from "../public/Sheer.config";
 
 import { File } from "../js/libary";
-import { Tree,Node } from "../js/DataStructure/Tree";
 import { store } from "./index";
 import { MutationTypes } from "./mutations";
 
@@ -47,8 +44,10 @@ export const state:State = {
       }
     }
 }
+console.log(remote.getCurrentWindow())
 ipcRenderer.on('server',(e,...arg)=>{
-    console.log(arg);
+  console.log(arg);
+  store.commit(MutationTypes.setViewline,arg)
 })
 
 //#region 变量声明

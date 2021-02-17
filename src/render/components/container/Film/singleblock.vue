@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-05 12:19:26
- * @LastEditTime: 2021-02-15 14:36:18
+ * @LastEditTime: 2021-02-17 21:40:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\container\Film\singleblock.vue
@@ -10,9 +10,11 @@
   <div class="inline-flex flex-col">
     <div :class="{'vim-cursor':position}">
     <!-- <img class="w-64 h-36"  
-    :src="`safe-file-protocol:://${data.dirname+data.filename}`" alt=""> -->
+    v-lazy="`safe-file-protocol:://${data}`" alt=""> -->
     <img class="w-64 h-36"  
-    v-lazy="`safe-file-protocol:://${data.dirname+data.filename}`" alt="">
+    :key="i"
+    v-for="(img,i) in data"
+    v-lazy="`safe-file-protocol:://${img}`" alt="">
     </div>
     <slot name="in"></slot>
   </div>
@@ -20,12 +22,11 @@
 
 <script lang='ts'>
 import { defineComponent,PropType} from "vue";
-import { picture } from "../../../node/utilInterface";
 import singlevil from "../../vim/SinglEvil.vue";
 export default defineComponent({
     props:{
         data:{
-          type:Object as PropType<picture>,
+          type:Array as PropType<string[]>,
           require:true
         },
         position:{

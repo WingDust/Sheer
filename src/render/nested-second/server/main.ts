@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-17 19:49:26
+ * @LastEditTime: 2021-02-17 22:14:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -12,6 +12,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 import { ipcRenderer  } from 'electron'
 import { Files } from "../../utils/lib";
 import { LinkedList } from "../../utils/DataStructure/LinkedList";
+import { fmtpath } from "../../node/utilFn";
 import child_pross from "child_process";
 import { Config } from "../../public/Sheer.config";
 import { TextDecoder } from 'util';
@@ -29,7 +30,10 @@ let Proxy_Files = new Proxy(File,{
           }
         }
 
-        ipcRenderer.sendTo(1,'server',LinkedLists.toValueArray())
+        setTimeout(()=>{
+          ipcRenderer.sendTo(1,'server',"asd")
+        },10000)
+        ipcRenderer.sendTo(1,'server',fmtpath(LinkedLists.toValueArray(),Config.store))
       }
     return Reflect.set(target,propKey,value,receiver);
     }

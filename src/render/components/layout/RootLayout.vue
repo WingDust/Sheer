@@ -13,7 +13,9 @@
   >
     <template v-slot:in>
         <singlevil 
-        :placeholder="line.filename.replace(/\.jpg/,'')"
+        :key="i"
+        v-for="(name,i) in line"
+        :placeholder="name.replace(/\.jpg/,'')"
         :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
         />
     </template>
@@ -36,13 +38,11 @@
 <script lang="ts">
 // import { getCurrentWebContents } from "@electron/remote/dist/src/renderer";
 const {ipcRenderer} = require("electron") ;
+import { remote } from "electron";
 import {
     defineComponent,
-    ref,
     onMounted,
     toRaw,
-    onBeforeMount,
-    reactive,
     computed
     } from "vue";
 import { useStore } from "vuex";
@@ -82,9 +82,13 @@ export default defineComponent({
         const ins = new IntersectionObserver(callback,options)
         const store = useStore()
         console.log(store.state);
-        // console.log(getCurrentWebContents());
+        console.log(remote.getCurrentWebContents());
         ipcRenderer.sendTo(2,'message-to-renderer',"wooh")
         
+ipcRenderer.on('server',(e,...arg)=>{
+  console.log(arg);
+  store.commit(MutationTypes.setViewline,arg)
+})
         // console.log(toRaw(store.state));
         
         const viewline =computed(()=> store.state.View.viewline) 

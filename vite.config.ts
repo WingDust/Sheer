@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-17 18:13:06
+ * @LastEditTime: 2021-02-17 21:55:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\vite.config.ts
@@ -20,6 +20,7 @@ function electron_commonjs():Plugin {
     const nodeAPI = /(fs|path)/
     const ext = /\.(ts|vue)$/
     return {
+      name:"electron_commonjs",
         resolveId(id){
             if (nodeAPI.test(id)) {
                 console.log(id)
@@ -38,6 +39,7 @@ function electron_commonjs():Plugin {
 
 function replacer(source:string) {
   source=source.replace(/import \{ipcRenderer\} from \".+\"/,"const {ipcRenderer} = require(\"electron\")")
+  source=source.replace(/import \{remote\} from \".+\"/,"const {remote} = require(\"electron\")")
   source=source.replace(/import path from \".+\"/,"const path = require(\"path\")")
   source=source.replace(/import fs from \".+\"/,"const fs = require(\"fs\")")
   source=source.replace(/import child_process from \".+\"/,"const child_process = require(\"child_process\")")
@@ -52,7 +54,7 @@ export default defineConfig({
   base:'./',
   server:{
     port: +process.env.PORT,
-    // hmr: { overlay: false },
+    hmr: { overlay: false },
   },
   build: {
     assetsDir: ".",

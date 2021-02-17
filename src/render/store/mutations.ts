@@ -1,21 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-09 20:39:03
+ * @LastEditTime: 2021-02-17 22:12:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
-import { MutationTree } from 'vuex';
-import { State,ConfigYaml,picture,checkline } from "../node/utilInterface";
+import { Mutation, MutationTree } from 'vuex';
+import { State,picture,checkline } from "../node/utilInterface";
 import { renamefile} from "../node/utilFn"
 import { Tree } from '@/js/DataStructure/Tree';
 // import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释
 export const enum MutationTypes{
-    setConfigYaml="setConfigYaml",
-    setConfigYamlStatus="setConfigYamlStatus",
     setTrees="setTrees",
     setViewStatus="setViewStatus",
     setViewline ="setViewline",
@@ -24,18 +22,13 @@ export const enum MutationTypes{
     adjustViewline ="adjustViewline ",
 }
 
-type Mutation<S= State> = {
-    [MutationTypes.setConfigYaml](state:S,value:any):void
-}
+// type Mutation<S= State> = {
+//     [MutationTypes.setConfigYaml](state:S,value:any):void
+// }
 
-export const mutations:Mutation & MutationTree<State> = {
+// export const mutations:Mutation<State> & MutationTree<State> = {
+export const mutations:MutationTree<State> = {
     // []中为方法名 () 为参数类型断言
-    [MutationTypes.setConfigYaml](state:State,value:ConfigYaml):void{
-        state.ConfigYaml.Yaml=value
-    },
-    [MutationTypes.setConfigYamlStatus](state:State,value:number):void{
-        state.ConfigYaml.status=value
-    },
     [MutationTypes.setTrees](state:State,value:Tree):void{
             state.FilmPath.Trees=value
     },
@@ -47,10 +40,10 @@ export const mutations:Mutation & MutationTree<State> = {
         state.View.sibebar=value
         }
     },
-    [MutationTypes.setViewline](state:State,value:Array<picture>){
+    [MutationTypes.setViewline](state:State,value:string[][]){
         state.View.viewline=value
     },
-    [MutationTypes.setcheckline](state:State,value:checkline[][]){
+    [MutationTypes.setcheckline](state:State,value:string[]){
         state.FilmPath.checkline=value
     },
     [MutationTypes.callVimStatus](state:State,value:string){
@@ -97,10 +90,10 @@ export const mutations:Mutation & MutationTree<State> = {
                 break;}
         }
     },
-    [MutationTypes.adjustViewline](state:State,value:string){
-        let position = state.Vim.cursor.postion[0]*6+state.Vim.cursor.postion[1]
-        let p = state.View.viewline[position]
-        renamefile(p,p.dirname+value+'.jpg')
-        p.filename=value+'.jpg'
-    }
+    // [MutationTypes.adjustViewline](state:State,value:string){
+    //     let position = state.Vim.cursor.postion[0]*6+state.Vim.cursor.postion[1]
+    //     let p = state.View.viewline[position]
+    //     renamefile(p,p.dirname+value+'.jpg')
+    //     p.filename=value+'.jpg'
+    // }
 }

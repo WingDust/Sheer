@@ -241,9 +241,9 @@ export class LinkedList {
     }
     /** 得到链表值的数组
      * [toValueArray 得到链表值的数组]
-     * @return {[type]} [description]
+     * @return {[]} [description]
      */
-    toValueArray() {
+    toValueArray():any[][] {
         const values = []
         let currentNode = this.head
         // let currentValue = this.head.value

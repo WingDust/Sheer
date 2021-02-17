@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-17 20:21:28
+ * @LastEditTime: 2021-02-17 20:47:11
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -68,6 +68,14 @@ function picturepath(viewpaths:Array<checkline>):picture[]{
 //   return (<picture>p).dirname !== undefined
 // }
 
+function fmtpath(LinkedList:string[][],store:string) {
+ return LinkedList.map((lines)=>{
+    for (let line of lines) {
+      line=path.resolve(store+path.basename(line))
+    }
+  })
+}
+
 async function initwasm(init:any) {
   const {add} = await init()
   return add
@@ -82,4 +90,4 @@ const renamefile = (p:picture,val:string)=>{
 }
 
 
-export {  getPicture, picturepath,initwasm,renamefile }
+export {  getPicture, picturepath,initwasm,renamefile,fmtpath}
