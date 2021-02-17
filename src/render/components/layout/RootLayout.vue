@@ -28,15 +28,14 @@
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
-    <cursor />
+    <!-- <cursor /> -->
 </div>
 </div>
 </template>
 
 <script lang="ts">
-import { webContents } from "electron";
-// import * as electron from "electron";
-// const {webContents} = require("electron") ;
+// import { getCurrentWebContents } from "@electron/remote/dist/src/renderer";
+const {ipcRenderer} = require("electron") ;
 import {
     defineComponent,
     ref,
@@ -83,7 +82,8 @@ export default defineComponent({
         const ins = new IntersectionObserver(callback,options)
         const store = useStore()
         console.log(store.state);
-        console.log(webContents);
+        // console.log(getCurrentWebContents());
+        ipcRenderer.sendTo(2,'message-to-renderer',"wooh")
         
         // console.log(toRaw(store.state));
         

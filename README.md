@@ -40,6 +40,7 @@
   - 因为处理文件、文件夹需要几个函数，我将它组成一个 File 类 ，经过 File 类中方法的处理（其中有提纯数据）后得到为 Tree 结果
   - 对于将数据处理成有序的样子，与直接使用数据展示出来的，这两个之间的区间即是这个前端与后端应该分开的事
   - 端口为 3000 和 3344
+  - 我这个是对 rollup 编译成主进程代码，自带有热编译，开了两个服务
 
 ## CSS
   - [对img标签使用after和before伪元素失效的原因](https://blog.csdn.net/qq_35630674/article/details/97398054)
@@ -76,6 +77,8 @@
     - `"dev:ele": "electron src/main/_.js"`
   - npm
     - [npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
+  - vite
+    - 
 
 ## Electron
   - 打印当前 Electron 所使用 Node 的 Version 
@@ -155,6 +158,8 @@
     - [VSCode 多进程架构](https://godbasin.github.io/front-end-playground/front-end-basic/deep-learning/vscode-ipc.html#vscode-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84)
     - [Visual Studio Code 是如何办到高效处理大文件的](https://www.zhihu.com/question/30011019)
     - [vscode编辑器打开大项目能够快速预览，这是如何做到的？软件算法比atom做的好?](https://www.zhihu.com/question/52470898)
+    - [Dive Into Code: VSCode 源码阅读（一）](https://zhuanlan.zhihu.com/p/35902370)
+    - [vscode 源码解析 - 细数 vscode 中的那些服务](https://zhuanlan.zhihu.com/p/97593534)
   - Vue
     - [Vue中文件社区](https://www.vue-js.com/)
     - [从Vue3源码中再谈nextTick](https://blog.csdn.net/weixin_44475093/article/details/110003633)

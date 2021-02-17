@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-16 21:58:58
+ * @LastEditTime: 2021-02-17 18:58:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
@@ -13,6 +13,7 @@ import { join } from 'path'
 import { app, BrowserWindow,protocol,ipcMain } from 'electron'
 import is_dev from 'electron-is-dev'
 import dotenv from 'dotenv'
+// require("@electron/remote/main").initialize()
 
 console.log("Main 进程 运行时修改会自动重新编译");
 
@@ -46,23 +47,23 @@ function createWin() {
   win.loadURL(URL)
   /** 默认打开 devtool */
   win.webContents.openDevTools()
+  
 }
 
-const createServerProcess = () =>{
+const createServerProcess = (name?:string) =>{
   serverwin = new BrowserWindow({
     show:false,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule:true,
     }
   })
-  serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested/index.html` :'file://'+'../src/render/nested/index.html')
+  serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested-${name}/index.html` :'file://'+'../src/render/nested/index.html')
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
-  // sendWindowMessage(serverwin!, 'messagefrommain', "woooooooooh")
 }
 
 /**
- *
  * 从主进程向渲染进程发送消息
  * @param {BrowserWindow} targetWindow
  * @param {string} message
@@ -93,7 +94,8 @@ app.on('ready',async ()=>{
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 app.whenReady()
 .then(createWin)
-.then(createServerProcess)
+.then(()=>createServerProcess("second"))
+.then(()=>createServerProcess("first"))
 
 /**
  * 监听渲染进程发出的信号触发事件
@@ -108,8 +110,8 @@ ipcMain.on('max',e=>{
 });
 ipcMain.on('close',e=>win!.close())
 ipcMain.on('message-from-server', (event, arg) => {
-  console.log("109l "+arg);
-  sendWindowMessage(serverwin!, 'message-to-renderer', arg)
+  // console.log("109l "+arg);
+  // sendWindowMessage(serverwin!, 'message-to-renderer', arg)
 })
 ipcMain.on('message-from-renderer', (event, arg) => {
   sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")

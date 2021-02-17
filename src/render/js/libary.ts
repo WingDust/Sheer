@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-02-12 17:20:55
+ * @LastEditTime: 2021-02-17 18:15:18
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -67,7 +67,7 @@ export class File {
    * @param  {[type]} dir [description]
    * @return {[Promise<Dirent[]>]}     [description]
    */
-  fsReadDir(dir: string): Promise<Dirent[]> {
+ static fsReadDir(dir: string): Promise<Dirent[]> {
     return new Promise((resolve, reject) => {
       fs.readdir(dir, { withFileTypes: true }, (err: any, files: Dirent[]) => {
         //异步 {withFileTypes:true}为 true 则为 Dirent[]
@@ -97,28 +97,6 @@ export class File {
     });
   }
 
-  async FileTree2(dirPath: string, Tree: Tree, callback?: any) {
-    let paths: Dirent[] = await this.fsReadDir(dirPath);
-
-    paths.sort(File.compareFiles);
-
-    let len:number = paths.length
-    while (len--){
-      const abspath = path.join(dirPath,paths[len].name);
-      if(paths[len].isFile()&&this.getFileType(paths[len].name)){
-        Tree.add(abspath, dirPath, Tree.traverseBF);
-        this.addTimes++;
-      }
-      else if (this.level<3&&paths[len].isDirectory()){
-        this.FileTree2(abspath, Tree, callback);
-      }
-      else if(this.level<2){
-        paths.splice(len,1)
-      }
-    }
-    if(this.level<2) this.level++
-  }
-
   /**
    * [FileTree 异步对文件树进行添加]
    * @param {string}   dirPath  [视频文件根路径,与递归时被检查的路径]
@@ -136,7 +114,7 @@ export class File {
      */
 
     // 1
-    let paths: Dirent[] = await this.fsReadDir(dirPath);
+    let paths: Dirent[] = await File.fsReadDir(dirPath);
     // console.log(paths);
     paths.sort(File.compareFiles);
 

@@ -1,17 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-17 20:17:23
+ * @LastEditTime: 2021-02-04 11:25:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
  */
 import { Tree } from "../js/DataStructure/Tree";
 
-interface Config{
+interface ConfigYaml{
     // [key:string]:string[] | null
-    film:string
-    store:string
+    film:string[] | null
+    store:string[] | null
+}
+interface Flag{
+    flag:boolean
+    times:number
 }
 interface checkline{
     dir:string,
@@ -36,12 +40,16 @@ interface Vim{
     }
 }
 interface State{
-    Config:Config,
+    ConfigYaml:{
+        Yaml:ConfigYaml | null
+        status:number
+        },
     FilmPath:{
         Trees:Tree | undefined
         status:boolean
         checkline:Array<Array<checkline>>
     }
+    Flag:Flag
     View:View
     Vim:Vim
 }
@@ -58,4 +66,4 @@ const enum YamlError{
 
 
 
-export {State,checkline,YamlError,picture}
+export {ConfigYaml,Flag,State,checkline,YamlError,picture}
