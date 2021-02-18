@@ -1,19 +1,18 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-17 20:47:11
+ * @LastEditTime: 2021-02-18 09:52:10
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
  */
-const yaml = require("js-yaml");
 import fs from "fs";
 import path from "path";
 import child_pross from "child_process";
 
 import { File } from "../js/libary";
 // interface
-import { YamlError,picture, checkline } from "./utilInterface";
+import { picture, checkline } from "./utilInterface";
 
 
 
@@ -71,7 +70,8 @@ function picturepath(viewpaths:Array<checkline>):picture[]{
 function fmtpath(LinkedList:string[][],store:string) {
  return LinkedList.map((lines)=>{
     for (let line of lines) {
-      line=path.resolve(store+path.basename(line))
+      line=path.resolve(store,path.basename(line))
+      return line
     }
   })
 }

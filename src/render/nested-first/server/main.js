@@ -30,47 +30,63 @@ class Files {
             });
         });
     }
-    async *FileTree(dirPath, LinkedList) {
-        let paths = await this.fsReadDir(dirPath);
-        paths.sort(Files.compareFiles);
-        paths.reverse();
-        let firstlayer = [];
-        let secondlayer = [];
-        let len = paths.length;
-        while (len--) { // 倒序
-            const abspath1 = path.join(dirPath, paths[len].name);
-            if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
-                firstlayer.push(abspath1);
-            }
-            else if (paths[len].isDirectory()) {
-                let path2s = await this.fsReadDir(abspath1);
-                path2s.sort(Files.compareFiles);
-                path2s.reverse();
-                let len2 = path2s.length;
-                while (len2--) {
-                    const abspath2 = path.join(abspath1, path2s[len2].name);
-                    if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) { //第二层视频
-                        secondlayer.push(abspath2);
-                        if (this.addTimes > 30) {
-                            this.addTimes = 0;
-                            this.times++;
-                            yield;
-                        }
-                        this.addTimes++;
+    async *FileTree(level, dirPath, LinkedList) {
+        switch (level) {
+            case 1: {
+                let firstlayer = [];
+                let paths = await this.fsReadDir(dirPath);
+                paths.sort(Files.compareFiles);
+                paths.reverse();
+                let len = paths.length;
+                while (len--) { // 倒序
+                    if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
+                        firstlayer.push(path.join(dirPath, paths[len].name));
+                    }
+                    else {
+                        paths.splice(len, 1);
                     }
                 }
-                if (secondlayer.length != 0) {
-                    LinkedList.append(secondlayer);
-                    secondlayer = [];
+                if (firstlayer.length != 0) {
+                    LinkedList.append(firstlayer);
                 }
+                break;
             }
-            else {
-                paths.splice(len, 1);
+            case 2: {
+                let secondlayer = [];
+                let paths = await this.fsReadDir(dirPath);
+                paths.sort(Files.compareFiles);
+                paths.reverse();
+                let len = paths.length;
+                while (len--) {
+                    if (paths[len].isDirectory()) {
+                        let abspath = path.join(dirPath, paths[len].name);
+                        let path2s = await this.fsReadDir(abspath);
+                        path2s.sort(Files.compareFiles);
+                        path2s.reverse();
+                        let len2 = path2s.length;
+                        while (len2--) {
+                            const abspath2 = path.join(abspath, path2s[len2].name);
+                            if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) { //第二层视频
+                                secondlayer.push(abspath2);
+                                if (this.addTimes > 30) {
+                                    this.addTimes = 0;
+                                    this.times++;
+                                    yield;
+                                }
+                                this.addTimes++;
+                            }
+                        }
+                        if (secondlayer.length != 0) {
+                            LinkedList.append(secondlayer);
+                            secondlayer = [];
+                        }
+                    }
+                    else {
+                        paths.splice(len, 1);
+                    }
+                }
+                break;
             }
-        }
-        if (firstlayer.length != 0) {
-            LinkedList.append(firstlayer);
-            firstlayer = [];
         }
         this.flag = true;
         //#region 
@@ -413,6 +429,14 @@ class LinkedList {
     }
 }
 
+/*
+ * @Author: your name
+ * @Date: 2021-02-15 15:26:21
+ * @LastEditTime: 2021-02-17 20:45:29
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\public\Sheer.config.ts
+ */
 const Config = {
     film: 'G:\\Feature film',
     store: 'G:\\test'
@@ -421,7 +445,7 @@ const Config = {
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-17 18:43:30
+ * @LastEditTime: 2021-02-17 19:50:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -432,13 +456,10 @@ let File = new Files();
 let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
     set: function (target, propKey, value, receiver) {
-        if (propKey === 'times') {
-            electron.ipcRenderer.sendTo(1, 'server', 'Tree 30');
-        }
         return Reflect.set(target, propKey, value, receiver);
     }
 });
-Proxy_Files.FileTree(Config.film, LinkedLists);
+Proxy_Files.FileTree(1, Config.film, LinkedLists);
 electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg);

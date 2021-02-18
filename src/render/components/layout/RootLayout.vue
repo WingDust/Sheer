@@ -15,7 +15,7 @@
         <singlevil 
         :key="i"
         v-for="(name,i) in line"
-        :placeholder="name.replace(/\.jpg/,'')"
+        :placeholder="name.replace(/\.(mp4|mkv)/,'.jpg')"
         :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
         />
     </template>

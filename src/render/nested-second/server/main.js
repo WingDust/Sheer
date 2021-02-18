@@ -8,7 +8,189 @@ var util = require('util');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
+var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 var child_pross__default = /*#__PURE__*/_interopDefaultLegacy(child_pross);
+
+class Files {
+    /**
+     * [constructor description]
+     * @return {[File]} [description]
+     */
+    constructor() {
+        this.flag = false;
+        this.addTimes = 0;
+        this.times = 0;
+        // this.handlesecondpath=this.handlesecondpath.bind(this)
+    }
+    /**
+     * [fsReadDir description]
+     * @param  {[type]} dir [description]
+     * @return {[Promise<Dirent[]>]}     [description]
+     */
+    fsReadDir(dir) {
+        return new Promise((resolve, reject) => {
+            fs.readdir(dir, { withFileTypes: true }, (err, files) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(files);
+            });
+        });
+    }
+    async *FileTree(level, dirPath, LinkedList) {
+        switch (level) {
+            case 1: {
+                let firstlayer = [];
+                let paths = await this.fsReadDir(dirPath);
+                paths.sort(Files.compareFiles);
+                paths.reverse();
+                let len = paths.length;
+                while (len--) { // 倒序
+                    if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
+                        firstlayer.push(path.join(dirPath, paths[len].name));
+                    }
+                    else {
+                        paths.splice(len, 1);
+                    }
+                }
+                if (firstlayer.length != 0) {
+                    LinkedList.append(firstlayer);
+                }
+                break;
+            }
+            case 2: {
+                let secondlayer = [];
+                let paths = await this.fsReadDir(dirPath);
+                paths.sort(Files.compareFiles);
+                paths.reverse();
+                let len = paths.length;
+                while (len--) {
+                    if (paths[len].isDirectory()) {
+                        let abspath = path.join(dirPath, paths[len].name);
+                        let path2s = await this.fsReadDir(abspath);
+                        path2s.sort(Files.compareFiles);
+                        path2s.reverse();
+                        let len2 = path2s.length;
+                        while (len2--) {
+                            const abspath2 = path.join(abspath, path2s[len2].name);
+                            if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) { //第二层视频
+                                secondlayer.push(abspath2);
+                                if (this.addTimes > 30) {
+                                    this.addTimes = 0;
+                                    this.times++;
+                                    yield;
+                                }
+                                this.addTimes++;
+                            }
+                        }
+                        if (secondlayer.length != 0) {
+                            LinkedList.append(secondlayer);
+                            secondlayer = [];
+                        }
+                    }
+                    else {
+                        paths.splice(len, 1);
+                    }
+                }
+                break;
+            }
+        }
+        this.flag = true;
+        //#region 
+        // paths.sort(File.compareFiles);
+        // let len:number = paths.length
+        // while (len--){
+        //   const abspath = path.join(dirPath,paths[len].name);
+        //   if(paths[len].isFile()&&this.getFileType(paths[len].name)){
+        //     // Tree.add(abspath, dirPath, Tree.traverseBF);
+        //     // this.addTimes++;
+        //   }
+        //   else if (paths[len].isDirectory()){
+        // let path2s: Dirent[] = await  this.fsReadDir(abspath);
+        //     // path2s.sort(File.compareFiles)
+        //     let len2:number = path2s.length
+        //     while (len2--) {
+        //       const abspath = path.join(paths[len].name,path2s[len].name);
+        //       if(paths[len].isFile()&&this.getFileType(paths[len].name)){
+        //     // Tree.add(abspath, dirPath, Tree.traverseBF);
+        //         this.addTimes++;
+        //       }
+        //     }
+        //     // this.FileTree2(abspath, Tree, callback);
+        //   }
+        //   // else if(this.level<2){
+        //   else {
+        //     paths.splice(len,1)
+        //   }
+        // }
+        // if(this.level<2) this.level++
+        //#endregion
+    }
+    /**
+     * [getFileType description: 检查文件是否为视频文件,是：返回 true 否：返回 false]
+     * @param  {[type]} name [description]
+     * @return {[BOOL]}      [description]
+     */
+    static getFileType(name) {
+        let videosuffix = [
+            "3gp",
+            "avi",
+            "flv",
+            "rm",
+            "rmvb",
+            "mov",
+            "mkv",
+            "mp4",
+            "mpeg",
+            "mpg",
+            "wmv",
+            "ts",
+        ];
+        //let imagesuffix = ["gif", "jpeg", "jpg", "bmp", "webp", "png"]
+        return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false;
+    }
+    static compareFiles(a, b) {
+        // 我的问题是处理字符串前有字母
+        const LetterPrefixRegex = /[a-z]+/i; //i 忽略大小写
+        if (typeof a === "string" && typeof b === "string") {
+            return Number(LetterPrefixRegex.test(a)) &&
+                !Number(LetterPrefixRegex.test(b))
+                ? 1
+                : !LetterPrefixRegex.test(a) && Number(LetterPrefixRegex.test(b))
+                    ? -1
+                    : a.localeCompare(b, "zh");
+        }
+        else if ("filename" in a && "filename" in b) {
+            return Number(LetterPrefixRegex.test(a.filename)) &&
+                !Number(LetterPrefixRegex.test(b.filename))
+                ? 1
+                : !LetterPrefixRegex.test(a.filename) &&
+                    Number(LetterPrefixRegex.test(b.filename))
+                    ? -1
+                    : a.filename.localeCompare(b.filename, "zh");
+        }
+        else {
+            return Number(b.isDirectory()) - Number(a.isDirectory()) ||
+                (Number(LetterPrefixRegex.test(a.name)) &&
+                    !Number(LetterPrefixRegex.test(b.name)))
+                ? 1
+                : !LetterPrefixRegex.test(a.name) &&
+                    Number(LetterPrefixRegex.test(b.name))
+                    ? -1
+                    : a.name.localeCompare(b.name, "zh");
+        }
+        // || new Intl.Collator().compare(a.name,b.name)
+        // || a.name.localeCompare(b.name,'zh')
+        /** 由于短路运算符 || 的原因
+         *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
+         *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
+         *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
+         */
+        // string Dirent
+        // || new Intl.Collator().compare(a.name,b.name)
+        // || a.name.localeCompare(b.name,'zh')
+    }
+}
 
 /**
  * [LinkedListNode description]
@@ -240,7 +422,7 @@ class LinkedList {
     }
     /** 得到链表值的数组
      * [toValueArray 得到链表值的数组]
-     * @return {[any[][]]} [description]
+     * @return {[type]} [description]
      */
     toValueArray() {
         const values = [];
@@ -254,6 +436,45 @@ class LinkedList {
     }
 }
 
+/*
+ * @Author: your name
+ * @Date: 2020-09-03 16:11:09
+ * @LastEditTime: 2021-02-17 18:15:18
+ * @LastEditors: Please set LastEditors
+ * @Description: 对文件目录处理的工具类
+ * @FilePath: \electron-vue-vite\src\render\js\libary.ts
+ */
+require("fs");
+require("path");
+
+/*
+ * @Author: wingdust
+ * @Date: 2020-09-03 23:19:46
+ * @LastEditTime: 2021-02-18 09:52:10
+ * @LastEditors: Please set LastEditors
+ * @Description: 用于保存一些工具函数，并导出给外部使用
+ * @FilePath: \electron-vue-vite\src\render\node\config.ts
+ */
+// function isPicture(p:picture|string):p is picture{
+//   return (<picture>p).dirname !== undefined
+// }
+function fmtpath(LinkedList, store) {
+    return LinkedList.map((lines) => {
+        for (let line of lines) {
+            line = path__default['default'].resolve(store, path__default['default'].basename(line));
+            return line;
+        }
+    });
+}
+
+/*
+ * @Author: your name
+ * @Date: 2021-02-15 15:26:21
+ * @LastEditTime: 2021-02-17 20:45:29
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\public\Sheer.config.ts
+ */
 const Config = {
     film: 'G:\\Feature film',
     store: 'G:\\test'
@@ -262,196 +483,33 @@ const Config = {
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-17 16:56:57
+ * @LastEditTime: 2021-02-18 09:30:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
  */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-class Files {
-    /**
-     * [constructor description]
-     * @return {[File]} [description]
-     */
-    constructor() {
-        this.flag = false;
-        this.addTimes = 0;
-        this.times = 0;
-        this.level = 1;
-        // this.handlesecondpath=this.handlesecondpath.bind(this)
-    }
-    /**
-     * [fsReadDir description]
-     * @param  {[type]} dir [description]
-     * @return {[Promise<Dirent[]>]}     [description]
-     */
-    fsReadDir(dir) {
-        return new Promise((resolve, reject) => {
-            fs.readdir(dir, { withFileTypes: true }, (err, files) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(files);
-            });
-        });
-    }
-    async *FileTree(dirPath, LinkedList) {
-        let paths = await this.fsReadDir(dirPath);
-        paths.sort(Files.compareFiles);
-        paths.reverse();
-        let firstlayer = [];
-        let secondlayer = [];
-        let len = paths.length;
-        while (len--) { // 倒序
-            const abspath1 = path.join(dirPath, paths[len].name);
-            if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
-                firstlayer.push(abspath1);
-            }
-            else if (paths[len].isDirectory()) {
-                let path2s = await this.fsReadDir(abspath1);
-                path2s.sort(Files.compareFiles);
-                path2s.reverse();
-                let len2 = path2s.length;
-                while (len2--) {
-                    const abspath2 = path.join(abspath1, path2s[len2].name);
-                    if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) { //第二层视频
-                        secondlayer.push(abspath2);
-                        if (this.addTimes > 30) {
-                            this.addTimes = 0;
-                            this.times++;
-                            yield;
-                        }
-                        this.addTimes++;
-                    }
-                }
-                if (secondlayer.length != 0) {
-                    LinkedList.append(secondlayer);
-                    secondlayer = [];
-                }
-            }
-            else {
-                paths.splice(len, 1);
-            }
-        }
-        if (firstlayer.length != 0) {
-            LinkedList.append(firstlayer);
-            firstlayer = [];
-        }
-        this.flag = true;
-        //#region 
-        // paths.sort(File.compareFiles);
-        // let len:number = paths.length
-        // while (len--){
-        //   const abspath = path.join(dirPath,paths[len].name);
-        //   if(paths[len].isFile()&&this.getFileType(paths[len].name)){
-        //     // Tree.add(abspath, dirPath, Tree.traverseBF);
-        //     // this.addTimes++;
-        //   }
-        //   else if (paths[len].isDirectory()){
-        // let path2s: Dirent[] = await  this.fsReadDir(abspath);
-        //     // path2s.sort(File.compareFiles)
-        //     let len2:number = path2s.length
-        //     while (len2--) {
-        //       const abspath = path.join(paths[len].name,path2s[len].name);
-        //       if(paths[len].isFile()&&this.getFileType(paths[len].name)){
-        //     // Tree.add(abspath, dirPath, Tree.traverseBF);
-        //         this.addTimes++;
-        //       }
-        //     }
-        //     // this.FileTree2(abspath, Tree, callback);
-        //   }
-        //   // else if(this.level<2){
-        //   else {
-        //     paths.splice(len,1)
-        //   }
-        // }
-        // if(this.level<2) this.level++
-        //#endregion
-    }
-    /**
-     * [getFileType description: 检查文件是否为视频文件,是：返回 true 否：返回 false]
-     * @param  {[type]} name [description]
-     * @return {[BOOL]}      [description]
-     */
-    static getFileType(name) {
-        let videosuffix = [
-            "3gp",
-            "avi",
-            "flv",
-            "rm",
-            "rmvb",
-            "mov",
-            "mkv",
-            "mp4",
-            "mpeg",
-            "mpg",
-            "wmv",
-            "ts",
-        ];
-        //let imagesuffix = ["gif", "jpeg", "jpg", "bmp", "webp", "png"]
-        return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false;
-    }
-    static compareFiles(a, b) {
-        // 我的问题是处理字符串前有字母
-        const LetterPrefixRegex = /[a-z]+/i; //i 忽略大小写
-        if (typeof a === "string" && typeof b === "string") {
-            return Number(LetterPrefixRegex.test(a)) &&
-                !Number(LetterPrefixRegex.test(b))
-                ? 1
-                : !LetterPrefixRegex.test(a) && Number(LetterPrefixRegex.test(b))
-                    ? -1
-                    : a.localeCompare(b, "zh");
-        }
-        else if ("filename" in a && "filename" in b) {
-            return Number(LetterPrefixRegex.test(a.filename)) &&
-                !Number(LetterPrefixRegex.test(b.filename))
-                ? 1
-                : !LetterPrefixRegex.test(a.filename) &&
-                    Number(LetterPrefixRegex.test(b.filename))
-                    ? -1
-                    : a.filename.localeCompare(b.filename, "zh");
-        }
-        else {
-            return Number(b.isDirectory()) - Number(a.isDirectory()) ||
-                (Number(LetterPrefixRegex.test(a.name)) &&
-                    !Number(LetterPrefixRegex.test(b.name)))
-                ? 1
-                : !LetterPrefixRegex.test(a.name) &&
-                    Number(LetterPrefixRegex.test(b.name))
-                    ? -1
-                    : a.name.localeCompare(b.name, "zh");
-        }
-        // || new Intl.Collator().compare(a.name,b.name)
-        // || a.name.localeCompare(b.name,'zh')
-        /** 由于短路运算符 || 的原因
-         *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
-         *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
-         *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
-         */
-        // string Dirent
-        // || new Intl.Collator().compare(a.name,b.name)
-        // || a.name.localeCompare(b.name,'zh')
-    }
-}
+// import fs = require("fs");
 let File = new Files();
 let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
     set: function (target, propKey, value, receiver) {
         if (propKey === 'times') {
-            // 当 times 被设置时意味着文件树已经全部被读取完
             console.log('Tree 加载了30次');
-            console.log();
             for (const links of LinkedLists.toValueArray()) {
                 for (const link of links) {
                     generatorimg(link, Config.store);
                 }
             }
-            electron.ipcRenderer.sendTo(1, 'server', 'Tree 30');
+            // setTimeout(()=>{
+            //   ipcRenderer.sendTo(1,'server',"asd")
+            // },10000)
+            electron.ipcRenderer.sendTo(1, 'server', fmtpath(LinkedLists.toValueArray(), Config.store));
         }
         return Reflect.set(target, propKey, value, receiver);
     }
 });
-let gen = Proxy_Files.FileTree(Config.film, LinkedLists);
+let gen = Proxy_Files.FileTree(2, Config.film, LinkedLists);
 gen.next();
 function generatorimg(film, ThumbnailPath) {
     let run = `E:\\python\\python3.8.1\\python.exe .\\src\\render\\python\\picture.py "${film}" ${ThumbnailPath}`;

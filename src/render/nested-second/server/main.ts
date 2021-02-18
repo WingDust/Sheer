@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-17 22:14:00
+ * @LastEditTime: 2021-02-18 09:30:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -30,9 +30,9 @@ let Proxy_Files = new Proxy(File,{
           }
         }
 
-        setTimeout(()=>{
-          ipcRenderer.sendTo(1,'server',"asd")
-        },10000)
+        // setTimeout(()=>{
+        //   ipcRenderer.sendTo(1,'server',"asd")
+        // },10000)
         ipcRenderer.sendTo(1,'server',fmtpath(LinkedLists.toValueArray(),Config.store))
       }
     return Reflect.set(target,propKey,value,receiver);

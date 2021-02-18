@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-05 12:19:26
- * @LastEditTime: 2021-02-17 21:40:02
+ * @LastEditTime: 2021-02-18 11:57:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\components\container\Film\singleblock.vue
@@ -9,8 +9,6 @@
 <template>
   <div class="inline-flex flex-col">
     <div :class="{'vim-cursor':position}">
-    <!-- <img class="w-64 h-36"  
-    v-lazy="`safe-file-protocol:://${data}`" alt=""> -->
     <img class="w-64 h-36"  
     :key="i"
     v-for="(img,i) in data"

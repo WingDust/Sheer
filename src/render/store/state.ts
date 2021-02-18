@@ -1,14 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-17 21:51:10
+ * @LastEditTime: 2021-02-18 11:57:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
  */
 
 import { ipcRenderer} from "electron";
-import { remote } from "electron";
 import { Dirent } from "fs";
 
 
@@ -44,7 +43,6 @@ export const state:State = {
       }
     }
 }
-console.log(remote.getCurrentWindow())
 ipcRenderer.on('server',(e,...arg)=>{
   console.log(arg);
   store.commit(MutationTypes.setViewline,arg)
@@ -56,7 +54,6 @@ ipcRenderer.on('server',(e,...arg)=>{
 // let Trees:Tree | undefined;
 // 保存默认分组
 // let checkline:Array<Array<checkline>>
-//#endregion
 
 
 /**
@@ -168,6 +165,7 @@ ipcRenderer.on('server',(e,...arg)=>{
 
 // runtime()
 
+//#endregion
 
 async function getlable(config:string) {
   let lablelayer:string[]=[]
