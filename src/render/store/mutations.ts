@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-19 13:44:08
+ * @LastEditTime: 2021-02-19 14:29:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
 import { Mutation,MutationTree } from 'vuex';
 import { State,img,Config } from "../utils/utilInterface";
-import { Tree } from '@/js/DataStructure/Tree';
+import { Tree } from '@/utils/DataStructure/Tree';
 // import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释

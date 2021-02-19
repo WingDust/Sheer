@@ -12,7 +12,8 @@ import is_dev from 'electron-is-dev'
 import { join } from 'path'
 
 
-function createMainWin(win:BrowserWindow|null,serverwin2:BrowserWindow|null) {
+// function createMainWin(win:BrowserWindow|null,serverwin2:BrowserWindow|null) {
+function createMainWin(win:BrowserWindow|null) {
   // 创建浏览器窗口
   win = new BrowserWindow({
     width: 1920,
@@ -38,9 +39,9 @@ function createMainWin(win:BrowserWindow|null,serverwin2:BrowserWindow|null) {
   win.loadURL(URL)
   /** 默认打开 devtool */
   win.webContents.openDevTools()
-  win!.webContents.on('did-finish-load',()=>{ //@ 依赖过深
-    createServerProcess(serverwin2,"second")
-  })
+  // win!.webContents.on('did-finish-load',()=>{ //@ 依赖过深
+  //   createServerProcess(serverwin2,"second")
+  // })
 }
 
 
@@ -72,4 +73,4 @@ function sendWindowMessage(targetWindow:BrowserWindow, message:string, payload:a
   }
   targetWindow.webContents.send(message, payload)
 }
-export { createMainWin,createServerProcess}
+export { createMainWin,createServerProcess,sendWindowMessage }

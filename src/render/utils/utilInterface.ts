@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-19 13:44:35
+ * @LastEditTime: 2021-02-19 14:29:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
  */
-import { Tree } from "../js/DataStructure/Tree";
+import { Tree } from "../utils/DataStructure/Tree";
 
 interface Config{
     // [key:string]:string[] | null

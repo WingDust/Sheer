@@ -44,7 +44,7 @@ import {
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
-import {initwasm} from '../../node/utilFn'
+import { initwasm } from "../../utils/utilFn";
 import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
 import cursor from "../vim/cursor.vue";

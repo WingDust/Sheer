@@ -1,7 +1,7 @@
 /*
  * @Author: wingdust
  * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-19 11:02:18
+ * @LastEditTime: 2021-02-19 13:53:53
  * @LastEditors: Please set LastEditors
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
@@ -11,9 +11,7 @@ import path from "path";
 import child_pross from "child_process";
 
 // interface
-import { img} from "./utilInterface";
-// Config
-import { Config } from "../public/Sheer.config";
+import {Config,img} from "./utilInterface";
 
 
 
@@ -45,9 +43,8 @@ function getPicture(film:string,ThumbnailPath:any) {
     })
 }
 
-function fmtpath(LinkedList:string[][],store:string):img[] {
+function fmtpath(LinkedList:string[][],Config:Config):img[] {
  return LinkedList.flat().map((n)=>{
-    // let re=/.+\\/
     let img:img = Object.create(null)
     img.file=path.basename(n)
     img.lable=n.replace(Config.film,"").replace(img.file,"")

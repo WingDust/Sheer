@@ -27,7 +27,7 @@ class Files {
      * @param  {[type]} dir [description]
      * @return {[Promise<Dirent[]>]}     [description]
      */
-    fsReadDir(dir) {
+    static fsReadDir(dir) {
         return new Promise((resolve, reject) => {
             fs.readdir(dir, { withFileTypes: true }, (err, files) => {
                 if (err) {
@@ -41,7 +41,7 @@ class Files {
         switch (level) {
             case 1: {
                 let firstlayer = [];
-                let paths = await this.fsReadDir(dirPath);
+                let paths = await Files.fsReadDir(dirPath);
                 paths.sort(Files.compareFiles);
                 paths.reverse();
                 let len = paths.length;
@@ -60,14 +60,14 @@ class Files {
             }
             case 2: {
                 let secondlayer = [];
-                let paths = await this.fsReadDir(dirPath);
+                let paths = await Files.fsReadDir(dirPath);
                 paths.sort(Files.compareFiles);
                 paths.reverse();
                 let len = paths.length;
                 while (len--) {
                     if (paths[len].isDirectory()) {
                         let abspath = path.join(dirPath, paths[len].name);
-                        let path2s = await this.fsReadDir(abspath);
+                        let path2s = await Files.fsReadDir(abspath);
                         path2s.sort(Files.compareFiles);
                         path2s.reverse();
                         let len2 = path2s.length;
@@ -438,6 +438,15 @@ class LinkedList {
     }
 }
 
+function fmtpath(LinkedList, Config) {
+    return LinkedList.flat().map((n) => {
+        let img = Object.create(null);
+        img.file = path__default['default'].basename(n);
+        img.lable = n.replace(Config.film, "").replace(img.file, "");
+        return img;
+    });
+}
+
 /*
  * @Author: your name
  * @Date: 2021-02-15 15:26:21
@@ -451,20 +460,10 @@ const Config = {
     store: 'G:\\test'
 };
 
-function fmtpath(LinkedList, store) {
-    return LinkedList.flat().map((n) => {
-        // let re=/.+\\/
-        let img = Object.create(null);
-        img.file = path__default['default'].basename(n);
-        img.lable = n.replace(Config.film, "").replace(img.file, "");
-        return img;
-    });
-}
-
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-18 21:27:11
+ * @LastEditTime: 2021-02-19 14:23:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -482,7 +481,8 @@ let Proxy_Files = new Proxy(File, {
                     generatorimg(link, Config.store);
                 }
             }
-            electron.ipcRenderer.sendTo(1, 'server', fmtpath(LinkedLists.toValueArray()));
+            // ipcRenderer.sendTo(1,'server',fmtpath(LinkedLists.toValueArray(),Config))
+            electron.ipcRenderer.send('message-from-server', fmtpath(LinkedLists.toValueArray(), Config));
         }
         return Reflect.set(target, propKey, value, receiver);
     }

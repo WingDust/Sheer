@@ -20,7 +20,7 @@ class Files {
      * @param  {[type]} dir [description]
      * @return {[Promise<Dirent[]>]}     [description]
      */
-    fsReadDir(dir) {
+    static fsReadDir(dir) {
         return new Promise((resolve, reject) => {
             fs.readdir(dir, { withFileTypes: true }, (err, files) => {
                 if (err) {
@@ -34,7 +34,7 @@ class Files {
         switch (level) {
             case 1: {
                 let firstlayer = [];
-                let paths = await this.fsReadDir(dirPath);
+                let paths = await Files.fsReadDir(dirPath);
                 paths.sort(Files.compareFiles);
                 paths.reverse();
                 let len = paths.length;
@@ -53,14 +53,14 @@ class Files {
             }
             case 2: {
                 let secondlayer = [];
-                let paths = await this.fsReadDir(dirPath);
+                let paths = await Files.fsReadDir(dirPath);
                 paths.sort(Files.compareFiles);
                 paths.reverse();
                 let len = paths.length;
                 while (len--) {
                     if (paths[len].isDirectory()) {
                         let abspath = path.join(dirPath, paths[len].name);
-                        let path2s = await this.fsReadDir(abspath);
+                        let path2s = await Files.fsReadDir(abspath);
                         path2s.sort(Files.compareFiles);
                         path2s.reverse();
                         let len2 = path2s.length;

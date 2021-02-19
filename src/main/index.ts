@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-18 11:47:37
+ * @LastEditTime: 2021-02-19 19:12:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\main\index.ts
@@ -12,7 +12,7 @@
 import { join } from 'path'
 import { app, BrowserWindow,protocol,ipcMain,contentTracing } from 'electron'
 import dotenv from 'dotenv'
-import { createMainWin, createServerProcess } from "./lib/ElectronAPI";
+import { createMainWin, createServerProcess,sendWindowMessage } from "./lib/ElectronAPI";
 // require("@electron/remote/main").initialize()
 
 console.log("Main 进程");
@@ -43,28 +43,32 @@ app.on('ready',async ()=>{
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 app.disableHardwareAcceleration()
 app.whenReady()
-.then(()=>createMainWin(win,serverwin2))
-.then(()=>createServerProcess(serverwin1,"first"))
-.then(()=>{})
+// .then(()=>createMainWin(win,serverwin2))
+// .then(()=>createServerProcess(serverwin1,"first"))
+.then(()=>{
+  createMainWin(win)
+  createServerProcess(serverwin1,"first")
+  createServerProcess(serverwin2,"second")
+
+  ipcMain.on('min',e=>win!.minimize());
+  ipcMain.on('max',e=>{
+    if (win!.isMaximized()) {
+      win?.unmaximize()
+    }else{
+    win!.maximize()
+    }
+  });
+  ipcMain.on('close',e=>win!.close())
+  ipcMain.on('message-from-server', (event, arg) => {
+    sendWindowMessage(win!, 'server', arg)
+  })
+})
 
 
 
 /**
  * 监听渲染进程发出的信号触发事件
  */
-ipcMain.on('min',e=>win!.minimize());
-ipcMain.on('max',e=>{
-  if (win!.isMaximized()) {
-    win?.unmaximize()
-  }else{
-  win!.maximize()
-  }
-});
-ipcMain.on('close',e=>win!.close())
-// ipcMain.on('message-from-server', (event, arg) => {
-//   // console.log("109l "+arg);
-//   // sendWindowMessage(serverwin!, 'message-to-renderer', arg)
-// })
 // ipcMain.on('message-from-renderer', (event, arg) => {
 //   sendWindowMessage(serverwin!, 'message-from-main', "woooooooooh")
 // })
