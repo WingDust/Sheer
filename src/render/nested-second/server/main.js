@@ -77,8 +77,10 @@ class Files {
                                 secondlayer.push(abspath2);
                                 if (this.addTimes > 30) {
                                     this.addTimes = 0;
+                                    LinkedList.append(secondlayer);
                                     this.times++;
                                     yield;
+                                    secondlayer = [];
                                 }
                                 this.addTimes++;
                             }
@@ -438,37 +440,6 @@ class LinkedList {
 
 /*
  * @Author: your name
- * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-02-17 18:15:18
- * @LastEditors: Please set LastEditors
- * @Description: 对文件目录处理的工具类
- * @FilePath: \electron-vue-vite\src\render\js\libary.ts
- */
-require("fs");
-require("path");
-
-/*
- * @Author: wingdust
- * @Date: 2020-09-03 23:19:46
- * @LastEditTime: 2021-02-18 09:52:10
- * @LastEditors: Please set LastEditors
- * @Description: 用于保存一些工具函数，并导出给外部使用
- * @FilePath: \electron-vue-vite\src\render\node\config.ts
- */
-// function isPicture(p:picture|string):p is picture{
-//   return (<picture>p).dirname !== undefined
-// }
-function fmtpath(LinkedList, store) {
-    return LinkedList.map((lines) => {
-        for (let line of lines) {
-            line = path__default['default'].resolve(store, path__default['default'].basename(line));
-            return line;
-        }
-    });
-}
-
-/*
- * @Author: your name
  * @Date: 2021-02-15 15:26:21
  * @LastEditTime: 2021-02-17 20:45:29
  * @LastEditors: your name
@@ -480,10 +451,20 @@ const Config = {
     store: 'G:\\test'
 };
 
+function fmtpath(LinkedList, store) {
+    return LinkedList.flat().map((n) => {
+        // let re=/.+\\/
+        let img = Object.create(null);
+        img.file = path__default['default'].basename(n);
+        img.lable = n.replace(Config.film, "").replace(img.file, "");
+        return img;
+    });
+}
+
 /*
  * @Author: your name
  * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-18 09:30:56
+ * @LastEditTime: 2021-02-18 21:27:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
@@ -495,22 +476,20 @@ let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
     set: function (target, propKey, value, receiver) {
         if (propKey === 'times') {
-            console.log('Tree 加载了30次');
+            console.log(LinkedLists);
             for (const links of LinkedLists.toValueArray()) {
                 for (const link of links) {
                     generatorimg(link, Config.store);
                 }
             }
-            // setTimeout(()=>{
-            //   ipcRenderer.sendTo(1,'server',"asd")
-            // },10000)
-            electron.ipcRenderer.sendTo(1, 'server', fmtpath(LinkedLists.toValueArray(), Config.store));
+            electron.ipcRenderer.sendTo(1, 'server', fmtpath(LinkedLists.toValueArray()));
         }
         return Reflect.set(target, propKey, value, receiver);
     }
 });
 let gen = Proxy_Files.FileTree(2, Config.film, LinkedLists);
-gen.next();
+let s = gen.next();
+console.log(s);
 function generatorimg(film, ThumbnailPath) {
     let run = `E:\\python\\python3.8.1\\python.exe .\\src\\render\\python\\picture.py "${film}" ${ThumbnailPath}`;
     let python = child_pross__default['default'].exec(run, { encoding: 'utf-8' });

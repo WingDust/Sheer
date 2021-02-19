@@ -1,19 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-17 22:12:45
+ * @LastEditTime: 2021-02-19 13:44:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
-import { Mutation, MutationTree } from 'vuex';
-import { State,picture,checkline } from "../node/utilInterface";
-import { renamefile} from "../node/utilFn"
+import { Mutation,MutationTree } from 'vuex';
+import { State,img,Config } from "../utils/utilInterface";
 import { Tree } from '@/js/DataStructure/Tree';
 // import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释
 export const enum MutationTypes{
+    setConfig="setConfig",
     setTrees="setTrees",
     setViewStatus="setViewStatus",
     setViewline ="setViewline",
@@ -29,6 +29,9 @@ export const enum MutationTypes{
 // export const mutations:Mutation<State> & MutationTree<State> = {
 export const mutations:MutationTree<State> = {
     // []中为方法名 () 为参数类型断言
+    [MutationTypes.setConfig](state:State,value:Config){
+        state.Config=value
+    },
     [MutationTypes.setTrees](state:State,value:Tree):void{
             state.FilmPath.Trees=value
     },
@@ -40,7 +43,7 @@ export const mutations:MutationTree<State> = {
         state.View.sibebar=value
         }
     },
-    [MutationTypes.setViewline](state:State,value:string[][]){
+    [MutationTypes.setViewline](state:State,value:img[]){
         state.View.viewline=value
     },
     [MutationTypes.setcheckline](state:State,value:string[]){

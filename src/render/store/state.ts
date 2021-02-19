@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-18 11:57:12
+ * @LastEditTime: 2021-02-19 13:47:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\store\state.ts
@@ -12,17 +12,17 @@ import { Dirent } from "fs";
 
 
 // interface
-import { State } from "../node/utilInterface";
+import { State } from "../utils/utilInterface";
 // Config
 import { Config } from "../public/Sheer.config";
 
-import { File } from "../js/libary";
+import { Files } from "../utils/lib";
 import { store } from "./index";
 import { MutationTypes } from "./mutations";
 
 // TODO 这个每一项需要写注释
 export const state:State = {
-    Config:Config,
+    Config:Object.create(null),
     FilmPath:{
         Trees:Object.create(null),
         status:false,
@@ -43,9 +43,13 @@ export const state:State = {
       }
     }
 }
+
+
 ipcRenderer.on('server',(e,...arg)=>{
   console.log(arg);
-  store.commit(MutationTypes.setViewline,arg)
+  console.log(Config);
+  store.commit(MutationTypes.setConfig,Config)
+  store.commit(MutationTypes.setViewline,arg[0])
 })
 
 //#region 变量声明
@@ -169,8 +173,8 @@ ipcRenderer.on('server',(e,...arg)=>{
 
 async function getlable(config:string) {
   let lablelayer:string[]=[]
-  let paths: Dirent[] = await File.fsReadDir(config);
-  paths.sort(File.compareFiles)
+  let paths: Dirent[] = await Files.fsReadDir(config);
+  paths.sort(Files.compareFiles)
   paths.reverse()
   let len:number = paths.length
   while(len--){

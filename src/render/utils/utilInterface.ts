@@ -1,33 +1,29 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-04 11:25:20
+ * @LastEditTime: 2021-02-19 13:44:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
  */
 import { Tree } from "../js/DataStructure/Tree";
 
-interface ConfigYaml{
+interface Config{
     // [key:string]:string[] | null
-    film:string[] | null
-    store:string[] | null
-}
-interface Flag{
-    flag:boolean
-    times:number
+    film:string
+    store:string
 }
 interface checkline{
     dir:string,
     state:boolean
 }
-interface picture{
-  filename:string
-  dirname:string
+interface img{
+  file:string
+  lable:string
 }
 interface View{
     sibebar:boolean
-    viewline:Array<picture>
+    viewline:img[]
 }
 interface Vim{
     cursor:{
@@ -40,30 +36,15 @@ interface Vim{
     }
 }
 interface State{
-    ConfigYaml:{
-        Yaml:ConfigYaml | null
-        status:number
-        },
+    Config:Config,
     FilmPath:{
         Trees:Tree | undefined
         status:boolean
-        checkline:Array<Array<checkline>>
+        checkline:string[]
     }
-    Flag:Flag
     View:View
     Vim:Vim
 }
 
-const enum YamlError{
-    Normal      = 0,
-    None        = 1,        //0
-    filmNone    =11,        //1
-    filmPanic   =20,        //2
-    storeNone   =31,        //3
-    storePanic  =40         //4
-}
 
-
-
-
-export {ConfigYaml,Flag,State,checkline,YamlError,picture}
+export {State,checkline,img,Config}

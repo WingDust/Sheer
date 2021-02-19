@@ -70,8 +70,10 @@ class Files {
                                 secondlayer.push(abspath2);
                                 if (this.addTimes > 30) {
                                     this.addTimes = 0;
+                                    LinkedList.append(secondlayer);
                                     this.times++;
                                     yield;
+                                    secondlayer = [];
                                 }
                                 this.addTimes++;
                             }

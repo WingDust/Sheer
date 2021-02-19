@@ -24,6 +24,33 @@ export class LinkedList {
         this.tail = null
         this.length = 0
     }
+
+    [Symbol.iterator](){
+      let i = 0
+      return{
+        next:()=>{
+          if (i<this.length){
+            let v = this.getval(i,this.head)
+              i++
+            return{
+              value:v,
+              done:false}
+          }
+          else{
+            return{done:true}
+          }
+
+        }
+      }
+    }
+    getval(i:number,head:LinkedListNode){
+        if (i ===0){return head.value}
+        if (i ===1){return head.next.value}
+        while (i--) {
+            head = head.next
+        }
+        return head.value
+    }
     /**对链表的头添加值
      * [prepend 对链表的头添加值]
      * @param  {[type]} value [description]

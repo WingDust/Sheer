@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-17 22:10:33
+ * @LastEditTime: 2021-02-19 10:44:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
@@ -17,13 +17,13 @@ interface checkline{
     dir:string,
     state:boolean
 }
-interface picture{
-  filename:string
-  dirname:string
+interface img{
+  file:string
+  lable:string
 }
 interface View{
     sibebar:boolean
-    viewline:string[][]
+    viewline:img[]
 }
 interface Vim{
     cursor:{
@@ -58,4 +58,4 @@ const enum YamlError{
 
 
 
-export {State,checkline,YamlError,picture}
+export {State,checkline,YamlError,img,Config}

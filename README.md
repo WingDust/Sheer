@@ -27,6 +27,9 @@
   - Cancel Infinite Recursive Read File and Dir with mount on Tree
     - 在最开始的代码设计中，我对读取文件这个功能的设定是越强大越好，所以我将写了一个能无限递归读取文件树，并挂载到 Tree 类上。相反的是，我现在认为更优秀的使用规范比强大的工具健壮。
     - be a better man , not be a better tool , be a least tool
+  - 传送出去应该是什么样数据
+    - 临时合并
+    - 自分组
 ## Subproject
   - Rust-Wasm
   - C/C++ - Emscripten

@@ -34,7 +34,7 @@ import { LinkedList } from "./DataStructure/LinkedList";
    * @param  {[type]} dir [description]
    * @return {[Promise<Dirent[]>]}     [description]
    */
-  fsReadDir(dir: string): Promise<Dirent[]> {
+ static fsReadDir(dir: string): Promise<Dirent[]> {
     return new Promise((resolve, reject) => {
       fs.readdir(dir, { withFileTypes: true }, (err: any, files: Dirent[]) => {
         if (err) {
@@ -49,7 +49,7 @@ import { LinkedList } from "./DataStructure/LinkedList";
    switch (level) {
      case 1:{
         let firstlayer:string[]=[] 
-        let paths: Dirent[] = await this.fsReadDir(dirPath);
+        let paths: Dirent[] = await Files.fsReadDir(dirPath);
         paths.sort(Files.compareFiles)
         paths.reverse()
         let len:number = paths.length
@@ -68,14 +68,14 @@ import { LinkedList } from "./DataStructure/LinkedList";
      }
      case 2:{
         let secondlayer:string[]=[]
-        let paths: Dirent[] = await this.fsReadDir(dirPath);
+        let paths: Dirent[] = await Files.fsReadDir(dirPath);
         paths.sort(Files.compareFiles)
         paths.reverse()
         let len:number = paths.length
         while (len--) {
           if (paths[len].isDirectory()) {
             let abspath = path.join(dirPath,paths[len].name)
-            let path2s: Dirent[] = await  this.fsReadDir(abspath);
+            let path2s: Dirent[] = await   Files.fsReadDir(abspath);
             path2s.sort(Files.compareFiles)
             path2s.reverse()
             let len2:number = path2s.length
@@ -85,8 +85,10 @@ import { LinkedList } from "./DataStructure/LinkedList";
               secondlayer.push(abspath2)
                 if (this.addTimes>30) {
                   this.addTimes=0
+                  LinkedList.append(secondlayer)
                   this.times++
-                  yield
+                  yield 
+                  secondlayer=[]
                 }
                 this.addTimes++;
               }

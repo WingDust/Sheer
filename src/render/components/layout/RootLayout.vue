@@ -8,14 +8,13 @@
 <div class="r align-top text-center" :class="{widthmax:view}" >
   <singleblock 
   :key="i" 
-  :data="line" v-for="(line,i) in viewline" 
+   v-for="(line,i) in viewline" 
+  :data="config.store+line.lable+line.file"
   :position="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
   >
     <template v-slot:in>
         <singlevil 
-        :key="i"
-        v-for="(name,i) in line"
-        :placeholder="name.replace(/\.(mp4|mkv)/,'.jpg')"
+        :placeholder="line.file.replace(/\.(mp4|mkv)/,'.jpg')"
         :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
         />
     </template>
@@ -36,9 +35,6 @@
 </template>
 
 <script lang="ts">
-// import { getCurrentWebContents } from "@electron/remote/dist/src/renderer";
-const {ipcRenderer} = require("electron") ;
-import { remote } from "electron";
 import {
     defineComponent,
     onMounted,
@@ -82,18 +78,12 @@ export default defineComponent({
         const ins = new IntersectionObserver(callback,options)
         const store = useStore()
         console.log(store.state);
-        console.log(remote.getCurrentWebContents());
-        ipcRenderer.sendTo(2,'message-to-renderer',"wooh")
-        
-ipcRenderer.on('server',(e,...arg)=>{
-  console.log(arg);
-  store.commit(MutationTypes.setViewline,arg)
-})
-        // console.log(toRaw(store.state));
+        // ipcRenderer.sendTo(2,'message-to-renderer',"wooh")
         
         const viewline =computed(()=> store.state.View.viewline) 
         const view = computed(()=> store.state.View.sibebar)
         const vimcursor = computed(() => store.state.Vim.cursor.postion)
+        const config = computed(()=>store.state.Config)
         // let a 
         // const loadwasm = async () =>{ a = await initwasm(add)} 
         const a = await initwasm(add)
@@ -133,7 +123,7 @@ ipcRenderer.on('server',(e,...arg)=>{
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            mousewheel,touchwheel,view,viewline,vimcursor,a
+            mousewheel,touchwheel,view,viewline,vimcursor,a,config
         }
     },
     components:{

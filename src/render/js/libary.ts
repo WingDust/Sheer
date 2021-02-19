@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-03 16:11:09
- * @LastEditTime: 2021-02-17 18:15:18
+ * @LastEditTime: 2021-02-19 10:57:25
  * @LastEditors: Please set LastEditors
  * @Description: 对文件目录处理的工具类
  * @FilePath: \electron-vue-vite\src\render\js\libary.ts
@@ -10,7 +10,7 @@
 const fs = require("fs");
 const path = require("path");
 import { Stats, Dirent } from "fs";
-import { picture } from "../node/utilInterface";
+// import { picture } from "../node/utilInterface";
 import { Tree } from "./DataStructure/Tree";
 
 // 待添加注释
@@ -313,7 +313,7 @@ export class File {
    return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false
   }
 
-  static compareFiles(a: picture, b: picture): number;
+  // static compareFiles(a: picture, b: picture): number;
   static compareFiles(a: string, b: string): number;
   static compareFiles(a: Dirent, b: Dirent): number;
   static compareFiles(a: any, b: any) {
