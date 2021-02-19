@@ -8,22 +8,19 @@
  */
 import { Tree } from "../utils/DataStructure/Tree";
 
+// 定义接口要 首字母大写
 interface Config{
     // [key:string]:string[] | null
     film:string
     store:string
 }
-interface checkline{
-    dir:string,
-    state:boolean
-}
-interface img{
+interface Img{
   file:string
   lable:string
 }
 interface View{
     sibebar:boolean
-    viewline:img[]
+    viewline:Img[]
 }
 interface Vim{
     cursor:{
@@ -47,4 +44,4 @@ interface State{
 }
 
 
-export {State,checkline,img,Config}
+export {State,Img,Config}

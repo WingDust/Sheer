@@ -7,7 +7,7 @@
  * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
  */
 import { Mutation,MutationTree } from 'vuex';
-import { State,img,Config } from "../utils/utilInterface";
+import { State,Img,Config } from "../utils/utilInterface";
 import { Tree } from '@/utils/DataStructure/Tree';
 // import "../Webassemly/wast/add.wasm";
 
@@ -43,7 +43,7 @@ export const mutations:MutationTree<State> = {
         state.View.sibebar=value
         }
     },
-    [MutationTypes.setViewline](state:State,value:img[]){
+    [MutationTypes.setViewline](state:State,value:Img[]){
         state.View.viewline=value
     },
     [MutationTypes.setcheckline](state:State,value:string[]){

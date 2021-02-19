@@ -181,6 +181,8 @@
     - [28 CSS Border Animations](https://freefrontend.com/css-border-animations/)
     - [夹边角](https://www.jq22.com/code3104)
     - [使用 Snap.svg 制作动画](https://aotu.io/notes/2017/01/22/snapsvg/index.html)
+    - 眼界
+      - [ ] [30个动物，30种变换](https://www.zhangxinxu.com/wordpress/2015/03/css3-clip-path-polygon-shape-transition-animation/)
   - Tailwind CSS
     - [how to use calc() in tailwind CSS?](https://stackoverflow.com/questions/65976223/how-to-use-calc-in-tailwind-css)
   - JavaScript
