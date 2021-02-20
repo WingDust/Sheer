@@ -1,5 +1,6 @@
 digraph construct {
-    node [color=gray,shape=box];
+
+    node [color=gray,shape=box,fontname="FangSong"];
     {rank=max;Sheer}
 
     local [
@@ -90,8 +91,7 @@ digraph construct {
     local:port_three -> Yaml_Instance[label="readfilmPath"];
 
     {rank = some; 视频 图片}
-    视频 -> 图片
+    视频-> 图片
     {视频,图片} -> Tree_Instance
-
 
 }

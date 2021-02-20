@@ -1,19 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2021-02-19 21:07:38
- * @LastEditTime: 2021-02-20 17:57:53
+ * @LastEditTime: 2021-02-20 19:16:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\core\common\IPC.ts
  */
 
 import { VSBuffer } from "../../utils/base/buffer";
-import { Event } from "../../utils/base/event";
-import { CancellationToken, CancellationTokenSource } from "@/utils/base/cancelablePromise/cancelablePromise";
-import { IDisposable } from "@/utils/base/interface";
-import { IMessagePassingProtocol } from "./IPCElectron";
 import { BufferReader, BufferWriter, deserialize, serialize } from "@/utils/base/buffer-utils";
+import { Event } from "../../utils/base/event";
+import { IDisposable } from "@/utils/base/interface";
+import { CancellationToken, CancellationTokenSource } from "@/utils/base/cancelablePromise/cancelablePromise";
 import { toDisposable } from "@/utils/base/disposable/disposable";
+
+import { IMessagePassingProtocol } from "./IPCProtocol";
 
 /** 用来服务的频道
  * @export
@@ -67,7 +68,7 @@ export type IRawResponse =
   | IRawPromiseErrorResponse
   | IRawPromiseErrorObjResponse;
 interface PendingRequests{
-    request:IRawPromiseRequests;
+    request:IRawPromiseRequest;
     timeoutTimer:any
 }
 export enum ResponseType {
@@ -292,7 +293,7 @@ export class ChanelServer<TContext= string>
             promise.then(
                 data=>{
                     this.sendResponse(<IRawResponse>{id,data,type:ResponseType.PromiseSuccess})
-                    this.disposeActiveRequest(request.id)
+                    this.activeRequests.delete(request.id)
                 },
                 err =>{
                     if (err instanceof Error){
@@ -315,7 +316,7 @@ export class ChanelServer<TContext= string>
                             type:ResponseType.PromiseErrorObj
                         })
                     }
-                    this.disposeActiveRequest(request.id)
+                    this.activeRequests.delete(request.id)
                 }
             )
             const disposable = toDisposable(()=>cancellationTokenSource.cancel())
