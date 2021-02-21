@@ -40,7 +40,7 @@ export interface IServerChannel<TContext=string>{
  * @interface IChanenlServer
  * @template TContext
  */
-export interface IChanenlServer<TContext=string>{
+export interface IChannelServer<TContext=string>{
     registerChannel(channelName:string,channel:IServerChannel<TContext>):void
 }
 
@@ -113,8 +113,8 @@ type IRawRequest =
  * @implements {IDisposable}
  * @template TContext
  */
-export class ChanelServer<TContext= string>
-    implements IChanenlServer<TContext>,IDisposable{
+export class ChannelServer<TContext= string>
+    implements IChannelServer<TContext>,IDisposable{
         private readonly channels = new Map<string,IServerChannel<TContext>>();
         private protocolListener:IDisposable |null;
         private readonly activeRequests = new Map<number,IDisposable>();

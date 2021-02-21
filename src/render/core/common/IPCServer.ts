@@ -1,0 +1,115 @@
+/*
+ * @Author: your name
+ * @Date: 2021-02-21 10:46:54
+ * @LastEditTime: 2021-02-21 11:37:16
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \electron-vue-vite\src\render\core\common\IPCServer.ts
+ */
+
+import { VSBuffer } from "@/utils/base/buffer";
+import { BufferReader, deserialize } from "@/utils/base/buffer-utils";
+import { toDisposable } from "@/utils/base/disposable/disposable";
+import { Emitter,Event } from "@/utils/base/event";
+import { IDisposable } from "@/utils/base/interface";
+import { ipcMain } from "electron";
+import { ChannelServer, IChannelServer, IServerChannel } from "./IPCChannelServer";
+import { Connection } from "./IPCConnection";
+import { Protocol } from "./IPCProtocol";
+
+class IPCServer<TContext = string>
+    implements IChannelServer<TContext>,IDisposable{
+        private readonly channels = new Map<string,IServerChannel<TContext>>()
+        private readonly _connections = new Set<Connection<TContext>>();
+        private readonly _onDidChangeConnections = new Emitter<Connection<TContext>>()
+
+        readonly onDidChangeConnection = this._onDidChangeConnections.event
+
+        get connections():Array<Connection<TContext>>{
+            const result:Array<Connection<TContext>> = []
+            this._connections.forEach(ctx=>result.push(ctx))
+            return result
+        }
+
+        dispose():void{
+            this.channels.clear()
+            this._connections.clear()
+            this._onDidChangeConnections.dispose()
+        }
+        registerChannel(
+            channelName: string,
+            channel: IServerChannel<TContext>,
+        ): void {
+            this.channels.set(channelName, channel);
+
+            // 同时在所有的连接中，需要注册频道
+            this._connections.forEach(connection => {
+            connection.channelServer.registerChannel(channelName, channel);
+        });
+        }
+        constructor(onDidClientConnect:Event<ClientConnectionEvent>){
+            onDidClientConnect(({protocol,onDidClientDisconnect})=>{
+                const onFirstMessage = Event.once(protocol.onMessage)
+
+                onFirstMessage(msg =>{
+                    const reader = new BufferReader(msg)
+                    const ctx = deserialize(reader) as TContext
+                    const channelServer = new ChannelServer(protocol,ctx)
+                    const ChannelClient = new ChannelClient(protocol)
+
+                    this.channels.forEach((channel,name)=>channelServer.registerChannel(name,channel))
+
+                    const connection:Connection<TContext> = {
+                        channelServer,
+                        channelClient,
+                        ctx
+                    }
+                    this._connections.add(connection)
+                    
+                    onDidClientDisconnect(()=>{
+                        channelServer.dispose()
+                        channelClient.dispose()
+                        this._connections.delete(connection)
+                    })
+                })
+            })
+        }
+    }
+
+
+class Server extends IPCServer{
+    private static readonly Clients:Map<number,IDisposable> = new Map<number,IDisposable>()
+    private static getOnDidClientConnect():Event<ClientConnectionEvent>{
+        const onHello = Event.fromNodeEventEmitter<Electron.WebContents>(
+            ipcMain,
+            'ipc:hello',
+            ({sender})=>sender
+        )
+
+        return Event.map(onHello,webContexts =>{
+            const {id} = webContexts
+            const client = Server.Clients.get(id)
+
+            if (client) {
+                client.dispose()
+            }
+
+            const onDidClientReconnect = new Emitter<void>()
+            Server.Clients.set(id,toDisposable(()=>onDidClientReconnect.fire()))
+            const onMessage = createScopeOnMessageEvent(id,'ipc:message') as Event<VSBuffer>
+
+            const onDidClientDisconnect = Event.any(
+                Event.signal( createScopeOnMessageEvent(id,'ipc:disconnect')),
+                onDidClientReconnect.event
+            )
+
+            const protocol = new Protocol(webContexts,onMessage)
+
+            return {protocol,onDidClientDisconnect}
+        })
+    }
+    constructor(){
+        super(Server.getOnDidClientConnect())
+    }
+
+}

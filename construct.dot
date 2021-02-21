@@ -1,6 +1,7 @@
 digraph construct {
 
-    node [color=gray,shape=box,fontname="FangSong"];
+    node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
+    node [fontname="98WB-1"];
     {rank=max;Sheer}
 
     local [
@@ -14,9 +15,6 @@ digraph construct {
              <tr>
              <td port='port_two'>File</td>
             </tr>
-             <tr>
-             <td port='port_three'>Film.yml</td>
-            </tr>
         </table>
         >
     ];
@@ -26,7 +24,7 @@ digraph construct {
         <table border='1' cellborder='1'>
             <tr><td colspan="1">state</td></tr>
              <tr>
-             <td port='port_one'>Yaml</td>
+             <td port='port_one'>Config</td>
             </tr>
              <tr>
              <td port='port_two'>Tree</td>
@@ -52,8 +50,7 @@ digraph construct {
     l -> state:port_four
     subgraph cluster_init{
         label = "Init";
-        Tree_Instance ;
-        Yaml_Instance;
+        LinkList_Instance ;
     }
 
     subgraph dependencies{
@@ -73,25 +70,17 @@ digraph construct {
     // subgraph cluster_p{
     subgraph cluster_datastructure{
         // label="ad";
-        Tree
-        Yaml
+        LinkList
         pos = "1,2!"
     }
-    // { rank=  };
-    { rank=same; Tree Yaml };
-    { rank=same; Tree_Instance Yaml_Instance state};
-    Tree -> Tree_Instance;
-    Yaml -> Yaml_Instance;
-    {Tree_Instance} -> state:port_two;
-    Yaml_Instance -> state:port_one;
-    // Tree_Instance -> local
+    { rank=same; LinkList };
+    LinkList -> Tree_Instance;
+    {LinkList_Instance} -> state:port_two;
 
     local:port_one -> Tree_Instance;
     local:port_two -> Tree_Instance;
-    local:port_three -> Yaml_Instance[label="readfilmPath"];
 
     {rank = some; 视频 图片}
     视频-> 图片
-    {视频,图片} -> Tree_Instance
 
 }
