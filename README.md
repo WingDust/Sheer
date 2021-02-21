@@ -1,5 +1,10 @@
  <img src="./construct.png" style="" align=center />
 
+
+## IPC
+ <img src="./common_diagram.png" style="" align=center />
+
+
 ## Base on
   - [Electron + vue3 + vite 整合](https:www.jianshu.com/p/ee5ec23d4716)
 
@@ -159,7 +164,7 @@
     - [vscode源码分析【二】程序的启动逻辑，第一个窗口是如何创建的](https://cloud.tencent.com/developer/article/1454979)
     - [vscode 定制开发 —— Workbench 源码解读及实战](https://zhaomenghuan.js.org/blog/vscode-workbench-source-code-interpretation.html)
     - [VSCode 源码解读 - NLS(多语言) 的实现](https://zhuanlan.zhihu.com/p/107779792)
-    - [VSCode 源码解读：事件系统设计](https://godbasin.github.io/2020/07/05/vscode-event/)
+    - [ ] [VSCode 源码解读：事件系统设计](https://godbasin.github.io/2020/07/05/vscode-event/)
     - [VSCode 多进程架构](https://godbasin.github.io/front-end-playground/front-end-basic/deep-learning/vscode-ipc.html#vscode-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84)
     - [Visual Studio Code 是如何办到高效处理大文件的](https://www.zhihu.com/question/30011019)
     - [vscode编辑器打开大项目能够快速预览，这是如何做到的？软件算法比atom做的好?](https://www.zhihu.com/question/52470898)
