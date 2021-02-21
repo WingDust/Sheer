@@ -22,7 +22,7 @@ digraph construct {
         shape = plaintext
         label =<
         <table border='1' cellborder='1'>
-            <tr><td colspan="1">state</td></tr>
+            <tr><td  colspan="1"><b>state</b></td></tr>
              <tr>
              <td port='port_one'>Config</td>
             </tr>
@@ -33,7 +33,7 @@ digraph construct {
              <td port='port_three'>View</td>
             </tr>
              <tr>
-             <td port='port_four'>position</td>
+             <td port='port_four'>Vim</td>
             </tr>
         </table>
         >
@@ -82,5 +82,7 @@ digraph construct {
 
     {rank = some; 视频 图片}
     视频-> 图片
+
+
 
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-21 10:46:54
- * @LastEditTime: 2021-02-21 11:37:16
+ * @LastEditTime: 2021-02-21 13:46:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\core\common\IPCServer.ts
@@ -13,6 +13,7 @@ import { toDisposable } from "@/utils/base/disposable/disposable";
 import { Emitter,Event } from "@/utils/base/event";
 import { IDisposable } from "@/utils/base/interface";
 import { ipcMain } from "electron";
+import { ChannelClient, ClientConnectionEvent } from "./IPChannelClient";
 import { ChannelServer, IChannelServer, IServerChannel } from "./IPCChannelServer";
 import { Connection } from "./IPCConnection";
 import { Protocol } from "./IPCProtocol";
@@ -55,7 +56,7 @@ class IPCServer<TContext = string>
                     const reader = new BufferReader(msg)
                     const ctx = deserialize(reader) as TContext
                     const channelServer = new ChannelServer(protocol,ctx)
-                    const ChannelClient = new ChannelClient(protocol)
+                    const channelClient = new ChannelClient(protocol)
 
                     this.channels.forEach((channel,name)=>channelServer.registerChannel(name,channel))
 
@@ -77,6 +78,29 @@ class IPCServer<TContext = string>
     }
 
 
+interface IIPCEvent {
+  event: { sender: Electron.WebContents };
+  message: Buffer | null;
+}
+
+function createScopedOnMessageEvent(
+  senderId: number,
+  eventName: string,
+): Event<VSBuffer | Buffer> {
+  const onMessage = Event.fromNodeEventEmitter<IIPCEvent>(
+    ipcMain,
+    eventName,
+    (event, message) => ({ event, message }),
+  );
+  const onMessageFromSender = Event.filter(
+    onMessage,
+    ({ event }) => event.sender.id === senderId,
+  );
+  // @ts-ignore
+  return Event.map(onMessageFromSender, ({ message }) =>
+    message ? VSBuffer.wrap(message) : message,
+  );
+}
 class Server extends IPCServer{
     private static readonly Clients:Map<number,IDisposable> = new Map<number,IDisposable>()
     private static getOnDidClientConnect():Event<ClientConnectionEvent>{
@@ -96,10 +120,10 @@ class Server extends IPCServer{
 
             const onDidClientReconnect = new Emitter<void>()
             Server.Clients.set(id,toDisposable(()=>onDidClientReconnect.fire()))
-            const onMessage = createScopeOnMessageEvent(id,'ipc:message') as Event<VSBuffer>
+            const onMessage = createScopedOnMessageEvent(id,'ipc:message') as Event<VSBuffer>
 
             const onDidClientDisconnect = Event.any(
-                Event.signal( createScopeOnMessageEvent(id,'ipc:disconnect')),
+                Event.signal( createScopedOnMessageEvent(id,'ipc:disconnect')),
                 onDidClientReconnect.event
             )
 

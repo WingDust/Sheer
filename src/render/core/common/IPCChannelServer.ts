@@ -99,7 +99,7 @@ type IRawPromiseCancelRequest = {
     type:RequestType.PromiseCancel;
     id:number
 }
-type IRawRequest = 
+export type IRawRequest = 
     | IRawPromiseRequest
     | IRawPromiseCancelRequest
 //#endregion

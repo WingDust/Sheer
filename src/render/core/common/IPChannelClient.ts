@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-20 18:42:13
- * @LastEditTime: 2021-02-21 11:38:18
+ * @LastEditTime: 2021-02-21 13:43:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \electron-vue-vite\src\render\core\common\IPChannelClient.ts
@@ -16,7 +16,7 @@ import { BufferReader, BufferWriter, deserialize, serialize } from "@/utils/base
 import { canceled } from "@/utils/base/errors";
 import { combinedDisposable, toDisposable } from "@/utils/base/disposable/disposable";
 
-import { IRawResponse, RequestType, ResponseType } from "./IPCChannelServer";
+import { IRawRequest, IRawResponse, RequestType, ResponseType } from "./IPCChannelServer";
 import { IMessagePassingProtocol } from "./IPCProtocol";
 
 
@@ -225,4 +225,26 @@ export class ChannelClient implements IChannelClient,IDisposable{
         
     }
 
+    dispose():void{
+        if (this.protocolListener) {
+            this.protocolListener.dispose()
+            this.protocolListener = null
+        }
+        
+        this.activeRequests.forEach(p => p.dispose())
+        this.activeRequests.clear()
+    }
+
+    private whenInitialized():Promise<void>{
+        if (this.state === State.Idle) {
+            return Promise.resolve()
+        } else {
+            return Event.toPromise(this.onDidInitialized)
+        }
+    }
+}
+
+export interface ClientConnectionEvent {
+  protocol: IMessagePassingProtocol;
+  onDidClientDisconnect: Event<void>;
 }

@@ -1,0 +1,53 @@
+
+digraph IPC {
+    label="IPC"
+    // rankdir=LR
+    compound=true;
+    // rankdir=TB
+    node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic",];
+    // node [fontname="98WB-1"];
+    edge [arrowhead = "empty" fontname="Consolas"]
+
+    subgraph cluster_Client{
+      node [style=filled]
+      label="Client";
+      Client[fillcolor="violet"]
+      IPCClient[fillcolor="violet"]
+      IPCClient -> Client[style="dashed"]
+      rankdir=TB
+    }
+    subgraph cluster_Server{
+      node [style=filled]
+      label="Server";
+      Server[fillcolor="violet"]
+      IPCServer[fillcolor="violet"]
+      IPCServer -> Server[style="dashed"]
+      rankdir=TB
+    }
+    subgraph cluster_Protocol{
+      node [style=filled]
+      label="Protocol";
+      Protocol[fillcolor="violet"]
+    }
+    Protocol -> Server [label="DI"]
+    Protocol -> Client [label="DI"]
+
+    subgraph cluster_util{
+      node [style=filled]
+      label="Util";
+      IDisposable[fillcolor="violet"]
+      Event[fillcolor="violet"]
+      // pos="0,0!"
+    }
+    IDisposable -> Server [label="DI"]
+    IDisposable -> Client [label="DI"]
+    subgraph cluster_ProtocolInterferce{
+      node [style=filled]
+      label="ProtocolInterferce";
+      Sender[fillcolor = "pink"]
+      IMessagePassingProtocol[fillcolor = "pink"]
+      Sender -> IMessagePassingProtocol[style="dashed"]
+      rankdir=TB
+    }
+
+}
