@@ -135,6 +135,7 @@
   - [ ] 对读取出来的 Tree 进行一个本地文件数据缓存，并要对它先进行规则排序后再缓存，以便于在本地数据变化时没有被响应，能直接反向比较求证。
   - [ ] 直接跳过写入文件，直接进行读取
   - 正文结构适合横向书写，竖向排列，批注适合竖向书写，横向排列。
+  - [ ] 组合式形容词与名词的关系来作为命名关系
 
 
 ## Mode
@@ -170,6 +171,8 @@
     - [vscode编辑器打开大项目能够快速预览，这是如何做到的？软件算法比atom做的好?](https://www.zhihu.com/question/52470898)
     - [Dive Into Code: VSCode 源码阅读（一）](https://zhuanlan.zhihu.com/p/35902370)
     - [vscode 源码解析 - 细数 vscode 中的那些服务](https://zhuanlan.zhihu.com/p/97593534)
+    - VSCode Plugin
+      - [小记VSCode插件amVim的改进以及插件开发](https://juejin.cn/post/6844903620199055367)
   - Vue
     - [Vue中文件社区](https://www.vue-js.com/)
     - [从Vue3源码中再谈nextTick](https://blog.csdn.net/weixin_44475093/article/details/110003633)
@@ -196,6 +199,11 @@
     - [ECMAScript 6之数值的扩展](https://blog.csdn.net/qq_41863849/article/details/104498544)
     - [this](https://tsejx.github.io/javascript-guidebook/core-modules/executable-code-and-execution-contexts/execution/this)
     - [循环删除数组元素的几种姿势](https://www.jianshu.com/p/951036a5e8db)
+  - UML
+    - [TypeScript to UML reverse engineering](https://github.com/fsahmad/typescript-uml)
+    - [ ] [myxvisual/vscode-ts-uml](https://github.com/myxvisual/vscode-ts-uml)[了解它的Github首页构成]
+    - [ ] [每一个开发人员都应该懂的 UML 规范](https://cloud.tencent.com/developer/article/1427123)
+    - [ ] [重温 UML 类图](https://juejin.cn/post/6844904040334098440)
   - TypeScript
     - [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
     - [TypeScript 进阶](https://itdashu.com/docs/typescriptlesson/e6771/bigint.html)

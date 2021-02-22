@@ -1,12 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-02-19 21:07:38
- * @LastEditTime: 2021-02-20 19:16:07
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\core\common\IPC.ts
- */
-
 import { VSBuffer } from "../../utils/base/buffer";
 import { BufferReader, BufferWriter, deserialize, serialize } from "@/utils/base/buffer-utils";
 import { Event } from "../../utils/base/event";

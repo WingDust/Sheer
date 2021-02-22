@@ -32,7 +32,7 @@ export namespace Event {
 				} else {
 					didFire = true;
 				}
-
+				// 函数、方法才能call 指定 this 值，e 为传入函数中参数
 				return listener.call(thisArgs, e);
 			}, null, disposables);
 
@@ -323,11 +323,15 @@ export namespace Event {
 		return new ChainableEvent(event);
 	}
 
+	// electron 中 ipMain... 已带有监听性质的发射器
 	export interface NodeEventEmitter {
 		on(event: string | symbol, listener: Function): unknown;
 		removeListener(event: string | symbol, listener: Function): unknown;
 	}
 
+	// 将原生 electron 的 已带有监听、通信性质的ipMain...
+	//（所以它已经是一个原始的发射器了）转成自己定义的发射器Emitter
+	// 并以自己发射器回调实例化时添加事件的监听、监听取消oo
 	export function fromNodeEventEmitter<T>(emitter: NodeEventEmitter, eventName: string, map: (...args: any[]) => T = id => id): Event<T> {
 		const fn = (...args: any[]) => result.fire(map(...args));
 		const onFirstListenerAdd = () => emitter.on(eventName, fn);
@@ -347,7 +351,6 @@ export namespace Event {
 		const onFirstListenerAdd = () => emitter.addEventListener(eventName, fn);
 		const onLastListenerRemove = () => emitter.removeEventListener(eventName, fn);
 		const result = new Emitter<T>({ onFirstListenerAdd, onLastListenerRemove });
-
 		return result.event;
 	}
 
@@ -375,6 +378,7 @@ export namespace Event {
 }
 
 
+ // 用回调函数的方式添加 这些函数也是依赖注入进发射器中
 export interface EmitterOptions {
   onFirstListenerAdd?: Function; // 第一次注册监听
   onFirstListenerDidAdd?: Function; // 第一次监听注册成功后
@@ -384,6 +388,8 @@ export interface EmitterOptions {
 }
 
 type Listener<T> = [(e: T) => void, any] | ((e: T) => void);
+
+// 事件发射器的定义，对事件进行触发、监听（监听释放）、
 
 export class Emitter<T> {
   private static readonly _noop = function () {}; // 空操作
@@ -415,6 +421,7 @@ export class Emitter<T> {
   // 初始化事件函数
   // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
   // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
+  // get 返回值作为
   get event(): Event<T> {
     if (!this._event) {
       this._event = (

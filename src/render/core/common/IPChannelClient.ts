@@ -243,8 +243,3 @@ export class ChannelClient implements IChannelClient,IDisposable{
         }
     }
 }
-
-export interface ClientConnectionEvent {
-  protocol: IMessagePassingProtocol;
-  onDidClientDisconnect: Event<void>;
-}

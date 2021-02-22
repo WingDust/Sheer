@@ -1,29 +1,22 @@
-/*
- * @Author: your name
- * @Date: 2021-02-21 10:46:54
- * @LastEditTime: 2021-02-21 13:46:12
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\core\common\IPCServer.ts
- */
-
 import { VSBuffer } from "@/utils/base/buffer";
 import { BufferReader, deserialize } from "@/utils/base/buffer-utils";
 import { toDisposable } from "@/utils/base/disposable/disposable";
 import { Emitter,Event } from "@/utils/base/event";
 import { IDisposable } from "@/utils/base/interface";
 import { ipcMain } from "electron";
-import { ChannelClient, ClientConnectionEvent } from "./IPChannelClient";
+import { ChannelClient } from "./IPChannelClient";
 import { ChannelServer, IChannelServer, IServerChannel } from "./IPCChannelServer";
-import { Connection } from "./IPCConnection";
+import { ClientConnectionEvent, Connection } from "./IPCConnection";
 import { Protocol } from "./IPCProtocol";
 
-class IPCServer<TContext = string>
+export class IPCServer<TContext = string>
     implements IChannelServer<TContext>,IDisposable{
+        // 保存用来供服务（正存在的）的频道
         private readonly channels = new Map<string,IServerChannel<TContext>>()
         private readonly _connections = new Set<Connection<TContext>>();
         private readonly _onDidChangeConnections = new Emitter<Connection<TContext>>()
 
+        // 一旦
         readonly onDidChangeConnection = this._onDidChangeConnections.event
 
         get connections():Array<Connection<TContext>>{
@@ -101,9 +94,17 @@ function createScopedOnMessageEvent(
     message ? VSBuffer.wrap(message) : message,
   );
 }
-class Server extends IPCServer{
+export class Server extends IPCServer{
     private static readonly Clients:Map<number,IDisposable> = new Map<number,IDisposable>()
+
+    /** 监听客户端初始化时 向 ipc：hello 发送的消息，来表明已建立了连接
+     * @private
+     * @static
+     * @return {*}  {Event<ClientConnectionEvent>}
+     * @memberof Server
+     */
     private static getOnDidClientConnect():Event<ClientConnectionEvent>{
+        // 返回
         const onHello = Event.fromNodeEventEmitter<Electron.WebContents>(
             ipcMain,
             'ipc:hello',
@@ -111,7 +112,7 @@ class Server extends IPCServer{
         )
 
         return Event.map(onHello,webContexts =>{
-            const {id} = webContexts
+            const {id} = webContexts // webContext的id 表示窗口id
             const client = Server.Clients.get(id)
 
             if (client) {
@@ -127,6 +128,7 @@ class Server extends IPCServer{
                 onDidClientReconnect.event
             )
 
+            // 这里应该写成依赖注入的方式
             const protocol = new Protocol(webContexts,onMessage)
 
             return {protocol,onDidClientDisconnect}

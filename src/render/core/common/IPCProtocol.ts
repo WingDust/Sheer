@@ -1,17 +1,13 @@
-/*
- * @Author: your name
- * @Date: 2021-02-20 13:43:58
- * @LastEditTime: 2021-02-20 13:43:59
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\core\common\IPCProtocol.ts
- */
-
 import { Event } from "../../utils/base/event";
 import { VSBuffer } from "../../utils/base/buffer";
 
 // IMessagePassingProtocol 为 IPC 缩写
-// 消息传输协议定义
+
+/** 消息传输协议定义，规范、监管约束通信
+ * 所以应以依赖注入方式写入各类，接口
+ * @export
+ * @interface IMessagePassingProtocol
+ */
 export interface IMessagePassingProtocol{
     onMessage:Event<VSBuffer>;
     send(buffer:VSBuffer):void;
@@ -35,7 +31,7 @@ export class Protocol implements IMessagePassingProtocol {
     } catch (e) {
       // systems are going down
     }
-  }
+}
 
   dispose(): void {
     this.sender.send('ipc:disconnect', null);
