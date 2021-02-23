@@ -6,12 +6,17 @@ import { LeakageMonitor, _globalLeakWarningThreshold } from "./leakageMonitor";
 import { LinkedList } from "./linkedList";
 
 
-// 定义事件类型
+/** 定义事件类型 为一个函数
+ * 传入一个o
+ * @export
+ * @interface IMessagePassingProtocol
+ */
 export type Event<T> = (
   listener: (e: T) => any,//监听与回调
   thisArgs?: any,
   disposables?: IDisposable[] | DisposableStore,
 ) => IDisposable;
+
 
 export namespace Event {
   export const None: Event<any> = () => Disposable.None;

@@ -16,7 +16,11 @@ import { VSBuffer } from "../../utils/base/buffer";
  * @interface IMessagePassingProtocol
  */
 export interface IMessagePassingProtocol{
-    onMessage:Event<VSBuffer>; // 函数
+    /** 
+     * @type {Event<VSBuffer>}
+     * @memberof IMessagePassingProtocol
+     */
+    onMessage:Event<VSBuffer>; // 函数 是信息被传过后应该使用什么回调函数处理
     send(buffer:VSBuffer):void; // 函数
 }
 

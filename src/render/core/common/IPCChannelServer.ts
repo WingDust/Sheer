@@ -97,7 +97,6 @@ export type IRawRequest =
 
 
 /** 频道的服务类(器)
- * 
  * @export
  * @class ChanelServer
  * @implements {IChanenlServer<TContext>}
@@ -118,14 +117,13 @@ export class ChannelServer<TContext= string>
 
         /**
          * Creates an instance of ChannelServer.
-         * @param {IMessagePassingProtocol} protocol
+         * @param {IMessagePassingProtocol} protocol 依赖注入协议
          * @param {TContext} ctx 服务器名
          * @param {number} [timeoutDelay=1000]
          * @memberof ChannelServer
          */
         constructor( // 这里还进行一个
-            private readonly protocol:IMessagePassingProtocol, // 依赖注入协议
-
+            private readonly protocol:IMessagePassingProtocol,
             private readonly ctx:TContext,
             private readonly timeoutDelay:number = 1000
         ){
@@ -134,9 +132,8 @@ export class ChannelServer<TContext= string>
                 )
             this.sendResponse({type:ResponseType.Initialize})
         }
-        /**
-         * 频道的服务器来注册一个频道
-         * @param {string} channelName
+        /** 频道的服务器来注册一个频道
+         * @param {string} channelName 频道名
          * @param {IServerChannel<TContext>} channel
          * @memberof ChanelServer
          */
@@ -146,8 +143,7 @@ export class ChannelServer<TContext= string>
             setTimeout(()=>this.flushPendingRequests(channelName),0)
 
         }
-        /**
-         * 将待执行的请求执行后清理掉
+        /** 将待执行的请求执行后清理掉
          * @private
          * @param {string} channelName
          * @memberof ChanelServer
@@ -170,8 +166,7 @@ export class ChannelServer<TContext= string>
             }
         }
 
-        /**
-         * 用于处理原始传入的 Buffer 信息
+        /** 用于处理原始传入的 Buffer 信息
          * @private
          * @param {VSBuffer} message
          * @return {*}  {void}

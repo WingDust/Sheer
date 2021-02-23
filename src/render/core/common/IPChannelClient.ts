@@ -19,7 +19,7 @@ import { combinedDisposable, toDisposable } from "@/utils/base/disposable/dispos
 import { IRawRequest, IRawResponse, RequestType, ResponseType } from "./IPCChannelServer";
 import { IMessagePassingProtocol } from "./IPCProtocol";
 
-
+//#region 
 type IHandler = (response:IRawResponse) => void
 
 // 频道客户端接口
@@ -40,6 +40,7 @@ enum State{
     Uninitialized,
     Idle // 就绪
 }
+//#endregion
 
 
 /** 频道的客户端
@@ -49,6 +50,7 @@ enum State{
  * @implements {IDisposable}
  */
 export class ChannelClient implements IChannelClient,IDisposable{
+    // 协议的监听者
     private protocolListener:IDisposable | null
     private state:State = State.Uninitialized // 频道的状态
     private lastRequestId = 0 // 

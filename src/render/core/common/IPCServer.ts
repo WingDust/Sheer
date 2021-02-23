@@ -4,6 +4,7 @@ import { toDisposable } from "@/utils/base/disposable/disposable";
 import { Emitter,Event } from "@/utils/base/event";
 import { IDisposable } from "@/utils/base/interface";
 import { ipcMain } from "electron";
+
 import { ChannelClient } from "./IPChannelClient";
 import { ChannelServer, IChannelServer, IServerChannel } from "./IPCChannelServer";
 import { ClientConnectionEvent, Connection } from "./IPCConnection";
@@ -13,12 +14,19 @@ export class IPCServer<TContext = string>
     implements IChannelServer<TContext>,IDisposable{
         // 保存用来供服务（正存在的）的频道
         private readonly channels = new Map<string,IServerChannel<TContext>>()
+        // 保存相互通信的客户端与服务端来表示连接
         private readonly _connections = new Set<Connection<TContext>>();
         private readonly _onDidChangeConnections = new Emitter<Connection<TContext>>()
 
-        // 一旦
+        // 实例化时使用事件发射器触发连接事件
         readonly onDidChangeConnection = this._onDidChangeConnections.event
 
+
+        /** 获取正连接的客户端与服务端（以数组的形式）
+         * @readonly
+         * @type {Array<Connection<TContext>>}
+         * @memberof IPCServer
+         */
         get connections():Array<Connection<TContext>>{
             const result:Array<Connection<TContext>> = []
             this._connections.forEach(ctx=>result.push(ctx))

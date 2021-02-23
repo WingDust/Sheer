@@ -177,6 +177,7 @@
     - [Vue中文件社区](https://www.vue-js.com/)
     - [从Vue3源码中再谈nextTick](https://blog.csdn.net/weixin_44475093/article/details/110003633)
     - [面试官：为什么Vue中的v-if和v-for不建议一起用?](https://blog.csdn.net/weixin_44475093/article/details/110607035)
+    - [vue中如何使用i18n实现国际化](https://www.jianshu.com/p/4b96919e3622)
   - Vuex
     - [Vue3 中让 Vuex 的 useStore 具有完整的 state 和 modules 类型推测](https://juejin.cn/post/6896367626441654279)
   - Webassembly 
