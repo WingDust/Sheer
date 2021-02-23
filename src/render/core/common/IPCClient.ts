@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-02-21 11:38:56
- * @LastEditTime: 2021-02-21 13:25:50
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\core\common\IPCClient.ts
- */
 
 import { Event } from "../../utils/base/event";
 import { VSBuffer } from "@/utils/base/buffer";
@@ -17,6 +9,15 @@ import { ChannelClient, IChannel, IChannelClient } from "./IPChannelClient";
 
 import { IMessagePassingProtocol, Protocol } from "./IPCProtocol";
 
+
+/**
+ * @export
+ * @class IPCClient
+ * @implements {IChannelClient}
+ * @implements {IChannelServer<TContext>}
+ * @implements {IDisposable}
+ * @template TContext
+ */
 export class IPCClient<TContext=string>
     implements IChannelClient,IChannelServer<TContext>,IDisposable{
         private readonly channelClient:ChannelClient;
@@ -33,6 +34,7 @@ export class IPCClient<TContext=string>
         getChannel<T extends IChannel>(channelName:string):T{
             return this.channelClient.getChannel(channelName)
         }
+
         registerChannel(
             channelName:string,
             channel:IServerChannel<TContext>
@@ -45,6 +47,13 @@ export class IPCClient<TContext=string>
         }
     }
 
+
+/**
+ * @export
+ * @class Client
+ * @extends {IPCClient}
+ * @implements {IDisposable}
+ */
 export class Client extends IPCClient implements IDisposable{
     private readonly protocol:Protocol;
     

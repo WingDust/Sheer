@@ -106,13 +106,26 @@ export type IRawRequest =
  */
 export class ChannelServer<TContext= string>
     implements IChannelServer<TContext>,IDisposable{
+
+        // 保存已注册的频道
         private readonly channels = new Map<string,IServerChannel<TContext>>();
+        // 协议的监听者
         private protocolListener:IDisposable |null;
+        // 处于活着的请求
         private readonly activeRequests = new Map<number,IDisposable>();
+        // 
         private readonly pendingRequests = new Map<string,PendingRequests[]>();
 
-        constructor(
-            private readonly protocol:IMessagePassingProtocol,
+        /**
+         * Creates an instance of ChannelServer.
+         * @param {IMessagePassingProtocol} protocol
+         * @param {TContext} ctx 服务器名
+         * @param {number} [timeoutDelay=1000]
+         * @memberof ChannelServer
+         */
+        constructor( // 这里还进行一个
+            private readonly protocol:IMessagePassingProtocol, // 依赖注入协议
+
             private readonly ctx:TContext,
             private readonly timeoutDelay:number = 1000
         ){
@@ -315,6 +328,29 @@ export class ChannelServer<TContext= string>
         }
 
         private collectPendingRequest(request:IRawPromiseRequest):void{
+            let pendingRequests = this.pendingRequests.get(request.channelName)
 
+            if (!pendingRequests) {
+                pendingRequests = []
+                this.pendingRequests.set(request.channelName,pendingRequests)
+            }
+
+            const timer = setTimeout(()=>{
+                console.error(`Unknown channel: ${request.channelName}`);
+                
+                if (request.type === RequestType.Promise) {
+                    this.sendResponse(<IRawResponse>{
+                        id:request.id,
+                        data:{
+                            name:'Unknown channel',
+                            message:`Channel name '${request.channelName}' timed out after ${this.timeoutDelay}ms`,
+                            stack:undefined
+                        },
+                        type:ResponseType.PromiseError,
+                    })
+                }
+            },this.timeoutDelay)
+
+            pendingRequests.push({request,timeoutTimer:timer})
         }
     }

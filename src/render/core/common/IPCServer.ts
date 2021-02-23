@@ -24,23 +24,6 @@ export class IPCServer<TContext = string>
             this._connections.forEach(ctx=>result.push(ctx))
             return result
         }
-
-        dispose():void{
-            this.channels.clear()
-            this._connections.clear()
-            this._onDidChangeConnections.dispose()
-        }
-        registerChannel(
-            channelName: string,
-            channel: IServerChannel<TContext>,
-        ): void {
-            this.channels.set(channelName, channel);
-
-            // 同时在所有的连接中，需要注册频道
-            this._connections.forEach(connection => {
-            connection.channelServer.registerChannel(channelName, channel);
-        });
-        }
         constructor(onDidClientConnect:Event<ClientConnectionEvent>){
             onDidClientConnect(({protocol,onDidClientDisconnect})=>{
                 const onFirstMessage = Event.once(protocol.onMessage)
@@ -67,6 +50,23 @@ export class IPCServer<TContext = string>
                     })
                 })
             })
+        }
+
+        dispose():void{
+            this.channels.clear()
+            this._connections.clear()
+            this._onDidChangeConnections.dispose()
+        }
+        registerChannel(
+            channelName: string,
+            channel: IServerChannel<TContext>,
+        ): void {
+            this.channels.set(channelName, channel);
+
+            // 同时在所有的连接中，需要注册频道
+            this._connections.forEach(connection => {
+            connection.channelServer.registerChannel(channelName, channel);
+        });
         }
     }
 
@@ -97,7 +97,7 @@ function createScopedOnMessageEvent(
 export class Server extends IPCServer{
     private static readonly Clients:Map<number,IDisposable> = new Map<number,IDisposable>()
 
-    /** 监听客户端初始化时 向 ipc：hello 发送的消息，来表明已建立了连接
+    /** 监听客户端向 ipc：hello 发送的消息，来表明已建立了连接
      * @private
      * @static
      * @return {*}  {Event<ClientConnectionEvent>}
