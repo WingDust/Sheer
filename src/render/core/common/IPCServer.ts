@@ -103,17 +103,24 @@ function createScopedOnMessageEvent(
   );
 }
 export class Server extends IPCServer{
+
+    /**
+     * @private
+     * @static
+     * @type {Map<number,IDisposable>}
+     * @memberof Server
+     */
     private static readonly Clients:Map<number,IDisposable> = new Map<number,IDisposable>()
 
     /** 监听客户端向 ipc：hello 发送的消息，来表明已建立了连接
      * @private
      * @static
-     * @return {*}  {Event<ClientConnectionEvent>}
+     * @return {*}  {Eent<ClientConnectionEvent>}
      * @memberof Server
      */
     private static getOnDidClientConnect():Event<ClientConnectionEvent>{
         // 返回
-        const onHello = Event.fromNodeEventEmitter<Electron.WebContents>(
+        const onHello:Event<Electron.WebContents> = Event.fromNodeEventEmitter<Electron.WebContents>(
             ipcMain,
             'ipc:hello',
             ({sender})=>sender
@@ -123,7 +130,7 @@ export class Server extends IPCServer{
             const {id} = webContexts // webContext的id 表示窗口id
             const client = Server.Clients.get(id)
 
-            if (client) {
+            if (client) { // 如果存在这个客户端执行 不存在 undefined 不会执行
                 client.dispose()
             }
 

@@ -37,6 +37,14 @@
   - 传送出去应该是什么样数据
     - 临时合并
     - 自分组
+  -  VSCode 源码
+    - Electron 性能问题
+      - [ ] [Electron 文档](https://www.electronjs.org/docs/tutorial/performance#3-%E9%98%BB%E5%A1%9E%E4%B8%BB%E8%BF%9B%E7%A8%8B)
+      - [ ] 
+    - 设计模式
+      - 发布/订阅模式
+        - 事件发射器
+        - 
 ## Subproject
   - Rust-Wasm
   - C/C++ - Emscripten

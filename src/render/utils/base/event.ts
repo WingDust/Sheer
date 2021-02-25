@@ -7,7 +7,8 @@ import { LinkedList } from "./linkedList";
 
 
 /** 定义事件类型 为一个函数
- * 传入一个o
+ * 其中的泛型的定义为要被处理的事件对象
+ * listener 为处理事件对象的函数
  * @export
  * @interface IMessagePassingProtocol
  */
@@ -338,7 +339,10 @@ export namespace Event {
 	//（所以它已经是一个原始的发射器了）转成自己定义的发射器Emitter
 	// 并以自己发射器回调实例化时添加事件的监听、监听取消
 	export function fromNodeEventEmitter<T>(emitter: NodeEventEmitter, eventName: string, map: (...args: any[]) => T = id => id): Event<T> {
-		const fn = (...args: any[]) => result.fire(map(...args));
+		// map 本身为fromNodeEventEmitter 函数的参数，而这个参数被定义为一个接收任意数量参数，返回泛型约束的类型
+		// 而这个 fn 为一个新定义的函数，在事件触发时 map将用来接收并执行 fn 传入来的任意数量参数
+		// 所以说是 fn 包装了 map 与 发射器触发函数
+		const fn = (...args: any[]) => result.fire(map(...args));// 这个函数
 		const onFirstListenerAdd = () => emitter.on(eventName, fn);
 		const onLastListenerRemove = () => emitter.removeListener(eventName, fn);
 		const result = new Emitter<T>({ onFirstListenerAdd, onLastListenerRemove });
@@ -394,8 +398,11 @@ export interface EmitterOptions {
 
 type Listener<T> = [(e: T) => void, any] | ((e: T) => void);
 
-// 事件发射器的定义，对事件进行触发、监听（监听释放）、
-
+/** 事件发射器的定义，对事件进行触发、监听（监听释放）、
+ * @export
+ * @class Emitter
+ * @template T
+ */
 export class Emitter<T> {
   private static readonly _noop = function () {}; // 空操作
 
