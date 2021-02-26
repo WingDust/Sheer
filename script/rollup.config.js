@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-18 09:29:12
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\script\rollup.config.js
- */
 const path = require('path');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');

@@ -12,7 +12,7 @@ import { LinkedList } from "./linkedList";
  * @export
  * @interface IMessagePassingProtocol
  */
-export type Event<T> = (
+export type Event<T> = ( // 函数是不能有属性的，所以它使用参数为函数来实现监听
   listener: (e: T) => any,//监听与回调
   thisArgs?: any,
   disposables?: IDisposable[] | DisposableStore,
@@ -338,6 +338,15 @@ export namespace Event {
 	// 将原生 electron 的 已带有监听、通信性质的ipMain ipRenderer...
 	//（所以它已经是一个原始的发射器了）转成自己定义的发射器Emitter
 	// 并以自己发射器回调实例化时添加事件的监听、监听取消
+
+	/** 返回一个待传入处理回调函数的事件函数
+	 * @export
+	 * @template T
+	 * @param {NodeEventEmitter} emitter
+	 * @param {string} eventName
+	 * @param {(...args: any[]) => T} [map=id => id]
+	 * @return {*}  {Event<T>}
+	 */
 	export function fromNodeEventEmitter<T>(emitter: NodeEventEmitter, eventName: string, map: (...args: any[]) => T = id => id): Event<T> {
 		// map 本身为fromNodeEventEmitter 函数的参数，而这个参数被定义为一个接收任意数量参数，返回泛型约束的类型
 		// 而这个 fn 为一个新定义的函数，在事件触发时 map将用来接收并执行 fn 传入来的任意数量参数
@@ -410,7 +419,7 @@ export class Emitter<T> {
 
   private readonly _leakageMon?: LeakageMonitor; // 泄漏监控器
 
-  private _disposed = false; // 是否已经释放
+  private _disposed = false; // 是否已经释放 默认没有释放
 
   private _event?: Event<T>;
 
@@ -434,20 +443,25 @@ export class Emitter<T> {
   // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
   // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
   // get 返回值作为
+  // get 定义的属性将生成在原型上，Object.defineProperty 的属性生成在实例上
   get event(): Event<T> {
-    if (!this._event) {
-      this._event = (
+    if (!this._event) { // 如果没有事件存在
+		/** 就将事件属性设置为一个默认匿名函数
+		*   这个匿名函数为默认事件函数
+		*/
+      this._event = (	
         listener: (e: T) => any,
         thisArgs?: any, // 指定事件执行对象
         disposables?: IDisposable[] | DisposableStore,) => {
-          if (!this._listeners) {
+          if (!this._listeners) { // 由于是类的可选属性所以要判断是否为存在
             this._listeners = new LinkedList();
           }
-
+		  // 监听器即为依次传入的函数定义，以回调函数形式实现监听，依
+		  // 判断监听器是否为空
           const firstListener = this._listeners.isEmpty();
 
         // 第一次监听，提供监听函数回调
-        if (
+        if ( // 当监听器不为空时，且传入了第一次监听器要执行的函数
           firstListener &&
           this._options &&
           this._options.onFirstListenerAdd

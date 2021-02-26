@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-17 21:55:49
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\vite.config.ts
- */
 /**
  * 参考链接: https://github.com/vitejs/vite/blob/master/src/node/config.ts
  */
