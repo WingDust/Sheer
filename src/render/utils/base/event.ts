@@ -13,7 +13,7 @@ import { LinkedList } from "./linkedList";
  * @interface IMessagePassingProtocol
  */
 export type Event<T> = ( // 函数是不能有属性的，所以它使用参数为函数来实现监听
-  listener: (e: T) => any,//监听与回调
+  listener: (e: T) => any,//监听函数，使用回调实现监听效果
   thisArgs?: any,
   disposables?: IDisposable[] | DisposableStore,
 ) => IDisposable;
@@ -456,7 +456,8 @@ export class Emitter<T> {
           if (!this._listeners) { // 由于是类的可选属性所以要判断是否为存在
             this._listeners = new LinkedList();
           }
-		  // 监听器即为依次传入的函数定义，以回调函数形式实现监听，依
+		  // 监听器即为依次传入的函数定义，以回调函数形式实现监听，
+		  // 依_option这个参数的数量来
 		  // 判断监听器是否为空
           const firstListener = this._listeners.isEmpty();
 
@@ -466,6 +467,7 @@ export class Emitter<T> {
           this._options &&
           this._options.onFirstListenerAdd
         ) {
+			// this 在这里指的是
           this._options.onFirstListenerAdd(this);
         }
 
