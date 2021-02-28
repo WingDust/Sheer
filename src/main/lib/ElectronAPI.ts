@@ -26,6 +26,7 @@ function createMainWin(win:BrowserWindow|null) {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule:true,
+      contextIsolation: false
       // webSecurity:false,
       // allowRunningInsecureContent:true
       // experimentalFeatures:true
@@ -53,6 +54,7 @@ function createServerProcess(serverwin:BrowserWindow |null,name?:string){
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule:true,
+      contextIsolation: false
     }
   })
   serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested-${name}/index.html` :'file://'+'../src/render/nested/index.html')

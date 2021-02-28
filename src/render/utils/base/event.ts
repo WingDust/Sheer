@@ -74,6 +74,9 @@ export namespace Event {
 	export function filter<T, R>(event: Event<T | R>, filter: (e: T | R) => e is R): Event<R>;
 	export function filter<T>(event: Event<T>, filter: (e: T) => boolean): Event<T> {
 		return snapshot((listener, thisArgs = null, disposables?) => event(e => filter(e) && listener.call(thisArgs, e), null, disposables));
+		// 接收一个事件函数和一个过滤函数
+		// 而 snapshot 是接收一个事件函数
+		// 所以它传入了一个
 	}
 
 	/**
@@ -114,7 +117,7 @@ export namespace Event {
 	export function snapshot<T>(event: Event<T>): Event<T> {
 		let listener: IDisposable;
 		const emitter = new Emitter<T>({
-			onFirstListenerAdd() {
+			onFirstListenerAdd() { // 监听函数
 				listener = event(emitter.fire, emitter);
 			},
 			onLastListenerRemove() {
@@ -355,7 +358,9 @@ export namespace Event {
 		const onFirstListenerAdd = () => emitter.on(eventName, fn);
 		const onLastListenerRemove = () => emitter.removeListener(eventName, fn);
 		const result = new Emitter<T>({ onFirstListenerAdd, onLastListenerRemove });
+		// Emitter 实例化时 执行了一次 get event
 
+		// 它将事件发射器上的事件返回了出去 所以 onHello 是事件发射器生成的默认事件函数 ,所以传入值就是监听函数
 		return result.event;
 	}
 
@@ -421,7 +426,7 @@ export class Emitter<T> {
 
   private _disposed = false; // 是否已经释放 默认没有释放
 
-  private _event?: Event<T>;
+  private _event?: Event<T>; // 事件发射器提供地默认事件函数
 
   private _deliveryQueue?: LinkedList<[Listener<T>, T]>; // 分发队列 LinkedList 插入或者删除元素来说，操作方便，性能高
 
@@ -439,39 +444,43 @@ export class Emitter<T> {
         : undefined;
   }
 
-  // 初始化事件函数
+  // 初始化事件函数 即对 _optino 处理
+  // 将传入的 _option 中的函数添加到事件函数的 即
   // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
   // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
-  // get 返回值作为
   // get 定义的属性将生成在原型上，Object.defineProperty 的属性生成在实例上
   get event(): Event<T> {
-    if (!this._event) { // 如果没有事件存在
-		/** 就将事件属性设置为一个默认匿名函数
-		*   这个匿名函数为默认事件函数
-		*/
-      this._event = (	
-        listener: (e: T) => any,
+    if (!this._event) { // 如果没有事件存在 就返回一个默认的事件函数
+      this._event = (	// 返回一个事件函数的定义
+        listener: (e: T) => any, // 即为 onHello 传入的第一个参数
         thisArgs?: any, // 指定事件执行对象
         disposables?: IDisposable[] | DisposableStore,) => {
           if (!this._listeners) { // 由于是类的可选属性所以要判断是否为存在
             this._listeners = new LinkedList();
           }
-		  // 监听器即为依次传入的函数定义，以回调函数形式实现监听，
-		  // 依_option这个参数的数量来
-		  // 判断监听器是否为空
+		  /**
+		   * 在这个事件发射器中，_listeners 为默认为空
+		   * 而当 _options 不为空时，依它属性名存在来调用函数
+		   * 
+		   */
           const firstListener = this._listeners.isEmpty();
 
         // 第一次监听，提供监听函数回调
-        if ( // 当监听器不为空时，且传入了第一次监听器要执行的函数
+        if ( 
           firstListener &&
           this._options &&
           this._options.onFirstListenerAdd
         ) {
-			// this 在这里指的是
-          this._options.onFirstListenerAdd(this);
+		// this 在这里指的是 Emitter 实例 默认上它是会将实例传入进 _options 中函数中的
+		// 但是大多数 _options 中的函数没有参数，所以也就没有这个实例
+		  this._options.onFirstListenerAdd(this);
         }
 
 
+		/**
+		 * 默认上经常不传入 thisArgs 所以为 undefined 也就返回 push listener 函数 
+		 * 当有 thisArgs 时 返回监听函数与 thisArgs 组成数组
+		 */
         const remove = this._listeners.push(
           !thisArgs ? listener : [listener, thisArgs],
         );
@@ -497,7 +506,7 @@ export class Emitter<T> {
         }
 
         // 事件监听后返回结果
-        const result: IDisposable = {
+        const result: IDisposable = {// 为一个对象
           dispose: () => {
             if (removeMonitor) {
               removeMonitor();
@@ -532,8 +541,8 @@ export class Emitter<T> {
   }
 
   // 触发事件
-  fire(event: T): void {
-    if (this._listeners) {
+  fire(event: T): void { // event 为事件触发后的处理函数，或叫监听函数
+    if (this._listeners) { // 
 
       if (!this._deliveryQueue) {
         this._deliveryQueue = new LinkedList();
