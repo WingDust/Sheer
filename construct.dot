@@ -1,7 +1,9 @@
 digraph construct {
 
-    node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
-    node [fontname="98WB-1"];
+    //node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
+    //node [fontname="98WB-1"];
+    node [fontname="优设好身体"];
+    edge [arrowhead = "empty" fontname="Consolas"]
     {rank=max;Sheer}
 
     local [
@@ -79,10 +81,5 @@ digraph construct {
 
     local:port_one -> Tree_Instance;
     local:port_two -> Tree_Instance;
-
-    {rank = some; 视频 图片}
-    视频-> 图片
-
-
 
 }

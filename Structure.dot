@@ -1,0 +1,27 @@
+
+digraph construct {
+
+  //node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
+  node [color=gray,shape=box,fontname="优设好身体"];
+  edge [arrowhead = "empty" fontname="Source Code Variable ExtraLight Italic"]
+  //edge [arrowhead = "empty" fontname="Consolas"]
+
+  主进程
+  页面进程
+  服务进程1
+  服务进程2
+  服务进程3
+  服务进程4
+  //{rank = same;主进程 页面进程}
+  {rank = same;服务进程1 服务进程2 服务进程3 服务进程4 服务进程5}
+  //主进程 -> {页面进程 服务进程1 服务进程2 服务进程3 服务进程4 服务进程5} []
+  {服务进程1 服务进程2 服务进程3 服务进程4 服务进程5} -> 页面进程
+  页面进程 -> {服务进程1 服务进程2 服务进程3 服务进程4 服务进程5}
+
+  第二层视频 -> 服务进程1
+  第一层视频 -> 服务进程2
+  标签-> 服务进程3
+  分镜 -> 服务进程4
+  检索 -> 服务进程5
+  {rank = max;第二层视频  第一层视频  检索 标签 分镜}
+}

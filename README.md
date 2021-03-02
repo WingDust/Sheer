@@ -1,5 +1,7 @@
- <img src="./construct.png" style="" align=center />
+## Structure
+<img src="./Structure.png" align=center />
 
+ <!-- <img src="./construct.png" style="" align=center /> -->
 
 ## IPC
  <img src="./common_diagram.png" style="" align=center />
@@ -38,17 +40,20 @@
     - 临时合并
     - 自分组
   -  VSCode 源码
+
     - 思想
       - 依赖注入
       - 服务
-      - 装饰者
+
     - Electron 性能问题
       - [ ] [Electron 文档](https://www.electronjs.org/docs/tutorial/performance#3-%E9%98%BB%E5%A1%9E%E4%B8%BB%E8%BF%9B%E7%A8%8B)
-      - [ ] 
+
     - 设计模式
       - 发布/订阅模式
         - 事件发射器
-        - 
+        - 事件
+      - 装饰者
+
 ## Subproject
   - Rust-Wasm
   - C/C++ - Emscripten
@@ -65,6 +70,7 @@
   - rollup 编译成主进程代码，自带有热编译，开了两个服务
   - Source Code
     - 阅读源码时，特别是大型的开源项目，像我这次读的 VSCode 源码的一小块却也是一个完整的 IPC 。一、先了解它整体**结构**设计，再去读它的细节，对于其中的类也是适用这个规则的
+    - 不明白的变量，能调试就调试，不能调试就使用打印
 
 ## CSS
   - [对img标签使用after和before伪元素失效的原因](https://blog.csdn.net/qq_35630674/article/details/97398054)

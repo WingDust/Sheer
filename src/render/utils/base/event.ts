@@ -13,7 +13,7 @@ import { LinkedList } from "./linkedList";
  * @interface IMessagePassingProtocol
  */
 export type Event<T> = ( // 函数是不能有属性的，所以它使用参数为函数来实现监听
-  listener: (e: T) => any,//监听函数，使用回调实现监听效果
+  listener: (e: T) => any,//监听函数，使用回调实现监听效果 为事件触发后的处理函数，或叫监听函数
   thisArgs?: any,
   disposables?: IDisposable[] | DisposableStore,
 ) => IDisposable;
@@ -72,11 +72,11 @@ export namespace Event {
 	 */
 	export function filter<T>(event: Event<T>, filter: (e: T) => boolean): Event<T>;
 	export function filter<T, R>(event: Event<T | R>, filter: (e: T | R) => e is R): Event<R>;
-	export function filter<T>(event: Event<T>, filter: (e: T) => boolean): Event<T> {
+	export function filter<T>(event: Event<T>, filter: (e: T) => boolean): Event<T> { // 这里 event 相当于 onHello
 		return snapshot((listener, thisArgs = null, disposables?) => event(e => filter(e) && listener.call(thisArgs, e), null, disposables));
 		// 接收一个事件函数和一个过滤函数
 		// 而 snapshot 是接收一个事件函数
-		// 所以它传入了一个
+		// 所以它传入了一个事件函数的定义，所以它也是一个闭包
 	}
 
 	/**
@@ -116,16 +116,19 @@ export namespace Event {
 	 */
 	export function snapshot<T>(event: Event<T>): Event<T> {
 		let listener: IDisposable;
-		const emitter = new Emitter<T>({
-			onFirstListenerAdd() { // 监听函数
-				listener = event(emitter.fire, emitter);
+		const emitter = new Emitter<T>({ 
+			onFirstListenerAdd() { 
+				listener = event(emitter.fire, emitter);// event为 filter 传入的定义函数
+				// 而这个定义函数在函数体中又调用 filter 函数的事件函数参数 ，即执行 onHello()
+				// 这个是 on(listener) 执行 也同是
+				// 执行了 fromNodeEventrEmitter 实例化时对 _option 的处理
 			},
 			onLastListenerRemove() {
 				listener.dispose();
 			}
 		});
 
-		return emitter.event;
+		return emitter.event;// 这返回的是一个新的默认事件函数
 	}
 
 	/**
@@ -480,6 +483,7 @@ export class Emitter<T> {
 		/**
 		 * 默认上经常不传入 thisArgs 所以为 undefined 也就返回 push listener 函数 
 		 * 当有 thisArgs 时 返回监听函数与 thisArgs 组成数组
+		 * 这里添加了 listener 即
 		 */
         const remove = this._listeners.push(
           !thisArgs ? listener : [listener, thisArgs],
@@ -512,7 +516,7 @@ export class Emitter<T> {
               removeMonitor();
             }
             result.dispose = Emitter._noop;
-            if (!this._disposed) {
+            if (!this._disposed) { // 默认为 undefined
               remove(); // 移除当前监听事件节点
               if (this._options && this._options.onLastListenerRemove) {
                 const hasListeners =
@@ -541,8 +545,8 @@ export class Emitter<T> {
   }
 
   // 触发事件
-  fire(event: T): void { // event 为事件触发后的处理函数，或叫监听函数
-    if (this._listeners) { // 
+  fire(event: T): void { // event 为监听函数要处理的对象 如传入了信息为 interface re {e: Electron.IpcMainEvent;m: any;} 
+    if (this._listeners) { // 如果有 _listeners
 
       if (!this._deliveryQueue) {
         this._deliveryQueue = new LinkedList();
@@ -555,6 +559,7 @@ export class Emitter<T> {
       ) {
         // 遍历 _listeners, 将所有的监听和事件对应的参数放一起
         this._deliveryQueue.push([e.value, event]);
+		// 这里的 e.value 在下方变成了 listener
       }
 
       while (this._deliveryQueue.size > 0) {
