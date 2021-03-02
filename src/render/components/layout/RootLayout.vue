@@ -37,6 +37,7 @@
 <script lang="ts">
 import {
     defineComponent,
+    onBeforeMount,
     onMounted,
     toRaw,
     computed
@@ -44,14 +45,20 @@ import {
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
-import { initwasm } from "../../utils/utilFn";
+import { initwasm,listen } from "../../utils/utilFn";
 import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
 import cursor from "../vim/cursor.vue";
 import singlevil from "../vim/SinglEvil.vue";
 import loading from "../animation/Loading.vue";
+import { ipcRenderer } from "electron";
 export default defineComponent({
   async setup() {
+        onBeforeMount(()=>{
+
+            // listen({channel:'ipc:2layer',handler:(e,m)=>{console.log(m);}},
+            //     {channel:'ipc:1layer',handler:(e,m)=>{console.log(m);}})
+        })
         onMounted(()=>{
             document.addEventListener("keyup",(e)=>{
                 if (e.isComposing){return}
@@ -67,8 +74,8 @@ export default defineComponent({
                 }
             })
             console.log(`RootLayout`);
+            ipcRenderer.send('ipc:hello')
         })
-
         let options:IntersectionObserverInit = {
             root:null,
             rootMargin:'0px',
@@ -89,6 +96,14 @@ export default defineComponent({
         const a = await initwasm(add)
 
         // onBeforeMount(loadwasm)
+
+
+
+
+
+
+
+
         // 防抖
         function debounce(fn:Function,wait:number) {
             let timeoutID:any = null

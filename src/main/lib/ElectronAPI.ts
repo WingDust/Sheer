@@ -43,6 +43,8 @@ function createMainWin(win:BrowserWindow|null) {
   // win!.webContents.on('did-finish-load',()=>{ //@ 依赖过深
   //   createServerProcess(serverwin2,"second")
   // })
+  win.show()
+  return win
 }
 
 

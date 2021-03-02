@@ -8,21 +8,19 @@
  */
 
 import { ipcRenderer} from "electron";
-import { Dirent } from "fs";
-
 
 // interface
 import { State } from "../utils/utilInterface";
 // Config
 import { Config } from "../public/Sheer.config";
 
-import { Files } from "../utils/lib";
 import { store } from "./index";
 import { MutationTypes } from "./mutations";
+import { getlable } from "../utils/utilFn";
 
 // TODO 这个每一项需要写注释
 export const state:State = {
-    Config:Object.create(null),
+    Config:Config,
     FilmPath:{
         Trees:Object.create(null),
         status:false,
@@ -44,13 +42,15 @@ export const state:State = {
     }
 }
 
+getlable(Config.film).then((lablelayer)=>{
+  store.commit(MutationTypes.setcheckline,lablelayer)
+})
 
-ipcRenderer.on('server',(e,...arg)=>{
+ipcRenderer.on('ipc:2layer',(e,...arg)=>{
   console.log(arg);
-  console.log(Config);
-  store.commit(MutationTypes.setConfig,Config)
   store.commit(MutationTypes.setViewline,arg[0])
 })
+
 
 //#region 变量声明
 // let Yaml: ConfigYaml |null
@@ -170,20 +170,3 @@ ipcRenderer.on('server',(e,...arg)=>{
 // runtime()
 
 //#endregion
-
-async function getlable(config:string) {
-  let lablelayer:string[]=[]
-  let paths: Dirent[] = await Files.fsReadDir(config);
-  paths.sort(Files.compareFiles)
-  paths.reverse()
-  let len:number = paths.length
-  while(len--){
-    if (paths[len].isDirectory()) {
-      lablelayer.push(paths[len].name)
-    }
-  }
-  return lablelayer
-}
-getlable(Config.film).then((lablelayer)=>{
-  store.commit(MutationTypes.setcheckline,lablelayer)
-})

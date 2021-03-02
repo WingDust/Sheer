@@ -4,6 +4,12 @@ var electron = require('electron');
 var fs = require('fs');
 var path = require('path');
 
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
+var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+
+// import * as fs from "fs";
 class Files {
     /**
      * [constructor description]
@@ -22,7 +28,7 @@ class Files {
      */
     static fsReadDir(dir) {
         return new Promise((resolve, reject) => {
-            fs.readdir(dir, { withFileTypes: true }, (err, files) => {
+            fs__default['default'].readdir(dir, { withFileTypes: true }, (err, files) => {
                 if (err) {
                     reject(err);
                 }
@@ -40,7 +46,7 @@ class Files {
                 let len = paths.length;
                 while (len--) { // 倒序
                     if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
-                        firstlayer.push(path.join(dirPath, paths[len].name));
+                        firstlayer.push(path__default['default'].join(dirPath, paths[len].name));
                     }
                     else {
                         paths.splice(len, 1);
@@ -59,13 +65,13 @@ class Files {
                 let len = paths.length;
                 while (len--) {
                     if (paths[len].isDirectory()) {
-                        let abspath = path.join(dirPath, paths[len].name);
+                        let abspath = path__default['default'].join(dirPath, paths[len].name);
                         let path2s = await Files.fsReadDir(abspath);
                         path2s.sort(Files.compareFiles);
                         path2s.reverse();
                         let len2 = path2s.length;
                         while (len2--) {
-                            const abspath2 = path.join(abspath, path2s[len2].name);
+                            const abspath2 = path__default['default'].join(abspath, path2s[len2].name);
                             if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) { //第二层视频
                                 secondlayer.push(abspath2);
                                 if (this.addTimes > 30) {

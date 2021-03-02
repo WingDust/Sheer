@@ -46,8 +46,6 @@
     }
   },
   "dependencies": {
-    "@electron/remote": "^1.0.4",
-    "@types/js-yaml": "^3.12.5",
     "bootstrap": "^5.0.0-alpha1",
     "popper.js": "^1.16.1",
     "prismjs": "^1.21.0",

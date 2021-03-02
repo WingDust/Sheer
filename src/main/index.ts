@@ -43,12 +43,16 @@ app.on('ready',async ()=>{
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 app.disableHardwareAcceleration()
 app.whenReady()
-// .then(()=>createMainWin(win,serverwin2))
-// .then(()=>createServerProcess(serverwin1,"first"))
 .then(()=>{
-  createMainWin(win)
-  createServerProcess(serverwin1,"first")
-  createServerProcess(serverwin2,"second")
+  win = createMainWin(win)
+
+
+  ipcMain.on('ipc:hello',(e,args)=>{
+    if (e.frameId ===1) {
+    createServerProcess(serverwin1,"first")
+    createServerProcess(serverwin2,"second")
+    }
+  })
 
   ipcMain.on('min',e=>win!.minimize());
   ipcMain.on('max',e=>{
@@ -59,10 +63,8 @@ app.whenReady()
     }
   });
   ipcMain.on('close',e=>win!.close())
-  ipcMain.on('message-from-server', (event, arg) => {
-    sendWindowMessage(win!, 'server', arg)
-  })
 })
+
 
 
 
@@ -75,3 +77,6 @@ app.whenReady()
 // ipcMain.on('ready', (event, arg) => {
 //   console.info('child process ready')
 // })
+  // ipcMain.on('message-from-server', (event, arg) => {
+  //   sendWindowMessage(win!, 'server', arg)
+  // })

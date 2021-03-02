@@ -4,13 +4,14 @@ var electron = require('electron');
 var fs = require('fs');
 var path = require('path');
 var child_pross = require('child_process');
-var util = require('util');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
+var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
 var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 var child_pross__default = /*#__PURE__*/_interopDefaultLegacy(child_pross);
 
+// import * as fs from "fs";
 class Files {
     /**
      * [constructor description]
@@ -29,7 +30,7 @@ class Files {
      */
     static fsReadDir(dir) {
         return new Promise((resolve, reject) => {
-            fs.readdir(dir, { withFileTypes: true }, (err, files) => {
+            fs__default['default'].readdir(dir, { withFileTypes: true }, (err, files) => {
                 if (err) {
                     reject(err);
                 }
@@ -47,7 +48,7 @@ class Files {
                 let len = paths.length;
                 while (len--) { // 倒序
                     if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
-                        firstlayer.push(path.join(dirPath, paths[len].name));
+                        firstlayer.push(path__default['default'].join(dirPath, paths[len].name));
                     }
                     else {
                         paths.splice(len, 1);
@@ -66,13 +67,13 @@ class Files {
                 let len = paths.length;
                 while (len--) {
                     if (paths[len].isDirectory()) {
-                        let abspath = path.join(dirPath, paths[len].name);
+                        let abspath = path__default['default'].join(dirPath, paths[len].name);
                         let path2s = await Files.fsReadDir(abspath);
                         path2s.sort(Files.compareFiles);
                         path2s.reverse();
                         let len2 = path2s.length;
                         while (len2--) {
-                            const abspath2 = path.join(abspath, path2s[len2].name);
+                            const abspath2 = path__default['default'].join(abspath, path2s[len2].name);
                             if (path2s[len2].isFile() && Files.getFileType(path2s[len2].name)) { //第二层视频
                                 secondlayer.push(abspath2);
                                 if (this.addTimes > 30) {
@@ -438,6 +439,33 @@ class LinkedList {
     }
 }
 
+/**
+ * 调用opencv读取视频第一帧并保存成文件
+ * @param film 视频文件路径
+ * @param ThumbnailPath 保存帧文件路径
+ */
+function generatorimg(film, filename, ThumbnailPath) {
+    // "" 来去除文件名带有空格等其它情况
+    let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${filename}" "${ThumbnailPath}"`;
+    // let python = child_pross.exec(run,{encoding:'utf-8'})
+    let python = child_pross__default['default'].exec(run, { encoding: "buffer" });
+    const decoder = new TextDecoder('gbk');
+    python.stdout.on('data', function (data) {
+        // console.log(data);
+        // console.log(typeof(data));
+        console.log(decoder.decode(data));
+    });
+    python.stderr.on('data', function (data) {
+        // console.log(data);
+        // console.log(typeof(data));
+        console.log(decoder.decode(data));
+    });
+    python.on('close', function (code) {
+        if (code !== 0) { //0 为执行成功
+            console.log(code);
+        }
+    });
+}
 function fmtpath(LinkedList, Config) {
     return LinkedList.flat().map((n) => {
         let img = Object.create(null);
@@ -469,6 +497,7 @@ const Config = {
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
  */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+// import { TextDecoder } from 'util';
 // import fs = require("fs");
 let File = new Files();
 let LinkedLists = new LinkedList();
@@ -478,11 +507,11 @@ let Proxy_Files = new Proxy(File, {
             console.log(LinkedLists);
             for (const links of LinkedLists.toValueArray()) {
                 for (const link of links) {
-                    generatorimg(link, Config.store);
+                    generatorimg(Config.film, link, Config.store);
                 }
             }
-            // ipcRenderer.sendTo(1,'server',fmtpath(LinkedLists.toValueArray(),Config))
-            electron.ipcRenderer.send('message-from-server', fmtpath(LinkedLists.toValueArray(), Config));
+            // let buffer = new ArrayBuffer(JSON.stringify(2).length*2)
+            electron.ipcRenderer.sendTo(1, 'ipc:2layer', fmtpath(LinkedLists.toValueArray(), Config));
         }
         return Reflect.set(target, propKey, value, receiver);
     }
@@ -490,23 +519,6 @@ let Proxy_Files = new Proxy(File, {
 let gen = Proxy_Files.FileTree(2, Config.film, LinkedLists);
 let s = gen.next();
 console.log(s);
-function generatorimg(film, ThumbnailPath) {
-    let run = `E:\\python\\python3.8.1\\python.exe .\\src\\render\\python\\picture.py "${film}" ${ThumbnailPath}`;
-    let python = child_pross__default['default'].exec(run, { encoding: 'utf-8' });
-    const decoder = new util.TextDecoder('gbk');
-    python.stdout.on('data', function (data) {
-        //   console.log(typeof(data));
-        // console.log(decoder.decode(data));
-    });
-    python.stderr.on('data', function (data) {
-        console.log(decoder.decode(data));
-    });
-    python.on('close', function (code) {
-        if (code !== 0) { //0 为执行成功
-            console.log(code);
-        }
-    });
-}
 electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg);
