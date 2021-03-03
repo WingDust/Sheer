@@ -1,0 +1,6 @@
+
+digraph View {
+  node [color=black,shape=box,fontname="优设好身体" ordering=out];
+  edge [ color=gray arrowhead = "empty" fontname="优设好身体"]
+
+}
