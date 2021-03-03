@@ -12,7 +12,7 @@ import { ipcRenderer} from "electron";
 // interface
 import { State } from "../utils/utilInterface";
 // Config
-import { Config } from "../public/Sheer.config";
+import { Configs } from "../public/Sheer.config";
 
 import { store } from "./index";
 import { MutationTypes } from "./mutations";
@@ -20,7 +20,7 @@ import { getlable } from "../utils/utilFn";
 
 // TODO 这个每一项需要写注释
 export const state:State = {
-    Config:Config,
+    Config:Configs,
     FilmPath:{
         Trees:Object.create(null),
         status:false,
@@ -42,7 +42,7 @@ export const state:State = {
     }
 }
 
-getlable(Config.film).then((lablelayer)=>{
+getlable(Configs.film).then((lablelayer)=>{
   store.commit(MutationTypes.setcheckline,lablelayer)
 })
 

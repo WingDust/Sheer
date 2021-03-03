@@ -12,8 +12,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 import { ipcRenderer  } from 'electron'
 import { Files } from "../../utils/lib";
 import { LinkedList } from "../../utils/DataStructure/LinkedList";
-import { Config } from "../../public/Sheer.config";
-// import fs = require("fs");
+import { Configs } from "../../public/Sheer.config";
 
 let File = new Files()
 let LinkedLists = new LinkedList()
@@ -25,7 +24,7 @@ let Proxy_Files = new Proxy(File,{
     return Reflect.set(target,propKey,value,receiver);
     }
 })
-let gen =Proxy_Files.FileTree(1,Config.film,LinkedLists)
+let gen =Proxy_Files.FileTree(1,Configs.film,LinkedLists)
 
 
 ipcRenderer.on('message-to-renderer', (event, ...arg) => {

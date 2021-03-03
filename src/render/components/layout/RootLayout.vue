@@ -55,7 +55,6 @@ import { ipcRenderer } from "electron";
 export default defineComponent({
   async setup() {
         onBeforeMount(()=>{
-
             // listen({channel:'ipc:2layer',handler:(e,m)=>{console.log(m);}},
             //     {channel:'ipc:1layer',handler:(e,m)=>{console.log(m);}})
         })

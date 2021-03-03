@@ -15,6 +15,8 @@ import child_pross from "child_process";
 import {Config,Img} from "./utilInterface";
 import { ipcRenderer } from "electron";
 import { Files } from "./lib";
+import { Configs } from "../public/Sheer.config";
+// import fs = require("fs");
 
 
 
@@ -23,34 +25,35 @@ import { Files } from "./lib";
  * @param film 视频文件路径
  * @param ThumbnailPath 保存帧文件路径
  */
-export function generatorimg(film:string,filename:string,ThumbnailPath:string) {
-    // "" 来去除文件名带有空格等其它情况
-    let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${filename}" "${ThumbnailPath}"`
-    // let python = child_pross.exec(run,{encoding:'utf-8'})
-    let python = child_pross.exec(run,{encoding:"buffer"})
-    const decoder = new TextDecoder('gbk')
+export function generateimg(film:string,filename:any[],ThumbnailPath:string,times:number) {
+  // "" 来去除文件名带有空格等其它情况
+  let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${JSON.stringify(filename).replace(/\"/g,'\'')}" "${ThumbnailPath}"`
+  // console.log(run);
+  // let python = child_pross.exec(run,{encoding:'utf-8'})
+  let python = child_pross.exec(run,{encoding:"buffer"})
+  const decoder = new TextDecoder('gbk')
 
-    python.stdout!.on('data',function(data:any){
-      // console.log(data);
-      // console.log(typeof(data));
-      console.log(decoder.decode(data));
-    })
-    python.stderr!.on('data',function(data:any){
-      // console.log(data);
-      // console.log(typeof(data));
-      console.log(decoder.decode(data));
-    })
-
-    python.on('close',function(code:number){
-    if (code !== 0) {//0 为执行成功
-    console.log(code);
+  python.stdout!.on('data',function(data:any){
+    console.log(decoder.decode(data));
+    if (decoder.decode(data).length===times) {
+      // console.log(decoder.decode(data));
+      ipcRenderer.sendTo(1,'ipc:2layer',fmtpath(filename,Configs))
     }
-    })
+  })
+  python.stderr!.on('data',function(data:any){
+    console.log(decoder.decode(data));
+  })
+
+  python.on('close',function(code:number){
+  if (code !== 0) {//0 为执行成功
+  console.log(code);
+  }
+  })
 }
 
 
-export function fmtpath(LinkedList:string[][],Config:Config):Img[] {
- return LinkedList.flat().map((n)=>{
+export function fmtpath(LinkedList:string[],Config:Config):Img[] { //@ 应依赖注入进
+ return LinkedList.map((n)=>{
     let img:Img = Object.create(null)
     img.file=path.basename(n)
     img.lable=n.replace(Config.film,"").replace(img.file,"")

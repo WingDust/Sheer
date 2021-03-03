@@ -437,15 +437,7 @@ class LinkedList {
     }
 }
 
-/*
- * @Author: your name
- * @Date: 2021-02-15 15:26:21
- * @LastEditTime: 2021-02-17 20:45:29
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\public\Sheer.config.ts
- */
-const Config = {
+const Configs = {
     film: 'G:\\Feature film',
     store: 'G:\\test'
 };
@@ -459,7 +451,6 @@ const Config = {
  * @FilePath: \electron-vue-vite\src\render\server\main.ts
  */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-// import fs = require("fs");
 let File = new Files();
 let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
@@ -467,7 +458,7 @@ let Proxy_Files = new Proxy(File, {
         return Reflect.set(target, propKey, value, receiver);
     }
 });
-Proxy_Files.FileTree(1, Config.film, LinkedLists);
+Proxy_Files.FileTree(1, Configs.film, LinkedLists);
 electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg);

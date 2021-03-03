@@ -439,25 +439,32 @@ class LinkedList {
     }
 }
 
+const Configs = {
+    film: 'G:\\Feature film',
+    store: 'G:\\test'
+};
+
+// import fs = require("fs");
 /**
  * 调用opencv读取视频第一帧并保存成文件
  * @param film 视频文件路径
  * @param ThumbnailPath 保存帧文件路径
  */
-function generatorimg(film, filename, ThumbnailPath) {
+function generateimg(film, filename, ThumbnailPath, times) {
     // "" 来去除文件名带有空格等其它情况
-    let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${filename}" "${ThumbnailPath}"`;
+    let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${JSON.stringify(filename).replace(/\"/g, '\'')}" "${ThumbnailPath}"`;
+    // console.log(run);
     // let python = child_pross.exec(run,{encoding:'utf-8'})
     let python = child_pross__default['default'].exec(run, { encoding: "buffer" });
     const decoder = new TextDecoder('gbk');
     python.stdout.on('data', function (data) {
-        // console.log(data);
-        // console.log(typeof(data));
         console.log(decoder.decode(data));
+        if (decoder.decode(data).length === times) {
+            // console.log(decoder.decode(data));
+            electron.ipcRenderer.sendTo(1, 'ipc:2layer', fmtpath(filename, Configs));
+        }
     });
     python.stderr.on('data', function (data) {
-        // console.log(data);
-        // console.log(typeof(data));
         console.log(decoder.decode(data));
     });
     python.on('close', function (code) {
@@ -467,7 +474,7 @@ function generatorimg(film, filename, ThumbnailPath) {
     });
 }
 function fmtpath(LinkedList, Config) {
-    return LinkedList.flat().map((n) => {
+    return LinkedList.map((n) => {
         let img = Object.create(null);
         img.file = path__default['default'].basename(n);
         img.lable = n.replace(Config.film, "").replace(img.file, "");
@@ -475,50 +482,23 @@ function fmtpath(LinkedList, Config) {
     });
 }
 
-/*
- * @Author: your name
- * @Date: 2021-02-15 15:26:21
- * @LastEditTime: 2021-02-17 20:45:29
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\public\Sheer.config.ts
- */
-const Config = {
-    film: 'G:\\Feature film',
-    store: 'G:\\test'
-};
-
-/*
- * @Author: your name
- * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-19 14:23:39
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\server\main.ts
- */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 // import { TextDecoder } from 'util';
-// import fs = require("fs");
 let File = new Files();
 let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
     set: function (target, propKey, value, receiver) {
         if (propKey === 'times') {
-            console.log(LinkedLists);
-            for (const links of LinkedLists.toValueArray()) {
-                for (const link of links) {
-                    generatorimg(Config.film, link, Config.store);
-                }
-            }
-            // let buffer = new ArrayBuffer(JSON.stringify(2).length*2)
-            electron.ipcRenderer.sendTo(1, 'ipc:2layer', fmtpath(LinkedLists.toValueArray(), Config));
+            console.log(LinkedLists.toValueArray());
+            let filename = LinkedLists.toValueArray().flat();
+            generateimg(Configs.film, filename, Configs.store, filename.length);
         }
         return Reflect.set(target, propKey, value, receiver);
     }
 });
-let gen = Proxy_Files.FileTree(2, Config.film, LinkedLists);
-let s = gen.next();
-console.log(s);
+let gen = Proxy_Files.FileTree(2, Configs.film, LinkedLists);
+gen.next();
+// console.log(s);
 electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
     console.log(event);
     console.info('arg', arg);
