@@ -14,7 +14,7 @@
   >
     <template v-slot:in>
         <singlevil 
-        :placeholder="line.file.replace(/\.(mp4|mkv)/,'.jpg')"
+        :placeholder="line.file"
         :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
         />
     </template>
@@ -45,7 +45,7 @@ import {
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
-import { initwasm,listen } from "../../utils/utilFn";
+import { debounce, initwasm,listen } from "../../utils/utilFn";
 import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
 import cursor from "../vim/cursor.vue";
@@ -59,7 +59,7 @@ export default defineComponent({
             //     {channel:'ipc:1layer',handler:(e,m)=>{console.log(m);}})
         })
         onMounted(()=>{
-            document.addEventListener("keyup",(e)=>{
+            document.addEventListener("keydown",(e)=>{
                 if (e.isComposing){return}
                 if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
                 store.commit(MutationTypes.setViewStatus,undefined)
@@ -103,15 +103,6 @@ export default defineComponent({
 
 
 
-        // 防抖
-        function debounce(fn:Function,wait:number) {
-            let timeoutID:any = null
-            let flag = true
-            return function (e:any) {
-                if (timeoutID != null&&flag) clearTimeout(timeoutID) 
-                timeoutID = setTimeout(fn,wait,e,flag)
-            }
-        }
         function wheel(e:any,flag:any){
             console.log(e);
             console.log(flag);

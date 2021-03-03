@@ -2,10 +2,13 @@
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 import { ipcRenderer  } from 'electron'
-import { Files } from "../../utils/lib";
+import { Files } from "../../../utils/node/lib";
 import { LinkedList } from "../../utils/DataStructure/LinkedList";
 import { generateimg } from "../../utils/utilFn";
 import { Configs } from "../../public/Sheer.config";
+// import { remote } from "electron";
+// console.log(remote.getCurrentWindow().id);
+
 // import { TextDecoder } from 'util';
 
 let File = new Files()
@@ -25,16 +28,15 @@ let s = gen.next()
 // console.log(s);
 
 
-
-
-
-ipcRenderer.on('message-to-renderer', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg)
+ipcRenderer.on('ipc:layer2', (event:Electron.IpcRendererEvent, ...arg) => {
+    // console.log(event);
+    console.log('arg:', arg)
+    gen.next()
 })
 
+
 ipcRenderer.on('message-from-main', (event, ...arg) => {
-    console.log(event);
+    // console.log(event);
     console.info('arg', arg)
 })
 

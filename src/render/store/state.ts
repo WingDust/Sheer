@@ -1,12 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-09-08 01:21:26
- * @LastEditTime: 2021-02-19 13:47:32
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\store\state.ts
- */
-
 import { ipcRenderer} from "electron";
 
 // interface
@@ -46,7 +37,7 @@ getlable(Configs.film).then((lablelayer)=>{
   store.commit(MutationTypes.setcheckline,lablelayer)
 })
 
-ipcRenderer.on('ipc:2layer',(e,...arg)=>{
+ipcRenderer.on('ipc:message',(e,...arg)=>{
   console.log(arg);
   store.commit(MutationTypes.setViewline,arg[0])
 })

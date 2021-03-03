@@ -478,11 +478,14 @@ function fmtpath(LinkedList, Config) {
         let img = Object.create(null);
         img.file = path__default['default'].basename(n);
         img.lable = n.replace(Config.film, "").replace(img.file, "");
+        img.file = img.file.replace(/\.(mp4|mkv)/, '.jpg');
         return img;
     });
 }
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+// import { remote } from "electron";
+// console.log(remote.getCurrentWindow().id);
 // import { TextDecoder } from 'util';
 let File = new Files();
 let LinkedLists = new LinkedList();
@@ -499,12 +502,13 @@ let Proxy_Files = new Proxy(File, {
 let gen = Proxy_Files.FileTree(2, Configs.film, LinkedLists);
 gen.next();
 // console.log(s);
-electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg);
+electron.ipcRenderer.on('ipc:layer2', (event, ...arg) => {
+    // console.log(event);
+    console.log('arg:', arg);
+    gen.next();
 });
 electron.ipcRenderer.on('message-from-main', (event, ...arg) => {
-    console.log(event);
+    // console.log(event);
     console.info('arg', arg);
 });
 //# sourceMappingURL=main.js.map

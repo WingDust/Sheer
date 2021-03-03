@@ -9,6 +9,8 @@
 import { Mutation,MutationTree } from 'vuex';
 import { State,Img,Config } from "../utils/utilInterface";
 import { Tree } from '@/utils/DataStructure/Tree';
+import { debounce } from "../utils/utilFn";
+import { ipcRenderer } from 'electron';
 // import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释
@@ -60,7 +62,12 @@ export const mutations:MutationTree<State> = {
             case 'j':{
                let result =  state.Vim.cursor.postion[0]+=1;
                let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
+               if (result > lines) { //已在最后一行 再触发行即请触发请求
+                  console.log(3);
+                  ipcRenderer.sendTo(3,'ipc:layer2',"ask")
+               }
                 if (result==lines){ //进入最后一行
+                    // 计算第一次进入最后一行
                     let remainder =state.View.viewline.length%6-1
                     if (state.Vim.cursor.postion[1]>remainder) {
                         state.Vim.cursor.postion[1]=remainder
@@ -78,16 +85,17 @@ export const mutations:MutationTree<State> = {
                 break;}
             case 'l':{
                  let result = state.Vim.cursor.postion[1]+=1;
-                 if (state.Vim.cursor.postion[0] == Math.ceil(state.View.viewline.length/6)-1) {
-                     let remainder =state.View.viewline.length%6-1
+                 // 当为倒数第一行时
+                 if (state.Vim.cursor.postion[0] == Math.ceil(state.View.viewline.length/6)-1) { // 通过向下取整 ，因为 positon 为 0 开始所以要 -1
+                     let remainder =state.View.viewline.length%6-1 
                      if (result>remainder) {
-                         result=remainder
+                        state.Vim.cursor.postion[1]=remainder
                      }
                  }
                  else if (result >5) { // 6 列
                     state.Vim.cursor.postion[1]=5
                  }
-                break;} // setVimCursorPosition
+                break;}
             case 'r':{
                 state.Vim.movtion.Rename=true
                 break;}

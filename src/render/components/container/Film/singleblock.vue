@@ -10,7 +10,7 @@
   <div class="inline-flex flex-col">
     <div :class="{'vim-cursor':position}">
     <img class="w-64 h-36"  
-    v-lazy="`safe-file-protocol:://${data.replace(/\.(mp4|mkv)/,'.jpg')}`" alt="">
+    v-lazy="`safe-file-protocol:://${data}`" alt="">
     </div>
     <slot name="in"></slot>
   </div>

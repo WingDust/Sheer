@@ -7,64 +7,29 @@
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
  */
 import fs from "fs";
-import { Dirent } from "fs";
-import path from "path";
-import child_pross from "child_process";
 
-// interface
-import {Config,Img} from "./utilInterface";
-import { ipcRenderer } from "electron";
-import { Files } from "./lib";
-import { Configs } from "../public/Sheer.config";
 // import fs = require("fs");
 
 
 
-/**
- * 调用opencv读取视频第一帧并保存成文件
- * @param film 视频文件路径
- * @param ThumbnailPath 保存帧文件路径
- */
-export function generateimg(film:string,filename:any[],ThumbnailPath:string,times:number) {
-  // "" 来去除文件名带有空格等其它情况
-  let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${JSON.stringify(filename).replace(/\"/g,'\'')}" "${ThumbnailPath}"`
-  // console.log(run);
-  // let python = child_pross.exec(run,{encoding:'utf-8'})
-  let python = child_pross.exec(run,{encoding:"buffer"})
-  const decoder = new TextDecoder('gbk')
-
-  python.stdout!.on('data',function(data:any){
-    console.log(decoder.decode(data));
-    if (decoder.decode(data).length===times) {
-      // console.log(decoder.decode(data));
-      ipcRenderer.sendTo(1,'ipc:2layer',fmtpath(filename,Configs))
-    }
-  })
-  python.stderr!.on('data',function(data:any){
-    console.log(decoder.decode(data));
-  })
-
-  python.on('close',function(code:number){
-  if (code !== 0) {//0 为执行成功
-  console.log(code);
-  }
-  })
-}
 
 
-export function fmtpath(LinkedList:string[],Config:Config):Img[] { //@ 应依赖注入进
- return LinkedList.map((n)=>{
-    let img:Img = Object.create(null)
-    img.file=path.basename(n)
-    img.lable=n.replace(Config.film,"").replace(img.file,"")
-    return img
-  })
-}
 
 export async function initwasm(init:any) {
   const {add} = await init()
   return add
 }
+
+// 防抖
+export function debounce(fn:Function,wait:number) {
+  let timeoutID:any = null
+  let flag = true
+  return function (e:any) {
+      if (timeoutID != null&&flag) clearTimeout(timeoutID) 
+      timeoutID = setTimeout(fn,wait,e,flag)
+  }
+}
+
 
 // const renamefile = (p:img,val:string)=>{
 //   try {
@@ -75,30 +40,8 @@ export async function initwasm(init:any) {
 // }
 
 
-export async function getlable(config:string) {
-  let lablelayer:string[]=[]
-  let paths: Dirent[] = await Files.fsReadDir(config);
-  paths.sort(Files.compareFiles)
-  paths.reverse()
-  let len:number = paths.length
-  while(len--){
-    if (paths[len].isDirectory()) {
-      lablelayer.push(paths[len].name)
-    }
-  }
-  return lablelayer
-}
 
-interface Event{
-  channel:string
-  handler:(e:Electron.IpcRendererEvent,m:any)=>any
-}
 
-export function listen(...args:Event[]) {
-  for (const i of args) {
-    ipcRenderer.on(i.channel,i.handler)
-  }
-}
 
 function ab2str(buf:ArrayBuffer) {
   // return String.fromCharCode.apply(null,new Uint16Array(buf))

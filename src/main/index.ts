@@ -12,8 +12,7 @@
 import { join } from 'path'
 import { app, BrowserWindow,protocol,ipcMain,contentTracing } from 'electron'
 import dotenv from 'dotenv'
-import { createMainWin, createServerProcess,sendWindowMessage } from "./lib/ElectronAPI";
-// require("@electron/remote/main").initialize()
+import { createMainWin, createServerProcess,sendWindowMessage } from "../utils/electron/ElectronAPI";
 
 console.log("Main 进程");
 
@@ -47,12 +46,23 @@ app.whenReady()
   win = createMainWin(win)
 
 
-  ipcMain.on('ipc:hello',(e,args)=>{
+  ipcMain.on('ipc:message',(e,args)=>{
+    switch (e.frameId) {
+      case 1:{ 
+        serverwin2 = createServerProcess(serverwin2,"second") 
+        break;
+      }
+      case 2:{
+
+      }
+    }
     if (e.frameId ===1) {
-    createServerProcess(serverwin1,"first")
-    createServerProcess(serverwin2,"second")
+    // createServerProcess(serverwin1,"first")
+    // setTimeout(()=>void sendWindowMessage(serverwin2!,"message-from-main","asd"),3000)
     }
   })
+
+
 
   ipcMain.on('min',e=>win!.minimize());
   ipcMain.on('max',e=>{

@@ -1,9 +1,15 @@
-## Structure
+## Structure 进程架构图
 <img src="./Structure.png" align=center />
 
- <!-- <img src="./construct.png" style="" align=center /> -->
 
-## IPC
+## Construct 工程构造图
+<img src="./construct.png" style="" align=center />
+
+## 模块图
+  - 视图结构设计图
+  <img src="./construct.png" style="" align=center />
+
+## IPC VSCode源码
  <img src="./common_diagram.png" style="" align=center />
 
 
@@ -171,6 +177,8 @@
 ## For 、Inspiration
   - [qutebrowser](https:qutebrowser.org/)
   - [vimstart](https:github.com/okitavera/vimstart)
+  - Vision
+    - 推动别针
 
 ## Reference
   - VSCode 
@@ -225,6 +233,7 @@
     - [ECMAScript 6之数值的扩展](https://blog.csdn.net/qq_41863849/article/details/104498544)
     - [this](https://tsejx.github.io/javascript-guidebook/core-modules/executable-code-and-execution-contexts/execution/this)
     - [循环删除数组元素的几种姿势](https://www.jianshu.com/p/951036a5e8db)
+    - [javascript 中 keyup、keypress和keydown事件](https://www.cnblogs.com/rsky/p/4355291.html)
   - UML
     - [TypeScript to UML reverse engineering](https://github.com/fsahmad/typescript-uml)
     - [ ] [myxvisual/vscode-ts-uml](https://github.com/myxvisual/vscode-ts-uml)[了解它的Github首页构成]
