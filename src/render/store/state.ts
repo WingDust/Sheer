@@ -1,22 +1,22 @@
 import { ipcRenderer} from "electron";
 
 // interface
-import { State } from "../utils/utilInterface";
+import { State } from "../../utils/utilInterface";
 // Config
 import { Configs } from "../public/Sheer.config";
 
 import { store } from "./index";
 import { MutationTypes } from "./mutations";
-import { getlable } from "../utils/utilFn";
+import { getlable } from "../../utils/node/Fn";
 
 // TODO 这个每一项需要写注释
 export const state:State = {
     Config:Configs,
-    FilmPath:{
-        Trees:Object.create(null),
-        status:false,
-        checkline:Object.create(null)
-    },
+    // FilmPath:{
+        // Trees:Object.create(null),
+        // status:false,
+        // checkline:Object.create(null)
+    // },
     View:{// 有关于视图
         sibebar:false,// 表示侧边栏的显隐状态
         viewline:Object.create(null)

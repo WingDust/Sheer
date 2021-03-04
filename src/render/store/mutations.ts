@@ -1,15 +1,6 @@
-/*
- * @Author: your name
- * @Date: 2020-09-08 01:21:54
- * @LastEditTime: 2021-02-19 14:29:29
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\store\mutations.ts
- */
 import { Mutation,MutationTree } from 'vuex';
-import { State,Img,Config } from "../utils/utilInterface";
-import { Tree } from '@/utils/DataStructure/Tree';
-import { debounce } from "../utils/utilFn";
+import { State,Img,Config } from "../../utils/utilInterface";
+import { debounce } from "../../utils/common/Fn";
 import { ipcRenderer } from 'electron';
 // import "../Webassemly/wast/add.wasm";
 
@@ -34,9 +25,9 @@ export const mutations:MutationTree<State> = {
     [MutationTypes.setConfig](state:State,value:Config){
         state.Config=value
     },
-    [MutationTypes.setTrees](state:State,value:Tree):void{
-            state.FilmPath.Trees=value
-    },
+    // [MutationTypes.setTrees](state:State,value:Tree):void{
+    //         state.FilmPath.Trees=value
+    // },
     // 在函数中设立两个默认参数，先判断要改变值的信号，只需每一次将值改变成不同上一次就行
     [MutationTypes.setViewStatus](state:State,value:boolean=true):void{
         if (state.View.sibebar===value) {
@@ -48,9 +39,9 @@ export const mutations:MutationTree<State> = {
     [MutationTypes.setViewline](state:State,value:Img[]){
         state.View.viewline=value
     },
-    [MutationTypes.setcheckline](state:State,value:string[]){
-        state.FilmPath.checkline=value
-    },
+    // [MutationTypes.setcheckline](state:State,value:string[]){
+    //     state.FilmPath.checkline=value
+    // },
     [MutationTypes.callVimStatus](state:State,value:string){
         switch (value) {
             case 'h':{
@@ -64,7 +55,7 @@ export const mutations:MutationTree<State> = {
                let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
                if (result > lines) { //已在最后一行 再触发行即请触发请求
                   console.log(3);
-                  ipcRenderer.sendTo(3,'ipc:layer2',"ask")
+                  ipcRenderer.send('ipc:message')
                }
                 if (result==lines){ //进入最后一行
                     // 计算第一次进入最后一行

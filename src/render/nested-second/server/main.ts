@@ -3,8 +3,8 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 import { ipcRenderer  } from 'electron'
 import { Files } from "../../../utils/node/lib";
-import { LinkedList } from "../../utils/DataStructure/LinkedList";
-import { generateimg } from "../../utils/utilFn";
+import { LinkedList } from "../../../utils/core/DataStructure/LinkedList";
+import { generateimg } from "../../../utils/node/Fn";
 import { Configs } from "../../public/Sheer.config";
 // import { remote } from "electron";
 // console.log(remote.getCurrentWindow().id);

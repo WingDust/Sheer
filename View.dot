@@ -1,6 +1,71 @@
 
 digraph View {
-  node [color=black,shape=box,fontname="优设好身体" ordering=out];
-  edge [ color=gray arrowhead = "empty" fontname="优设好身体"]
 
+    //node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
+    //node [fontname="98WB-1"];
+    node [fontname="优设好身体"];
+    edge [color=gray arrowhead = "empty" fontname="Source Code Variable ExtraLight Italic"]
+
+    local [
+        shape = plaintext
+        label =<
+        <table border='1' cellborder='1'>
+            <tr><td colspan="1">local</td></tr>
+             <tr>
+             <td port='port_one'>Dir</td>
+            </tr>
+             <tr>
+             <td port='port_two'>File</td>
+            </tr>
+        </table>
+        >
+    ];
+    state [
+        shape = plaintext
+        label =<
+        <table border='1' cellborder='1'>
+            <tr><td  colspan="1"><b>state</b></td></tr>
+             <tr>
+             <td port='port_one'>Config</td>
+            </tr>
+             <tr>
+             <td port='port_two'>Viewline</td>
+            </tr>
+             <tr>
+             <td port='port_three'>View</td>
+            </tr>
+             <tr>
+             <td port='port_four'>Vim</td>
+            </tr>
+        </table>
+        >
+    ];
+    subgraph cluster_vim{
+        l;
+        k;
+        j;
+        h;
+    }
+    h -> state:port_four
+    j -> state:port_four
+    k -> state:port_four
+    l -> state:port_four
+    subgraph cluster_init{
+        label = "Init";
+        LinkList_Instance ;
+    }
+
+
+    // subgraph cluster_p{
+    subgraph cluster_datastructure{
+        // label="ad";
+        LinkList
+        pos = "1,2!"
+    }
+    { rank=same; LinkList };
+    LinkList -> LinkList_Instance;
+    {LinkList_Instance} -> state:port_two;
+
+    local:port_one -> LinkList_Instance;
+    local:port_two -> LinkList_Instance;
 }

@@ -1,12 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-01-26 11:58:52
- * @LastEditTime: 2021-02-19 14:29:20
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\node\utilInterface.ts
- */
-import { Tree } from "../utils/DataStructure/Tree";
 
 // 定义接口要 首字母大写
 interface Config{
@@ -34,11 +25,11 @@ interface Vim{
 }
 interface State{
     Config:Config,
-    FilmPath:{
-        Trees:Tree | undefined
-        status:boolean
-        checkline:string[]
-    }
+    // FilmPath:{
+        // Trees:Tree | undefined
+        // status:boolean
+        // checkline:string[]
+    // }
     View:View
     Vim:Vim
 }

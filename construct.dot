@@ -1,84 +1,60 @@
-digraph construct {
 
-    //node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
-    //node [fontname="98WB-1"];
-    node [fontname="优设好身体"];
-    edge [color=gray arrowhead = "empty" fontname="Source Code Variable ExtraLight Italic"]
-    {rank=max;Sheer}
 
-    local [
-        shape = plaintext
-        label =<
-        <table border='1' cellborder='1'>
-            <tr><td colspan="1">local</td></tr>
-             <tr>
-             <td port='port_one'>Dir</td>
-            </tr>
-             <tr>
-             <td port='port_two'>File</td>
-            </tr>
-        </table>
-        >
-    ];
-    state [
-        shape = plaintext
-        label =<
-        <table border='1' cellborder='1'>
-            <tr><td  colspan="1"><b>state</b></td></tr>
-             <tr>
-             <td port='port_one'>Config</td>
-            </tr>
-             <tr>
-             <td port='port_two'>Tree</td>
-            </tr>
-             <tr>
-             <td port='port_three'>View</td>
-            </tr>
-             <tr>
-             <td port='port_four'>Vim</td>
-            </tr>
-        </table>
-        >
-    ];
-    subgraph cluster_vim{
-        l;
-        k;
-        j;
-        h;
-    }
-    h -> state:port_four
-    j -> state:port_four
-    k -> state:port_four
-    l -> state:port_four
-    subgraph cluster_init{
-        label = "Init";
-        LinkList_Instance ;
-    }
+digraph  construct{
 
-    subgraph dependencies{
-        // label="asd";
-        // labelloc= "t";
-        Vue;
-        Vuex;
-    }
-    { rank=same; Vue Vuex };
-    Vuex -> Vue[arrowhead=none];
-    Vuex -> {Sheer};
-    state -> Vuex;
-    Vue -> Sheer ;
-    vite -> Vue;
-    vite -> Vuex;
 
-    // subgraph cluster_p{
-    subgraph cluster_datastructure{
-        // label="ad";
-        LinkList
-        pos = "1,2!"
-    }
-    { rank=same; LinkList };
-    LinkList -> Tree_Instance;
-    {LinkList_Instance} -> state:port_two;
+  graph [compound=true fontname="Source Code Variable ExtraLight Italic"]
+  node [color=black,shape=box,fontname="Source Code Variable ExtraLight Italic" ordering=out];
+  edge [ color=gray arrowhead = "empty" fontname="优设好身体"]
 
-    local:port_one -> Tree_Instance;
-    local:port_two -> Tree_Instance;
+  labelloc= "t";
+  label="Sheer Project Construct";
+
+  concentrate=true
+
+  subgraph cluster_dep{
+    graph [fontname="优设好身体"]
+    label="运行";
+    // labelloc= "t";
+    Vue3[fontname="Source Code Variable ExtraLight Italic"]
+    Vuex4[fontname="Source Code Variable ExtraLight Italic"]
+
+    Vuex4 -> Vue3[arrowhead=none penwidth=2 color=black]
+
+  }
+  subgraph clusterDep{
+    graph [fontname="优设好身体"]
+    label="构建工具";
+    rollup[fontname="Source Code Variable ExtraLight Italic"]
+    vite2[fontname="Source Code Variable ExtraLight Italic"]
+  }
+  subgraph clusterlang{
+    graph [fontname="优设好身体"]
+    label="Language";
+    TypeScript[ fontname="Source Code Variable ExtraLight Italic"]
+    vue[fontname="Source Code Variable ExtraLight Italic"]
+    wast[fontname="Source Code Variable ExtraLight Italic"]
+  }
+  subgraph clusterenv{
+    graph [fontname="优设好身体"]
+    label="运行环境";
+    "Node"[fontname="Source Code Variable ExtraLight Italic"]
+    Browser[fontname="Source Code Variable ExtraLight Italic"]
+    Electron[fontname="Source Code Variable ExtraLight Italic"]
+  }
+
+
+  // {rank=max;Sheer}
+  // {rank=same; Vue Vuex };
+
+
+  vite2 -> Vue3 [label=compile  lhead=cluster_dep ]
+  Vue3 -> "MainWindow Process"[ltail=cluster_dep ]
+  rollup -> "main.ts"[label=compile]
+  "main.ts" -> MainProcess
+  // vite -> Vue [label=compile ltail=clusterDep lhead=cluster_dep ]
+  //Vuex -> {Sheer};
+  //state -> Vuex;
+  //Vue -> Sheer ;
+  //vite -> Vuex[label=compile]
 }

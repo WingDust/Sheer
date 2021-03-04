@@ -11,7 +11,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 import { ipcRenderer  } from 'electron'
 import { Files } from "../../../utils/node/lib";
-import { LinkedList } from "../../utils/DataStructure/LinkedList";
+import { LinkedList } from "../../../utils/core/DataStructure/LinkedList";
 import { Configs } from "../../public/Sheer.config";
 
 let File = new Files()

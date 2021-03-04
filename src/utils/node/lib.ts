@@ -4,7 +4,7 @@
 import fs from "fs"
 import path from "path"
 import { Dirent } from "fs";
-import { LinkedList } from "../../render/utils/DataStructure/LinkedList";
+import { LinkedList } from "../core/DataStructure/LinkedList";
 
 export class Files {
 
@@ -207,3 +207,5 @@ export class Files {
     // || a.name.localeCompare(b.name,'zh')
   }
 }
+
+

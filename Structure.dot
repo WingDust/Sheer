@@ -1,12 +1,17 @@
 
 digraph Structure {
 
+  graph [compound=true fontname="Source Code Variable ExtraLight Italic"]
   //node [color=gray,shape=box,fontname="Source Code Variable ExtraLight Italic"];
   node [color=black,shape=box,fontname="优设好身体" ordering=out];
   edge [ color=gray arrowhead = "empty" fontname="优设好身体"]
   // edge 默认箭头样式
 
   //edge [ arrowhead = "empty" fontname="Consolas"]
+
+  labelloc= "t";
+  label="Sheer Project Process Structure";
+
   concentrate=true
 
   {rank = min; 主进程}

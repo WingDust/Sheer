@@ -7,7 +7,7 @@
 
 ## 模块图
   - 视图结构设计图
-  <img src="./construct.png" style="" align=center />
+  <img src="./View.png" style="" align=center />
 
 ## IPC VSCode源码
  <img src="./common_diagram.png" style="" align=center />

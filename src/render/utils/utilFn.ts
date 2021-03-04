@@ -6,7 +6,6 @@
  * @Description: 用于保存一些工具函数，并导出给外部使用
  * @FilePath: \electron-vue-vite\src\render\node\config.ts
  */
-import fs from "fs";
 
 // import fs = require("fs");
 
@@ -15,29 +14,9 @@ import fs from "fs";
 
 
 
-export async function initwasm(init:any) {
-  const {add} = await init()
-  return add
-}
-
-// 防抖
-export function debounce(fn:Function,wait:number) {
-  let timeoutID:any = null
-  let flag = true
-  return function (e:any) {
-      if (timeoutID != null&&flag) clearTimeout(timeoutID) 
-      timeoutID = setTimeout(fn,wait,e,flag)
-  }
-}
 
 
-// const renamefile = (p:img,val:string)=>{
-//   try {
-//     fs.rename(p.dirname+p.filename,p.dirname+val,()=>{})
-//   } catch (error) {
-    
-//   }
-// }
+
 
 
 
