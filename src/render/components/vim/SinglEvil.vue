@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-02-06 12:29:00
- * @LastEditTime: 2021-02-09 12:35:52
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\components\vim\SingleVim.vue
--->
 <template>
   <input 
   class=" break-words w-64 h-12 outline-none placeholder-black" 

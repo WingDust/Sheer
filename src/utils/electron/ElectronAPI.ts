@@ -31,6 +31,7 @@ function createMainWin(win:BrowserWindow|null) {
   win.loadURL(URL)
   /** 默认打开 devtool */
   win.webContents.openDevTools()
+  console.log(`页面进程  ProcessId:${win.webContents.getProcessId()}`);
   win.show()
   return win
 }
@@ -38,7 +39,7 @@ function createMainWin(win:BrowserWindow|null) {
 
 
 
-function createServerProcess(serverwin:BrowserWindow |null,name?:string){
+function createServerProcess(serverwin:BrowserWindow |null,name:string){
   serverwin = new BrowserWindow({
     show:false,
     webPreferences: {
@@ -50,6 +51,9 @@ function createServerProcess(serverwin:BrowserWindow |null,name?:string){
   serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested-${name}/index.html` :'file://'+'../src/render/nested/index.html')
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
+  // Dev id辨别使用
+  console.log(`服务进程 ${name} ProcessId:${serverwin.webContents.getProcessId()}`);
+
   return serverwin
 }
 
@@ -67,7 +71,7 @@ function sendWindowMessage(targetWindow:BrowserWindow, message:string, payload:a
   targetWindow.webContents.send(message, payload)
 }
 
-function handler(params:type) {
+// function handler(params:type) {
   
-}
+// }
 export { createMainWin,createServerProcess,sendWindowMessage }

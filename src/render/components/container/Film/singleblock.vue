@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-09-05 12:19:26
- * @LastEditTime: 2021-02-19 10:32:06
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\components\container\Film\singleblock.vue
--->
 <template>
   <div class="inline-flex flex-col">
     <div :class="{'vim-cursor':position}">

@@ -28,7 +28,6 @@
             "cwd": "${workspaceRoot}",
             "protocol": "inspector"
         },
-
         {
             "name": "Launch Deno",
             "request": "launch",

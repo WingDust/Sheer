@@ -18,8 +18,13 @@ class Files {
      * @return {[File]} [description]
      */
     constructor() {
-        this.flag = false;
+        /**
+         * 记录添加的次数以做throttle
+         * @type {number}
+         * @memberof File
+         */
         this.addTimes = 0;
+        this.addTimes1 = 0;
         this.times = 0;
         // this.handlesecondpath=this.handlesecondpath.bind(this)
     }
@@ -44,14 +49,18 @@ class Files {
                 let firstlayer = [];
                 let paths = await Files.fsReadDir(dirPath);
                 paths.sort(Files.compareFiles);
-                paths.reverse();
-                let len = paths.length;
-                while (len--) { // 倒序
-                    if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
+                let len = 0;
+                while (++len < paths.length) {
+                    if (paths[len].isFile() && Files.getFileType(paths[len].name)) {
                         firstlayer.push(path__default['default'].join(dirPath, paths[len].name));
-                    }
-                    else {
-                        paths.splice(len, 1);
+                        this.addTimes1++;
+                        if (this.addTimes1 > 6) {
+                            this.addTimes1 = 0;
+                            LinkedList.append(firstlayer);
+                            this.times++;
+                            yield;
+                            firstlayer = [];
+                        }
                     }
                 }
                 if (firstlayer.length != 0) {
@@ -91,14 +100,10 @@ class Files {
                             secondlayer = [];
                         }
                     }
-                    else {
-                        paths.splice(len, 1);
-                    }
                 }
                 break;
             }
         }
-        this.flag = true;
         //#region 
         // paths.sort(File.compareFiles);
         // let len:number = paths.length
@@ -444,7 +449,6 @@ const Configs = {
     store: 'G:\\test'
 };
 
-// import fs = require("fs");
 /**
  * 调用opencv读取视频第一帧并保存成文件
  * @param film 视频文件路径
@@ -461,7 +465,7 @@ function generateimg(film, filename, ThumbnailPath, times) {
         console.log(decoder.decode(data));
         if (decoder.decode(data).length === times) {
             // console.log(decoder.decode(data));
-            electron.ipcRenderer.sendTo(1, 'ipc:2layer', fmtpath(filename, Configs));
+            electron.ipcRenderer.send('ipc:message', fmtpath(filename, Configs));
         }
     });
     python.stderr.on('data', function (data) {
@@ -484,9 +488,8 @@ function fmtpath(LinkedList, Config) {
 }
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-// import { remote } from "electron";
-// console.log(remote.getCurrentWindow().id);
 // import { TextDecoder } from 'util';
+// console.log(process.pid);
 let File = new Files();
 let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
@@ -501,14 +504,8 @@ let Proxy_Files = new Proxy(File, {
 });
 let gen = Proxy_Files.FileTree(2, Configs.film, LinkedLists);
 gen.next();
-// console.log(s);
-electron.ipcRenderer.on('ipc:layer2', (event, ...arg) => {
-    // console.log(event);
+electron.ipcRenderer.on('ipc:message', (event, ...arg) => {
     console.log('arg:', arg);
     gen.next();
-});
-electron.ipcRenderer.on('message-from-main', (event, ...arg) => {
-    // console.log(event);
-    console.info('arg', arg);
 });
 //# sourceMappingURL=main.js.map

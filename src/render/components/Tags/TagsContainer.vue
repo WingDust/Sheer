@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-11-01 16:09:13
- * @LastEditTime: 2021-02-17 16:50:19
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\components\Tags\TagsContainer.vue
--->
 <template>
       <div class="TagsContainer" :class="{hided:sibebar}" >
           <ul>
@@ -18,12 +10,12 @@
 <script>
 import {defineComponent,ref,computed} from "vue"
 import { useStore } from "vuex";
-import {  getTagPath } from "../../utils/utils.ts";
+import {  getTagPath } from "../../../utils/node/Fn";
 export default defineComponent({
     setup(props,context){
     const store = useStore()
     const sibebar = computed(()=>store.state.View.sibebar)
-    const tags = computed(() => store.state.FilmPath.checkline)
+    const tags = computed(() => store.state.View.tagline)
     // let a = ref(false)
     // let show = function() {
     //     // console.log(context);

@@ -3,11 +3,13 @@
 var electron = require('electron');
 var fs = require('fs');
 var path = require('path');
+var child_pross = require('child_process');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
 var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+var child_pross__default = /*#__PURE__*/_interopDefaultLegacy(child_pross);
 
 // import * as fs from "fs";
 class Files {
@@ -16,8 +18,13 @@ class Files {
      * @return {[File]} [description]
      */
     constructor() {
-        this.flag = false;
+        /**
+         * 记录添加的次数以做throttle
+         * @type {number}
+         * @memberof File
+         */
         this.addTimes = 0;
+        this.addTimes1 = 0;
         this.times = 0;
         // this.handlesecondpath=this.handlesecondpath.bind(this)
     }
@@ -42,14 +49,18 @@ class Files {
                 let firstlayer = [];
                 let paths = await Files.fsReadDir(dirPath);
                 paths.sort(Files.compareFiles);
-                paths.reverse();
-                let len = paths.length;
-                while (len--) { // 倒序
-                    if (paths[len].isFile() && Files.getFileType(paths[len].name)) { //第一层视频
+                let len = 0;
+                while (++len < paths.length) {
+                    if (paths[len].isFile() && Files.getFileType(paths[len].name)) {
                         firstlayer.push(path__default['default'].join(dirPath, paths[len].name));
-                    }
-                    else {
-                        paths.splice(len, 1);
+                        this.addTimes1++;
+                        if (this.addTimes1 > 6) {
+                            this.addTimes1 = 0;
+                            LinkedList.append(firstlayer);
+                            this.times++;
+                            yield;
+                            firstlayer = [];
+                        }
                     }
                 }
                 if (firstlayer.length != 0) {
@@ -89,14 +100,10 @@ class Files {
                             secondlayer = [];
                         }
                     }
-                    else {
-                        paths.splice(len, 1);
-                    }
                 }
                 break;
             }
         }
-        this.flag = true;
         //#region 
         // paths.sort(File.compareFiles);
         // let len:number = paths.length
@@ -442,29 +449,60 @@ const Configs = {
     store: 'G:\\test'
 };
 
-/*
- * @Author: your name
- * @Date: 2021-02-09 11:56:33
- * @LastEditTime: 2021-02-17 19:50:11
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\server\main.ts
+/**
+ * 调用opencv读取视频第一帧并保存成文件
+ * @param film 视频文件路径
+ * @param ThumbnailPath 保存帧文件路径
  */
+function generateimg(film, filename, ThumbnailPath, times) {
+    // "" 来去除文件名带有空格等其它情况
+    let run = `E:\\python\\python3.8.1\\python.exe  .\\src\\render\\python\\picture.py "${film}" "${JSON.stringify(filename).replace(/\"/g, '\'')}" "${ThumbnailPath}"`;
+    // console.log(run);
+    // let python = child_pross.exec(run,{encoding:'utf-8'})
+    let python = child_pross__default['default'].exec(run, { encoding: "buffer" });
+    const decoder = new TextDecoder('gbk');
+    python.stdout.on('data', function (data) {
+        console.log(decoder.decode(data));
+        if (decoder.decode(data).length === times) {
+            // console.log(decoder.decode(data));
+            electron.ipcRenderer.send('ipc:message', fmtpath(filename, Configs));
+        }
+    });
+    python.stderr.on('data', function (data) {
+        console.log(decoder.decode(data));
+    });
+    python.on('close', function (code) {
+        if (code !== 0) { //0 为执行成功
+            console.log(code);
+        }
+    });
+}
+function fmtpath(LinkedList, Config) {
+    return LinkedList.map((n) => {
+        let img = Object.create(null);
+        img.file = path__default['default'].basename(n);
+        img.lable = n.replace(Config.film, "").replace(img.file, "");
+        img.file = img.file.replace(/\.(mp4|mkv)/, '.jpg');
+        return img;
+    });
+}
+
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 let File = new Files();
 let LinkedLists = new LinkedList();
 let Proxy_Files = new Proxy(File, {
     set: function (target, propKey, value, receiver) {
+        if (propKey === 'times') {
+            let filename = LinkedLists.toValueArray().flat();
+            generateimg(Configs.film, filename, Configs.store, filename.length);
+        }
         return Reflect.set(target, propKey, value, receiver);
     }
 });
-Proxy_Files.FileTree(1, Configs.film, LinkedLists);
-electron.ipcRenderer.on('message-to-renderer', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg);
-});
-electron.ipcRenderer.on('message-from-main', (event, ...arg) => {
-    console.log(event);
-    console.info('arg', arg);
+let gen = Proxy_Files.FileTree(1, Configs.film, LinkedLists);
+gen.next();
+electron.ipcRenderer.on('ipc:message', (event, ...arg) => {
+    console.log('arg', arg);
+    gen.next();
 });
 //# sourceMappingURL=main.js.map

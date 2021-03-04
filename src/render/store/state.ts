@@ -12,18 +12,16 @@ import { getlable } from "../../utils/node/Fn";
 // TODO 这个每一项需要写注释
 export const state:State = {
     Config:Configs,
-    // FilmPath:{
-        // Trees:Object.create(null),
-        // status:false,
-        // checkline:Object.create(null)
-    // },
     View:{// 有关于视图
         sibebar:false,// 表示侧边栏的显隐状态
-        viewline:Object.create(null)
+        tagline:Object.create(null),
+        viewline:Object.create(null),
+        sibeline:Object.create(null)
     },
     Vim:{
       cursor:{
-        postion:[0,0]
+        postion:[0,0],
+        sibepostion:0
       },
       movtion:{
         Rename:false, // r
@@ -34,12 +32,18 @@ export const state:State = {
 }
 
 getlable(Configs.film).then((lablelayer)=>{
-  store.commit(MutationTypes.setcheckline,lablelayer)
+  store.commit(MutationTypes.setagline,lablelayer)
 })
 
 ipcRenderer.on('ipc:message',(e,...arg)=>{
   console.log(arg);
-  store.commit(MutationTypes.setViewline,arg[0])
+  switch (arg[0][0]) {
+    case 7:store.commit(MutationTypes.setViewline,arg[0][1]);break;
+    case 10:store.commit(MutationTypes.setViewline,arg[0][1]);break;
+  }
+
+
+  
 })
 
 

@@ -6,10 +6,10 @@ import { Files } from "../../../utils/node/lib";
 import { LinkedList } from "../../../utils/core/DataStructure/LinkedList";
 import { generateimg } from "../../../utils/node/Fn";
 import { Configs } from "../../public/Sheer.config";
-// import { remote } from "electron";
-// console.log(remote.getCurrentWindow().id);
-
 // import { TextDecoder } from 'util';
+
+// console.log(process.pid);
+
 
 let File = new Files()
 let LinkedLists = new LinkedList()
@@ -25,19 +25,13 @@ let Proxy_Files = new Proxy(File,{
 })
 let gen =Proxy_Files.FileTree(2,Configs.film,LinkedLists)
 let s = gen.next()
-// console.log(s);
 
 
-ipcRenderer.on('ipc:layer2', (event:Electron.IpcRendererEvent, ...arg) => {
-    // console.log(event);
+ipcRenderer.on('ipc:message', (event:Electron.IpcRendererEvent, ...arg) => {
     console.log('arg:', arg)
     gen.next()
 })
 
 
-ipcRenderer.on('message-from-main', (event, ...arg) => {
-    // console.log(event);
-    console.info('arg', arg)
-})
 
 

@@ -9,26 +9,18 @@ import { LinkedList } from "../core/DataStructure/LinkedList";
 export class Files {
 
   /**
-   * 监测 Tree 是否添加完成
-   * @type {boolean}
-   * @memberof File
-   */
-  flag: boolean;
-  /**
-   * 记录添加到 Tree 上的次数以做throttle
+   * 记录添加的次数以做throttle
    * @type {number}
    * @memberof File
    */
-  addTimes: number;
-  times:number;
+  addTimes: number = 0;
+  addTimes1:number=0;
+  times:number=0;
   /**
    * [constructor description]
    * @return {[File]} [description]
    */
   constructor(){
-    this.flag = false;
-    this.addTimes = 0;
-    this.times=0;
     // this.handlesecondpath=this.handlesecondpath.bind(this)
   }
   /**
@@ -47,97 +39,97 @@ export class Files {
     });
   }
 
- async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
-   switch (level) {
-     case 1:{
-        let firstlayer:string[]=[] 
-        let paths: Dirent[] = await Files.fsReadDir(dirPath);
-        paths.sort(Files.compareFiles)
-        paths.reverse()
-        let len:number = paths.length
-        while (len--){ // 倒序
-          if(paths[len].isFile()&&Files.getFileType(paths[len].name)){//第一层视频
-          firstlayer.push(path.join(dirPath,paths[len].name))
-          }
-          else {
-            paths.splice(len,1)
-          }
-        }
-        if (firstlayer.length!=0) {
+async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
+  switch (level) {
+    case 1:{
+      let firstlayer:string[]=[] 
+      let paths: Dirent[] = await Files.fsReadDir(dirPath);
+      paths.sort(Files.compareFiles)
+      let len:number = 0
+      while (++len<paths.length){
+        if(paths[len].isFile()&&Files.getFileType(paths[len].name)){
+        firstlayer.push(path.join(dirPath,paths[len].name))
+        this.addTimes1++
+        if (this.addTimes1>6) {
+          this.addTimes1=0
           LinkedList.append(firstlayer)
+          this.times++
+          yield 
+          firstlayer=[]
         }
-       break;
-     }
-     case 2:{
-        let secondlayer:string[]=[]
-        let paths: Dirent[] = await Files.fsReadDir(dirPath);
-        paths.sort(Files.compareFiles)
-        paths.reverse()
-        let len:number = paths.length
-        while (len--) {
-          if (paths[len].isDirectory()) {
-            let abspath = path.join(dirPath,paths[len].name)
-            let path2s: Dirent[] = await   Files.fsReadDir(abspath);
-            path2s.sort(Files.compareFiles)
-            path2s.reverse()
-            let len2:number = path2s.length
-            while (len2--) {
-              const abspath2 = path.join(abspath,path2s[len2].name);
-              if(path2s[len2].isFile()&&Files.getFileType(path2s[len2].name)){//第二层视频
-              secondlayer.push(abspath2)
-                if (this.addTimes>30) {
-                  this.addTimes=0
-                  LinkedList.append(secondlayer)
-                  this.times++
-                  yield 
-                  secondlayer=[]
-                }
-                this.addTimes++;
+        }
+      }
+      if (firstlayer.length!=0) {
+        LinkedList.append(firstlayer)
+      }
+      break;
+    }
+    case 2:{
+      let secondlayer:string[]=[]
+      let paths: Dirent[] = await Files.fsReadDir(dirPath);
+      paths.sort(Files.compareFiles)
+      paths.reverse()
+      let len:number = paths.length
+      while (len--) {
+        if (paths[len].isDirectory()) {
+          let abspath = path.join(dirPath,paths[len].name)
+          let path2s: Dirent[] = await   Files.fsReadDir(abspath);
+          path2s.sort(Files.compareFiles)
+          path2s.reverse()
+          let len2:number = path2s.length
+          while (len2--) {
+            const abspath2 = path.join(abspath,path2s[len2].name);
+            if(path2s[len2].isFile()&&Files.getFileType(path2s[len2].name)){//第二层视频
+            secondlayer.push(abspath2)
+              if (this.addTimes>30) {
+                this.addTimes=0
+                LinkedList.append(secondlayer)
+                this.times++
+                yield 
+                secondlayer=[]
               }
-            }
-            if (secondlayer.length!=0) {
-              LinkedList.append(secondlayer)
-              secondlayer=[]
+              this.addTimes++;
             }
           }
-          else {
-            paths.splice(len,1)
+          if (secondlayer.length!=0) {
+            LinkedList.append(secondlayer)
+            secondlayer=[]
           }
         }
-       break;
-     }
-   }
-    this.flag=true
-    //#region 
-    // paths.sort(File.compareFiles);
-    // let len:number = paths.length
-    // while (len--){
-    //   const abspath = path.join(dirPath,paths[len].name);
-    //   if(paths[len].isFile()&&this.getFileType(paths[len].name)){
-    //     // Tree.add(abspath, dirPath, Tree.traverseBF);
-    //     // this.addTimes++;
-    //   }
-    //   else if (paths[len].isDirectory()){
-        // let path2s: Dirent[] = await  this.fsReadDir(abspath);
-    //     // path2s.sort(File.compareFiles)
-    //     let len2:number = path2s.length
-    //     while (len2--) {
-    //       const abspath = path.join(paths[len].name,path2s[len].name);
-    //       if(paths[len].isFile()&&this.getFileType(paths[len].name)){
-    //     // Tree.add(abspath, dirPath, Tree.traverseBF);
-    //         this.addTimes++;
-    //       }
-    //     }
-    //     // this.FileTree2(abspath, Tree, callback);
-    //   }
-    //   // else if(this.level<2){
-    //   else {
-    //     paths.splice(len,1)
-    //   }
-    // }
-    // if(this.level<2) this.level++
-    //#endregion
+      }
+      break;
+    }
   }
+  //#region 
+  // paths.sort(File.compareFiles);
+  // let len:number = paths.length
+  // while (len--){
+  //   const abspath = path.join(dirPath,paths[len].name);
+  //   if(paths[len].isFile()&&this.getFileType(paths[len].name)){
+  //     // Tree.add(abspath, dirPath, Tree.traverseBF);
+  //     // this.addTimes++;
+  //   }
+  //   else if (paths[len].isDirectory()){
+      // let path2s: Dirent[] = await  this.fsReadDir(abspath);
+  //     // path2s.sort(File.compareFiles)
+  //     let len2:number = path2s.length
+  //     while (len2--) {
+  //       const abspath = path.join(paths[len].name,path2s[len].name);
+  //       if(paths[len].isFile()&&this.getFileType(paths[len].name)){
+  //     // Tree.add(abspath, dirPath, Tree.traverseBF);
+  //         this.addTimes++;
+  //       }
+  //     }
+  //     // this.FileTree2(abspath, Tree, callback);
+  //   }
+  //   // else if(this.level<2){
+  //   else {
+  //     paths.splice(len,1)
+  //   }
+  // }
+  // if(this.level<2) this.level++
+  //#endregion
+}
 
   /**
    * [getFileType description: 检查文件是否为视频文件,是：返回 true 否：返回 false]
@@ -164,7 +156,6 @@ export class Files {
     return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false
   }
 
-  // static compareFiles(a: picture, b: picture): number;
   static compareFiles(a: string, b: string): number;
   static compareFiles(a: Dirent, b: Dirent): number;
   static compareFiles(a: any, b: any) {

@@ -11,11 +11,14 @@ interface Img{
 }
 interface View{
     sibebar:boolean
+    tagline:string[],
     viewline:Img[]
+    sibeline:Img[]
 }
 interface Vim{
     cursor:{
         postion:[number,number],
+        sibepostion:number
     },
     movtion:{
         Rename:boolean, 
@@ -25,11 +28,6 @@ interface Vim{
 }
 interface State{
     Config:Config,
-    // FilmPath:{
-        // Trees:Tree | undefined
-        // status:boolean
-        // checkline:string[]
-    // }
     View:View
     Vim:Vim
 }

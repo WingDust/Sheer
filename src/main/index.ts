@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-20 10:26:31
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\main\index.ts
- */
 /**
  * electron 主文件
  */
@@ -44,21 +36,29 @@ app.disableHardwareAcceleration()
 app.whenReady()
 .then(()=>{
   win = createMainWin(win)
-
-
+  ipcMain.once('ipc:hello',(e,args)=>{
+    serverwin1 = createServerProcess(serverwin1,"first") // 窗口id 2
+    serverwin2 = createServerProcess(serverwin2,"second") // 窗口id 3
+  })
   ipcMain.on('ipc:message',(e,args)=>{
-    switch (e.frameId) {
-      case 1:{ 
-        serverwin2 = createServerProcess(serverwin2,"second") 
+    console.log(e.processId);
+    console.log(args);
+    // console.log(args==3);
+    switch (e.processId) {
+      case 4:{ //页面进程向服务进程发送请求
+        if (args==10)sendWindowMessage(serverwin2!,"ipc:message",10)
+        if (args==7)sendWindowMessage(serverwin2!,"ipc:message",7)
+        // console.log(serverwin2);
         break;
       }
-      case 2:{
-
+      case 7:{ // 由服务进程向页面进程发送数据
+        sendWindowMessage(win!,"ipc:message",[7,args])
+        break;
       }
-    }
-    if (e.frameId ===1) {
-    // createServerProcess(serverwin1,"first")
-    // setTimeout(()=>void sendWindowMessage(serverwin2!,"message-from-main","asd"),3000)
+      case 10:{ // 第二层视频服务进程向页面进程发送数据 
+        sendWindowMessage(win!,"ipc:message",[10,args])
+        break;
+      }
     }
   })
 

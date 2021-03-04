@@ -1,16 +1,15 @@
 import { Mutation,MutationTree } from 'vuex';
-import { State,Img,Config } from "../../utils/utilInterface";
+import { State,Img } from "../../utils/utilInterface";
 import { debounce } from "../../utils/common/Fn";
 import { ipcRenderer } from 'electron';
 // import "../Webassemly/wast/add.wasm";
 
 // TODO 需要做注释
 export const enum MutationTypes{
-    setConfig="setConfig",
-    setTrees="setTrees",
+    setSibeline="setSibeline",
     setViewStatus="setViewStatus",
     setViewline ="setViewline",
-    setcheckline = "setcheckline",
+    setagline = "setagline",
     callVimStatus = "callVimStatus",
     adjustViewline ="adjustViewline ",
 }
@@ -22,12 +21,9 @@ export const enum MutationTypes{
 // export const mutations:Mutation<State> & MutationTree<State> = {
 export const mutations:MutationTree<State> = {
     // []中为方法名 () 为参数类型断言
-    [MutationTypes.setConfig](state:State,value:Config){
-        state.Config=value
+    [MutationTypes.setSibeline](state:State,value:Img[]):void{
+            state.View.sibeline=value
     },
-    // [MutationTypes.setTrees](state:State,value:Tree):void{
-    //         state.FilmPath.Trees=value
-    // },
     // 在函数中设立两个默认参数，先判断要改变值的信号，只需每一次将值改变成不同上一次就行
     [MutationTypes.setViewStatus](state:State,value:boolean=true):void{
         if (state.View.sibebar===value) {
@@ -39,9 +35,9 @@ export const mutations:MutationTree<State> = {
     [MutationTypes.setViewline](state:State,value:Img[]){
         state.View.viewline=value
     },
-    // [MutationTypes.setcheckline](state:State,value:string[]){
-    //     state.FilmPath.checkline=value
-    // },
+    [MutationTypes.setagline](state:State,value:string[]){
+        state.View.tagline=value
+    },
     [MutationTypes.callVimStatus](state:State,value:string){
         switch (value) {
             case 'h':{
@@ -54,8 +50,7 @@ export const mutations:MutationTree<State> = {
                let result =  state.Vim.cursor.postion[0]+=1;
                let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
                if (result > lines) { //已在最后一行 再触发行即请触发请求
-                  console.log(3);
-                  ipcRenderer.send('ipc:message')
+                debounce(()=>void ipcRenderer.send('ipc:message',10),1500)
                }
                 if (result==lines){ //进入最后一行
                     // 计算第一次进入最后一行

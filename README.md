@@ -247,6 +247,7 @@
     - [Electron中使用sql.js操作SQLite数据库](https://www.mdeditor.tw/pl/przn)
     - [Electron-vue实现后台多进程](https://www.cnblogs.com/webbery/p/12751933.html)
     - [electron发送windows消息](https://leehaoze.com/2020/07/02/electron%E5%8F%91%E9%80%81windows%E6%B6%88%E6%81%AF/)
+    - [electron进程间通信封装](https://juejin.cn/post/6844904143224586248)
   - 小说
     - [互动小说及其开源简史 | Linux 中国](https://kuaibao.qq.com/s/20190828AZOM1I00?refer=spider)
     - [互动小说及其开源简史 | Linux 中国](https://blog.csdn.net/F8qG7f9YD02Pe/article/details/100111448)

@@ -13,10 +13,10 @@
   :position="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
   >
     <template v-slot:in>
-        <singlevil 
-        :placeholder="line.file"
-        :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
-        />
+      <singlevil 
+      :placeholder="line.file"
+      :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
+      />
     </template>
   </singleblock >
 
@@ -29,7 +29,25 @@
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
-    <!-- <cursor /> -->
+  <singleblock 
+  :key="i" 
+   v-for="(line,i) in sibeline" 
+  :data="config.store+line.la+line.file"
+  :position=" sibeline.length>sibepostion ? i==sibepostion  : i==sbeline.length-1"
+>
+    <template v-slot:in>
+      <singlevil 
+      :placeholder="line.file"
+      :confirmPosition=" sibeline.length>sibepostion? i==sibepostion : i==sibeline.length-1"
+      />
+    </template>
+  </singleblock >
+  <!-- <loading 
+  :color="'#3399FF'"
+  :disable="true"
+  :class="'w-20 grid-load'"
+  >
+  </loading> -->
 </div>
 </div>
 </template>
@@ -39,7 +57,6 @@ import {
     defineComponent,
     onBeforeMount,
     onMounted,
-    toRaw,
     computed
     } from "vue";
 import { useStore } from "vuex";
@@ -55,8 +72,6 @@ import { ipcRenderer } from "electron";
 export default defineComponent({
   async setup() {
         onBeforeMount(()=>{
-            // listen({channel:'ipc:2layer',handler:(e,m)=>{console.log(m);}},
-            //     {channel:'ipc:1layer',handler:(e,m)=>{console.log(m);}})
         })
         onMounted(()=>{
             document.addEventListener("keydown",(e)=>{
@@ -74,6 +89,7 @@ export default defineComponent({
             })
             console.log(`RootLayout`);
             ipcRenderer.send('ipc:hello')
+            // console.log(process.pid);
         })
         let options:IntersectionObserverInit = {
             root:null,
@@ -84,12 +100,14 @@ export default defineComponent({
         const ins = new IntersectionObserver(callback,options)
         const store = useStore()
         console.log(store.state);
-        // ipcRenderer.sendTo(2,'message-to-renderer',"wooh")
         
         const viewline =computed(()=> store.state.View.viewline) 
         const view = computed(()=> store.state.View.sibebar)
         const vimcursor = computed(() => store.state.Vim.cursor.postion)
         const config = computed(()=>store.state.Config)
+        const sibeline = computed(()=>store.state.View.sibeline)
+        const sibepostion = computed(()=>store.state.Vim.cursor.sibepostion)
+
         // let a 
         // const loadwasm = async () =>{ a = await initwasm(add)} 
         const a = await initwasm(add)
@@ -128,7 +146,7 @@ export default defineComponent({
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            mousewheel,touchwheel,view,viewline,vimcursor,a,config
+            mousewheel,touchwheel,view,viewline,vimcursor,a,config,sibeline,sibepostion 
         }
     },
     components:{
