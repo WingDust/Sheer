@@ -41,7 +41,7 @@ export class Files {
 
 async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
   switch (level) {
-    case 1:{
+    case 1:{ 
       let firstlayer:string[]=[] 
       let paths: Dirent[] = await Files.fsReadDir(dirPath);
       paths.sort(Files.compareFiles)
@@ -59,12 +59,14 @@ async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
         }
         }
       }
-      if (firstlayer.length!=0) {
+      if (firstlayer.length!=0) {// 处理小于 6 的情况
         LinkedList.append(firstlayer)
+        firstlayer=[]
+        this.times++
       }
       break;
     }
-    case 2:{
+    case 2:{ //判断小于 30 的情况
       let secondlayer:string[]=[]
       let paths: Dirent[] = await Files.fsReadDir(dirPath);
       paths.sort(Files.compareFiles)
@@ -91,11 +93,16 @@ async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
               this.addTimes++;
             }
           }
-          if (secondlayer.length!=0) {
+          if (secondlayer.length!=0) { // 处理第二层单层
             LinkedList.append(secondlayer)
             secondlayer=[]
           }
         }
+      }
+      if (secondlayer.length!=0) { // 当第二层总数小于 30
+        LinkedList.append(secondlayer)
+        secondlayer=[]
+        this.times++
       }
       break;
     }

@@ -28,20 +28,29 @@
   </loading>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
-<div class="e" @scroll.prevent="mousewheel" @wheel="touchwheel">
+<div class="e" @scroll.prevent="scroll" @wheel="touchwheel"> <!-- 因为 scroll 事件会冒泡所以绑定在父元素 -->
   <singleblock 
   :key="i" 
    v-for="(line,i) in sibeline" 
-  :data="config.store+line.la+line.file"
-  :position=" sibeline.length>sibepostion ? i==sibepostion  : i==sbeline.length-1"
+  :data="config.store+line.lable+line.file"
+  :position=" sibeline.length>sibepostion ? i==sibepostion  : i==sibeline.length-1"
 >
-    <template v-slot:in>
+    <!-- <template v-slot:in>
       <singlevil 
       :placeholder="line.file"
       :confirmPosition=" sibeline.length>sibepostion? i==sibepostion : i==sibeline.length-1"
       />
-    </template>
+    </template> -->
   </singleblock >
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
+  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
   <!-- <loading 
   :color="'#3399FF'"
   :disable="true"
@@ -57,9 +66,11 @@ import {
     defineComponent,
     onBeforeMount,
     onMounted,
-    computed
+    computed,
+    ComputedRef
     } from "vue";
 import { useStore } from "vuex";
+import { Config } from "../../../utils/utilInterface";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
 import { debounce, initwasm } from "../../../utils/common/Fn";
@@ -74,7 +85,7 @@ export default defineComponent({
         onBeforeMount(()=>{
         })
         onMounted(()=>{
-            document.addEventListener("keydown",(e)=>{
+            document.addEventListener("keydown",(e:KeyboardEvent)=>{
                 if (e.isComposing){return}
                 if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
                 store.commit(MutationTypes.setViewStatus,undefined)
@@ -104,7 +115,7 @@ export default defineComponent({
         const viewline =computed(()=> store.state.View.viewline) 
         const view = computed(()=> store.state.View.sibebar)
         const vimcursor = computed(() => store.state.Vim.cursor.postion)
-        const config = computed(()=>store.state.Config)
+        const config:ComputedRef<Config>= computed(()=>store.state.Config)
         const sibeline = computed(()=>store.state.View.sibeline)
         const sibepostion = computed(()=>store.state.Vim.cursor.sibepostion)
 
@@ -116,21 +127,20 @@ export default defineComponent({
 
 
 
+        // let scr:scroll = function(){}
 
 
 
-
-
-        function wheel(e:any,flag:any){
-            console.log(e);
+        function scrollhandl(e:UIEvent,...flag:any[]){
+            console.log(e.target);
             console.log(flag);
-            let currentT=e.target.scrollTop
-            console.log(e.target.scrollTop);
-            e.target.scrollBy(0,160)
-            console.log("scrollTop:"+e.target.scrollTop+"current:"+(currentT-e.target.scrollTop));
-            flag=false
+            let currentT=e.target!.scrollTop
+            // console.log(e.target!.scrollTop);
+            // e.target.scrollBy(0,160)
+            // console.log("scrollTop:"+e.target.scrollTop+"current:"+(currentT-e.target.scrollTop));
+            // flag=false
         }
-        const mousewheel = debounce(wheel,1000)
+        const scroll = debounce(scrollhandl,1000)
 
         function wheeldebounce(fn:Function,wait:number) {
             let  timeoutID:any = null
@@ -140,13 +150,13 @@ export default defineComponent({
             }
             
         }
-        function wheelmove(e:any) {
+        function wheelmove(e:WheelEvent) {
             console.log(e);
         }
         const touchwheel = wheeldebounce(wheelmove,1000)
 
         return {
-            mousewheel,touchwheel,view,viewline,vimcursor,a,config,sibeline,sibepostion 
+            scroll,touchwheel,view,viewline,vimcursor,a,config,sibeline,sibepostion 
         }
     },
     components:{

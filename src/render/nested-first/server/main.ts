@@ -20,7 +20,7 @@ let Proxy_Files = new Proxy(File,{
     }
 })
 let gen =Proxy_Files.FileTree(1,Configs.film,LinkedLists)
-let s = gen.next()
+gen.next()
 
 
 ipcRenderer.on('ipc:message', (event, ...arg) => {

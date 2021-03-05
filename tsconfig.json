@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "types": ["vite/client","node"],
+    "plugins": [{"name": "@vudex/typescript-plugin-vue"}],
     "baseUrl": "./",
     "strict": true,
     "strictNullChecks": true,

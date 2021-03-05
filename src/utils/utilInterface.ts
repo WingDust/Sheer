@@ -12,7 +12,7 @@ interface Img{
 interface View{
     sibebar:boolean
     tagline:string[],
-    viewline:Img[]
+    viewline:Img[],
     sibeline:Img[]
 }
 interface Vim{

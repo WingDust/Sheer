@@ -38,7 +38,7 @@ getlable(Configs.film).then((lablelayer)=>{
 ipcRenderer.on('ipc:message',(e,...arg)=>{
   console.log(arg);
   switch (arg[0][0]) {
-    case 7:store.commit(MutationTypes.setViewline,arg[0][1]);break;
+    case 7:store.commit(MutationTypes.setSibeline,arg[0][1]);break;
     case 10:store.commit(MutationTypes.setViewline,arg[0][1]);break;
   }
 
