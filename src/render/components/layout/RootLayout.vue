@@ -30,7 +30,8 @@
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="scroll" @wheel="touchwheel"> <!-- 因为 scroll 事件会冒泡所以绑定在父元素 -->
 <!-- 为什么使用 span 因为要使用 dom.getClientRects(只能是行级元素或 inline 才返回多个DOMRect) 而 inline 不能与 inline-grid 并一行 -->
-  <span ref="Rectsdom">
+  <!-- <span ref="Rectsdom"> -->
+  <div class="inline">
     <singleblock 
     class="mb-4"
     :key="i" 
@@ -44,7 +45,8 @@
         :confirmPosition="!into&&sibepostion==i"/>
       </template>
     </singleblock >
-  </span>
+  </div>
+  <!-- </span> -->
 </div>
 </div>
 </template>
@@ -141,7 +143,7 @@ export default defineComponent({
                     case 'KeyH':{store.commit(MutationTypes.callVimStatus,{keycode:'h'}); break;}
                     case 'KeyJ':{store.commit(MutationTypes.callVimStatus,{keycode:'j'}); break;}
                     case 'KeyK':{store.commit(MutationTypes.callVimStatus,{keycode:'k'}); break;}
-                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,{keycode:'l',sibepostion:setsibepostion(height(),Rectsdom.value!)}); break;}
+                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,{keycode:'l',sibepostion:vimcursor.value[1]==5&&setsibepostion(height(),Rectsdom.value!)}); break;}
                     case 'KeyR':{store.commit(MutationTypes.callVimStatus,{keycode:'r'}); break;}
                 }
             })
@@ -181,6 +183,7 @@ export default defineComponent({
         width: 1644px;
         transition: width .4s;
         grid-template-columns:repeat(6,1fr);
+        // grid-template-rows: minmax(198px,198px);
         // grid-column-gap: 1rem;
         grid-row-gap: 1rem;
     }

@@ -1,5 +1,6 @@
 <template>
-  <div class="inline-flex flex-col">
+  <div class="inline-block w-64 h-50">
+  <!-- <div class="w-64 h-50"> -->
     <div :class="{'vim-cursor':position}">
     <img class="w-64 h-36"  
     v-lazy="`safe-file-protocol:://${data}`" alt="">

@@ -53,16 +53,16 @@ export const mutations:MutationTree<State> = {
                     if (result > lines) { //已在最后一行 再触发行即请触发请求
                         debounce(()=>void ipcRenderer.send('ipc:message',10),1500)
                     }
-                        if (result==lines){ //进入最后一行
-                            // 计算第一次进入最后一行
-                            let remainder =state.View.viewline.length%6-1
-                            if (state.Vim.cursor.postion[1]>remainder) {
-                                state.Vim.cursor.postion[1]=remainder
-                            }
+                    if (result==lines){ //进入最后一行
+                        // 计算第一次进入最后一行
+                        let remainder =state.View.viewline.length%6-1
+                        if (state.Vim.cursor.postion[1]>remainder) {
+                            state.Vim.cursor.postion[1]=remainder
                         }
-                        else if (result>lines){
-                            state.Vim.cursor.postion[0]=lines
-                        }
+                    }
+                    else if (result>lines){
+                        state.Vim.cursor.postion[0]=lines
+                    }
                 }
                 else{
                     let result = state.Vim.cursor.sibepostion+=1;
@@ -90,9 +90,9 @@ export const mutations:MutationTree<State> = {
                      }
                  }
                  else if (result >5) { // 6 列
+                    state.Vim.cursor.postion[1]=5
                     state.Vim.cursor.sibepostion = value.sibepostion!
                     state.Vim.cursor.into=true
-                    state.Vim.cursor.postion[1]=5
                  }
                 break;}
             case 'r':{
