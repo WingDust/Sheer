@@ -23,5 +23,5 @@
   "include": [
     "src/**/*",
     "typings/*.d.ts"
-  ]
+, "global.d.ts"  ]
 }

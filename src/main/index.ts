@@ -42,7 +42,7 @@ app.whenReady()
   })
   ipcMain.on('ipc:message',(e,args)=>{
     console.log(e.processId);
-    console.log(args);
+    // console.log(args);
     // console.log(args==3);
     switch (e.processId) {
       case 4:{ //页面进程向服务进程发送请求

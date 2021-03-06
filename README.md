@@ -42,9 +42,8 @@
   - Cancel Infinite Recursive Read File and Dir with mount on Tree
     - 在最开始的代码设计中，我对读取文件这个功能的设定是越强大越好，所以我将写了一个能无限递归读取文件树，并挂载到 Tree 类上。相反的是，我现在认为更优秀的使用规范比强大的工具健壮。
     - be a better man , not be a better tool , be a least tool
-  - 传送出去应该是什么样数据
-    - 临时合并
-    - 自分组
+  - 如果视频还携带了其他信息并另用别的文件储存
+    - 
   - VSCode 源码
     - 思想
       - 依赖注入
@@ -77,6 +76,7 @@
 
 ## CSS
   - [对img标签使用after和before伪元素失效的原因](https://blog.csdn.net/qq_35630674/article/details/97398054)
+
 ## TypeScript
   - `global.d.ts` 当文件中出现 `import` 语句时它将不会是全局作用域，`declare` 也将无效 ，需要重新在 `declare gloabl{...}` 中写不再需要写 `declare` 直接定义
     - Node 全局对象 `global` 上的挂载
@@ -114,8 +114,6 @@
     - `"dev:ele": "electron src/main/_.js"`
   - npm
     - [npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
-  - vite
-    - 
 
 ## Electron
   - 打印当前 Electron 所使用 Node 的 Version 
@@ -128,6 +126,12 @@
     - [Using Graphviz to Visualize Structured Content from Contentful Spaces](https://www.contentful.com/blog/2018/05/04/using-graphviz-to-visualize-structured-content-from-contentful-spaces/)
     - [数据可视化（三）基于 Graphviz 实现程序化绘图 (应读)](https://riboseyim.github.io/2017/09/15/Visualization-Graphviz/#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96)
     - [使用python库--Graphviz为论文画出漂亮的示意图 (应看)](https://www.cnblogs.com/marsggbo/p/10327618.html)
+    - [Arrow types of WinGraphviz](http://wingraphviz.sourceforge.net/wingraphviz/language/arrow_type.htm)
+    - [How can I control within level node order in graphviz's dot](https://stackoverflow.com/questions/44274518/how-can-i-control-within-level-node-order-in-graphvizs-dot)
+    - [How do you center a title for a diagram output to SVG using dot?](https://stackoverflow.com/questions/6450765/how-do-you-center-a-title-for-a-diagram-output-to-svg-using-dot)
+    - [Graphviz - label attribute](https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/index)
+    - [How to change the arrow size of the graph in Graphviz](https://stackoverflow.com/questions/58047142/how-to-change-the-arrow-size-of-the-graph-in-graphviz)
+    - [Vertically aligning a node joining subgraphs in Graphviz](https://stackoverflow.com/questions/16628525/vertically-aligning-a-node-joining-subgraphs-in-graphviz)
 
 ## Latex (TikZ & PGF & ctex) 
   - 
@@ -183,6 +187,7 @@
 ## Reference
   - VSCode 
     - 搜索关键词：Monaco源码分析
+    - [VSCode 里的 GoToDefinition 是如何实现的](https://zhuanlan.zhihu.com/p/100438617?utm_source=wechat_session)
     - [vscode源码分析【一】从源码运行vscode](https://codeteenager.github.io/vscode-analysis/learn/)
     - [VSCode技术揭秘（一）](https://segmentfault.com/a/1190000020833042?utm_source=tag-newest)
     - [monaco-editor实现全局内容和文件搜索](https://blog.csdn.net/weixin_42084197/article/details/90486243)
@@ -230,10 +235,16 @@
   - Tailwind CSS
     - [how to use calc() in tailwind CSS?](https://stackoverflow.com/questions/65976223/how-to-use-calc-in-tailwind-css)
   - JavaScript
+    - 高性能 JavaScript
+      - [JS 各种循环性能对比](https://segmentfault.com/a/1190000023046119?utm_source=tag-newest)
+      - [JS数组循环的性能和效率分析（for、while、forEach、map、for of）](https://juejin.cn/post/6844903651232710670)
+      - [javascript循环性能比较](https://www.cnblogs.com/libin-1/p/6964591.html)
+      - [JavaScript性能优化：（四）程序流程控制](https://lfkid.github.io/2016/12/15/JavaScript%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A%EF%BC%88%E5%9B%9B%EF%BC%89%E7%A8%8B%E5%BA%8F%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/)
     - [ECMAScript 6之数值的扩展](https://blog.csdn.net/qq_41863849/article/details/104498544)
     - [this](https://tsejx.github.io/javascript-guidebook/core-modules/executable-code-and-execution-contexts/execution/this)
     - [循环删除数组元素的几种姿势](https://www.jianshu.com/p/951036a5e8db)
     - [javascript 中 keyup、keypress和keydown事件](https://www.cnblogs.com/rsky/p/4355291.html)
+    - dom.getClientRects() 可从一个 span 中换行文本中获取每一行的位置
   - UML
     - [TypeScript to UML reverse engineering](https://github.com/fsahmad/typescript-uml)
     - [ ] [myxvisual/vscode-ts-uml](https://github.com/myxvisual/vscode-ts-uml)[了解它的Github首页构成]

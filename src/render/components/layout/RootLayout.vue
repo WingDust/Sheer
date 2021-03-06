@@ -10,12 +10,12 @@
   :key="i" 
    v-for="(line,i) in viewline" 
   :data="config.store+line.lable+line.file"
-  :position="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
+  :position="into&&a(6,vimcursor[0],vimcursor[1])==i"
   >
     <template v-slot:in>
       <singlevil 
-      :placeholder="line.file"
-      :confirmPosition="viewline.length>a(6,vimcursor[0],vimcursor[1]) ? i==a(6,vimcursor[0],vimcursor[1]) : i==viewline.length-1"
+      :placeholder="line.file.replace(/\.(jpg)/,'')"
+      :confirmPosition="into&&a(6,vimcursor[0],vimcursor[1])==i"
       />
     </template>
   </singleblock >
@@ -29,51 +29,42 @@
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <div class="e" @scroll.prevent="scroll" @wheel="touchwheel"> <!-- 因为 scroll 事件会冒泡所以绑定在父元素 -->
-  <singleblock 
-  :key="i" 
-   v-for="(line,i) in sibeline" 
-  :data="config.store+line.lable+line.file"
-  :position=" sibeline.length>sibepostion ? i==sibepostion  : i==sibeline.length-1"
->
-    <!-- <template v-slot:in>
-      <singlevil 
-      :placeholder="line.file"
-      :confirmPosition=" sibeline.length>sibepostion? i==sibepostion : i==sibeline.length-1"
-      />
-    </template> -->
-  </singleblock >
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <img src="safe-file-protocol:://G:\\test/1.PNG"/>
-  <!-- <loading 
-  :color="'#3399FF'"
-  :disable="true"
-  :class="'w-20 grid-load'"
-  >
-  </loading> -->
+<!-- 为什么使用 span 因为要使用 dom.getClientRects(只能是行级元素或 inline 才返回多个DOMRect) 而 inline 不能与 inline-grid 并一行 -->
+  <span ref="Rectsdom">
+    <singleblock 
+    class="mb-4"
+    :key="i" 
+    v-for="(line,i) in sibeline" 
+    :data="config.store+line.lable+line.file"
+    :position="!into&&sibepostion==i"
+    >
+      <template v-slot:in>
+        <singlevil 
+        :placeholder="line.file.replace(/\.(jpg)/,'')"
+        :confirmPosition="!into&&sibepostion==i"/>
+      </template>
+    </singleblock >
+  </span>
 </div>
 </div>
 </template>
 
 <script lang="ts">
 import {
+    ref,
     defineComponent,
     onBeforeMount,
     onMounted,
     computed,
-    ComputedRef
+    ComputedRef,
+    Ref,
     } from "vue";
 import { useStore } from "vuex";
-import { Config } from "../../../utils/utilInterface";
+import { Config, Img } from "../../../utils/utilInterface";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
-import { debounce, initwasm } from "../../../utils/common/Fn";
+import { initwasm } from "../../../utils/common/Fn";
+import {height,setsibepostion ,debounce ,hasScroll } from "../../../utils/Browser/Fn";
 import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
 import cursor from "../vim/cursor.vue";
@@ -82,26 +73,6 @@ import loading from "../animation/Loading.vue";
 import { ipcRenderer } from "electron";
 export default defineComponent({
   async setup() {
-        onBeforeMount(()=>{
-        })
-        onMounted(()=>{
-            document.addEventListener("keydown",(e:KeyboardEvent)=>{
-                if (e.isComposing){return}
-                if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
-                store.commit(MutationTypes.setViewStatus,undefined)
-                }
-                switch (e.code) { // 行列数限制
-                    case 'KeyH':{store.commit(MutationTypes.callVimStatus,'h'); break;}
-                    case 'KeyJ':{store.commit(MutationTypes.callVimStatus,'j'); break;}
-                    case 'KeyK':{store.commit(MutationTypes.callVimStatus,'k'); break;}
-                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,'l'); break;}
-                    case 'KeyR':{store.commit(MutationTypes.callVimStatus,'r'); break;}
-                }
-            })
-            console.log(`RootLayout`);
-            ipcRenderer.send('ipc:hello')
-            // console.log(process.pid);
-        })
         let options:IntersectionObserverInit = {
             root:null,
             rootMargin:'0px',
@@ -112,33 +83,33 @@ export default defineComponent({
         const store = useStore()
         console.log(store.state);
         
-        const viewline =computed(()=> store.state.View.viewline) 
-        const view = computed(()=> store.state.View.sibebar)
-        const vimcursor = computed(() => store.state.Vim.cursor.postion)
         const config:ComputedRef<Config>= computed(()=>store.state.Config)
-        const sibeline = computed(()=>store.state.View.sibeline)
-        const sibepostion = computed(()=>store.state.Vim.cursor.sibepostion)
-
-        // let a 
-        // const loadwasm = async () =>{ a = await initwasm(add)} 
-        const a = await initwasm(add)
-
-        // onBeforeMount(loadwasm)
+        const view:ComputedRef<boolean> = computed(()=> store.state.View.sibebar)
+        const viewline:ComputedRef<Img[]> =computed(()=> store.state.View.viewline) 
+        const vimcursor:ComputedRef<[number,number]> = computed(() => store.state.Vim.cursor.postion)
+        const sibeline:ComputedRef<Img[]> = computed(()=>store.state.View.sibeline)
+        const sibepostion:ComputedRef<number> = computed(()=>store.state.Vim.cursor.sibepostion)
+        const into:ComputedRef<boolean> = computed(()=>store.state.Vim.cursor.into)
 
 
 
-        // let scr:scroll = function(){}
+
 
 
 
         function scrollhandl(e:UIEvent,...flag:any[]){
-            console.log(e.target);
-            console.log(flag);
-            let currentT=e.target!.scrollTop
-            // console.log(e.target!.scrollTop);
-            // e.target.scrollBy(0,160)
-            // console.log("scrollTop:"+e.target.scrollTop+"current:"+(currentT-e.target.scrollTop));
-            // flag=false
+          // [Property 'scrollTop' does not exist on type 'EventTarget'](https://gitter.im/Microsoft/TypeScript/archives/2016/01/23)
+          let target = e.target as HTMLElement
+          // if(target.scrollHeight > target.clientHeight)
+          if (hasScroll(target,undefined))
+          if (sibeline.value.length)
+          console.log(target.scrollTop);
+          // let currentT=e.target!.srcElement['scrollTop']
+          // let currentT=e.target!scrollTop
+          // console.log(e.target!.scrollTop);
+          // e.target.scrollBy(0,160)
+          // console.log("scrollTop:"+e.target.scrollTop+"current:"+(currentT-e.target.scrollTop));
+          // flag=false
         }
         const scroll = debounce(scrollhandl,1000)
 
@@ -155,8 +126,37 @@ export default defineComponent({
         }
         const touchwheel = wheeldebounce(wheelmove,1000)
 
+        const Rectsdom:Ref<HTMLElement|null> = ref(null)
+
+        // onBeforeMount, onMounted is called when there is no active component instance to be associated with.
+        // Lifecycle injection APIs can only be used during execution of setup(). 
+        // If you are using async setup(), make sure to register lifecycle hooks before the first await statement
+        onMounted(()=>{
+            document.addEventListener("keydown",(e:KeyboardEvent)=>{
+                if (e.isComposing){return}
+                if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
+                store.commit(MutationTypes.setViewStatus,undefined)
+                }
+                switch (e.code) { // 行列数限制
+                    case 'KeyH':{store.commit(MutationTypes.callVimStatus,{keycode:'h'}); break;}
+                    case 'KeyJ':{store.commit(MutationTypes.callVimStatus,{keycode:'j'}); break;}
+                    case 'KeyK':{store.commit(MutationTypes.callVimStatus,{keycode:'k'}); break;}
+                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,{keycode:'l',sibepostion:setsibepostion(height(),Rectsdom.value!)}); break;}
+                    case 'KeyR':{store.commit(MutationTypes.callVimStatus,{keycode:'r'}); break;}
+                }
+            })
+            console.log(`RootLayout`);
+            ipcRenderer.send('ipc:hello')
+            // console.log(process.pid);
+        })
+
+        // let a 
+        // const loadwasm = async () =>{ a = await initwasm(add)} 
+        // onBeforeMount(loadwasm)
+        const a = await initwasm(add)
+
         return {
-            scroll,touchwheel,view,viewline,vimcursor,a,config,sibeline,sibepostion 
+            scroll,touchwheel,view,viewline,vimcursor,a,config,sibeline,sibepostion,into
         }
     },
     components:{
@@ -172,6 +172,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .root {
     width: 1920px;
+    margin-top: 50px;
     .r{
         justify-items: center;
         // align-items: center;
@@ -199,8 +200,8 @@ export default defineComponent({
         overflow-y:auto;
         // overflow: auto;
         justify-items: center;
-        display: inline-grid;
-        grid-row-gap: 1rem;
+        display: inline-block;
+        // grid-row-gap: 1rem; 16px
     }
   img{
     width: 256px;

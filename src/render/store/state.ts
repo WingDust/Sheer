@@ -21,13 +21,15 @@ export const state:State = {
     Vim:{
       cursor:{
         postion:[0,0],
-        sibepostion:0
+        sibepostion:0,
+        into:true  // true 表示光标在主区 false 表示光标在分类区
       },
       movtion:{
         Rename:false, // r
         Yank:false,   // y
         Del:false,    // x
-      }
+      },
+      register:Object.create(null) // 寄存器
     }
 }
 

@@ -1,6 +1,6 @@
 import { Mutation,MutationTree } from 'vuex';
-import { State,Img } from "../../utils/utilInterface";
-import { debounce } from "../../utils/common/Fn";
+import { State,Img, CorsurStatus } from "../../utils/utilInterface";
+import { debounce } from "../../utils/Browser/Fn";
 import { ipcRenderer } from 'electron';
 // import "../Webassemly/wast/add.wasm";
 
@@ -38,8 +38,8 @@ export const mutations:MutationTree<State> = {
     [MutationTypes.setagline](state:State,value:string[]){
         state.View.tagline=value
     },
-    [MutationTypes.callVimStatus](state:State,value:string){
-        switch (value) {
+    [MutationTypes.callVimStatus](state:State,value:CorsurStatus){
+        switch (value.keycode) {
             case 'h':{
                 let result = state.Vim.cursor.postion[1]-=1
                 if (result<0) { // 最小为 0
@@ -47,26 +47,37 @@ export const mutations:MutationTree<State> = {
                 }
                 break;}
             case 'j':{
-               let result =  state.Vim.cursor.postion[0]+=1;
-               let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
-               if (result > lines) { //已在最后一行 再触发行即请触发请求
-                debounce(()=>void ipcRenderer.send('ipc:message',10),1500)
-               }
-                if (result==lines){ //进入最后一行
-                    // 计算第一次进入最后一行
-                    let remainder =state.View.viewline.length%6-1
-                    if (state.Vim.cursor.postion[1]>remainder) {
-                        state.Vim.cursor.postion[1]=remainder
+                if (state.Vim.cursor.into){
+                    let result =  state.Vim.cursor.postion[0]+=1;
+                    let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
+                    if (result > lines) { //已在最后一行 再触发行即请触发请求
+                        debounce(()=>void ipcRenderer.send('ipc:message',10),1500)
                     }
+                        if (result==lines){ //进入最后一行
+                            // 计算第一次进入最后一行
+                            let remainder =state.View.viewline.length%6-1
+                            if (state.Vim.cursor.postion[1]>remainder) {
+                                state.Vim.cursor.postion[1]=remainder
+                            }
+                        }
+                        else if (result>lines){
+                            state.Vim.cursor.postion[0]=lines
+                        }
                 }
-                else if (result>lines){
-                    state.Vim.cursor.postion[0]=lines
-                }
+                else{
+                    let result = state.Vim.cursor.sibepostion+=1;
+                    let len = state.View.sibeline.length
+                    if (result>len) state.Vim.cursor.sibepostion=len
+                } 
                 break;}
             case 'k':{
-                let result = state.Vim.cursor.postion[0]-=1;
-                if (result <0) {
-                    state.Vim.cursor.postion[0]=0
+                if (state.Vim.cursor.into) {
+                    let result = state.Vim.cursor.postion[0]-=1;
+                    if (result <0) state.Vim.cursor.postion[0]=0
+                }
+                else{
+                    let result = state.Vim.cursor.sibepostion-=1;
+                    if (result < 0) state.Vim.cursor.sibepostion=0
                 }
                 break;}
             case 'l':{
@@ -79,6 +90,8 @@ export const mutations:MutationTree<State> = {
                      }
                  }
                  else if (result >5) { // 6 列
+                    state.Vim.cursor.sibepostion = value.sibepostion!
+                    state.Vim.cursor.into=true
                     state.Vim.cursor.postion[1]=5
                  }
                 break;}

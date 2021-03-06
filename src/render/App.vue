@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2020-12-12 11:07:42
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\App.vue
--->
 <template>
   <titlebar></titlebar>
   <div id="RouterMenu">
@@ -37,7 +29,10 @@ export default defineComponent({
 #RouterMenu {
   padding: 30px;
   text-align: center;
-
+  position: fixed;
+  width: 100%;
+  top: -26px;
+  z-index: 3;
   a {
     font-weight: bold;
     color: #2c3e50;

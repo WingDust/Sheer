@@ -3,23 +3,27 @@
   class=" break-words w-64 h-12 outline-none placeholder-black" 
   v-focus="confirmPosition"
 
-  :type="isRename&&confirmPosition ? 'text':false"
+  :type="isRename&&confirmPosition ? 'text':undefined"
 
   :value="isRename&&confirmPosition ? placeholder:''"
   :placeholder="isRename&&confirmPosition ? '':placeholder" 
-  :readonly="isRename&&confirmPosition ? false : 'readonly'"
+  :readonly="isRename&&confirmPosition ? false : true"
   ref="input"
   @keyup.ctrl.f="forward"
-  @keyup.ctrl.b="backword"
-  @keyup.ctrl.u="undo"
+   />
+  <!-- @keyup.ctrl.u="undo"
   @keyup.ctrl.p="previous"
   @keyup.ctrl.n="next"
   @keyup.ctrl.w="killaword"
   @keyup.ctrl.h="backspace"
   @keyup.ctrl.e="end"
   @keyup.enter="enter"
-   />
+  @keyup.ctrl.b="backword" -->
+  <!-- :type="isRename&&confirmPosition ? 'text':false" -->
+  <!-- :readonly="isRename&&confirmPosition ? false : 'readonly'" -->
   <!-- :readonly="Rename ? '' : 'readonly'" //不能写空字符 -->
+  <!-- @keyup.93="enter" -->
+  <!-- @keyup.ContextMenu="enter" -->
 
 </template>
 

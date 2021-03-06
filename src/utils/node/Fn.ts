@@ -90,4 +90,11 @@ export function getTagPath(path:string):RegExpMatchArray | string |null {
      const re=/[^\\]+(?!.*\\)/
      return path.match(re)![0]
     //  return re[Symbol.match](path)
- }
+}
+
+export function watch(filename:string) {
+  try {
+    fs.watch(filename)
+  } catch (e) {
+  }
+}

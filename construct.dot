@@ -3,6 +3,7 @@
 digraph  construct{
 
 
+  // rankdir=LR
   graph [compound=true fontname="Source Code Variable ExtraLight Italic"]
   node [color=black,shape=box,fontname="Source Code Variable ExtraLight Italic" ordering=out];
   edge [ color=gray arrowhead = "empty" fontname="优设好身体"]
@@ -39,6 +40,7 @@ digraph  construct{
     graph [fontname="优设好身体"]
     label="运行环境";
     "Node"[fontname="Source Code Variable ExtraLight Italic"]
+    Common[fontname="Source Code Variable ExtraLight Italic"]
     Browser[fontname="Source Code Variable ExtraLight Italic"]
     Electron[fontname="Source Code Variable ExtraLight Italic"]
   }
