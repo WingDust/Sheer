@@ -6,7 +6,7 @@ import { app, BrowserWindow,protocol,ipcMain,contentTracing } from 'electron'
 import dotenv from 'dotenv'
 import { createMainWin, createServerProcess,sendWindowMessage } from "../utils/electron/ElectronAPI";
 
-console.log("Main 进程");
+console.log("\tMain 进程");
 
 dotenv.config({ path: join(__dirname, '../../.env') })
 
@@ -41,7 +41,9 @@ app.whenReady()
     serverwin2 = createServerProcess(serverwin2,"second") // 窗口id 3
   })
   ipcMain.on('ipc:message',(e,args)=>{
-    console.log(e.processId);
+    console.log("\t"+e.processId);
+    // console.log("%c%s","color:red","     "+e.processId);
+    
     // console.log(args);
     // console.log(args==3);
     switch (e.processId) {

@@ -31,7 +31,7 @@ function createMainWin(win:BrowserWindow|null) {
   win.loadURL(URL)
   /** 默认打开 devtool */
   win.webContents.openDevTools()
-  console.log(`页面进程  ProcessId:${win.webContents.getProcessId()}`);
+  console.log(`\t页面进程  ProcessId:${win.webContents.getProcessId()}`);
   win.show()
   return win
 }
@@ -52,7 +52,7 @@ function createServerProcess(serverwin:BrowserWindow |null,name:string){
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
   // Dev id辨别使用
-  console.log(`服务进程 ${name} ProcessId:${serverwin.webContents.getProcessId()}`);
+  console.log(`\t服务进程 ${name} ProcessId:${serverwin.webContents.getProcessId()}`);
 
   return serverwin
 }

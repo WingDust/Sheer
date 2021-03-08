@@ -1,9 +1,11 @@
 <template>
       <div class="TagsContainer" :class="{hided:sibebar}" >
+          <aside>
           <ul>
               <li :key="i" v-for="(tag,i) in tags">{{getTagPath(tag)}}</li>
               <!-- <li class="fonticon-CHEVRON-RIGHT"></li> -->
           </ul>
+          </aside>
       </div>
 </template>
 

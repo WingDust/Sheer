@@ -2,7 +2,7 @@
 <!-- <details open> -->
     <!-- <summary>Code </summary> -->
     <div>
-    <a tabindex="-1" class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Link with href
     </a>
     <div class="container collapse" id="collapseExample">

@@ -29,9 +29,9 @@
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
 <!-- <div class="e" @scroll.prevent="scroll" @wheel="touchwheel"> -->
-<div class="e sticky" @scroll="scroll" > <!-- 因为 Element.scroll 事件不会冒泡所以绑定在父元素 -->
+<!-- 因为 Element.scroll 事件不会冒泡所以绑定在父元素 Document.scroll 冒泡 -->
+<div class="e sticky" @scroll="scroll" > 
 <!-- 为什么使用 span 因为要使用 dom.getClientRects(只能是行级元素或 inline 才返回多个DOMRect) 而 inline 不能与 inline-grid 并一行 -->
-  <!-- <span ref="Rectsdom"> -->
     <singleblock 
     class="mb-2"
     :key="i" 
@@ -45,7 +45,6 @@
         :confirmPosition="!into&&sibepostion[0]==i"/>
       </template>
     </singleblock >
-  <!-- </span> -->
 </div>
 </div>
 </template>
@@ -63,7 +62,7 @@ import { Config, Img } from "../../../utils/utilInterface";
 import { MutationTypes } from "../../store/mutations";
 import add from '../../Webassemly/wast/add.wasm'
 import { initwasm } from "../../../utils/common/Fn";
-import {height,setsibepostion ,debounce ,hasScroll } from "../../../utils/Browser/Fn";
+import { debounce } from "../../../utils/Browser/Fn";
 import TagsContainer from "../Tags/TagsContainer.vue";
 import SingleBlock  from "../container/Film/SingleBlock.vue";
 import cursor from "../vim/cursor.vue";
@@ -204,7 +203,6 @@ export default defineComponent({
         justify-items: center;
         display: inline-block;
         top:50;
-      
     }
   img{
     width: 256px;

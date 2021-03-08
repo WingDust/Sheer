@@ -165,9 +165,10 @@ class Files {
         return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false;
     }
     static compareFiles(a, b) {
-        // 我的问题是处理字符串前有字母
+        // 我的实际问题是处理文件名所以全部为字符串
+        // 而在这些字符串中前有字母
         const LetterPrefixRegex = /[a-z]+/i; //i 忽略大小写
-        if (typeof a === "string" && typeof b === "string") {
+        if (typeof a === "string" && typeof b === "string") { // 为纯字符串时的比较
             return Number(LetterPrefixRegex.test(a)) &&
                 !Number(LetterPrefixRegex.test(b))
                 ? 1
@@ -175,7 +176,7 @@ class Files {
                     ? -1
                     : a.localeCompare(b, "zh");
         }
-        else if ("filename" in a && "filename" in b) {
+        else if ("filename" in a && "filename" in b) { // 为 Img 时的比较
             return Number(LetterPrefixRegex.test(a.filename)) &&
                 !Number(LetterPrefixRegex.test(b.filename))
                 ? 1
@@ -184,8 +185,8 @@ class Files {
                     ? -1
                     : a.filename.localeCompare(b.filename, "zh");
         }
-        else {
-            return Number(b.isDirectory()) - Number(a.isDirectory()) ||
+        else { // 为 Dirent 时的比较
+            return Number(b.isDirectory()) - Number(a.isDirectory()) &&
                 (Number(LetterPrefixRegex.test(a.name)) &&
                     !Number(LetterPrefixRegex.test(b.name)))
                 ? 1
@@ -196,10 +197,10 @@ class Files {
         }
         // || new Intl.Collator().compare(a.name,b.name)
         // || a.name.localeCompare(b.name,'zh')
-        /** 由于短路运算符 || 的原因
-         *  当为两个文件或文件夹时， (true  - true  为  0 false ) 会直接返回 || 右边的表达式
-         *  当为文件夹和文件时，     (true  - false 为  1 false ) 会直接返回 || 左边的表达式
-         *  当为文件和文件夹时，     (false - true  为 -1 false ) 会直接返回 || 左边的表达式
+        /** 由于短路运算符 && 的原因
+         *  当 a,b 为两个文件或文件夹时，     (true  - true  为  0 true )  会直接返回 && 右边的表达式
+         *  当 a 为文件夹和 b 为文件时，      (false - true  为 -1 false ) 会直接返回 && 左边的表达式
+         *  当 a 为文件和 b 为文件夹时，      (true  - false 为  1 true )  会直接返回 && 左边的表达式
          */
         // string Dirent
         // || new Intl.Collator().compare(a.name,b.name)

@@ -2,28 +2,33 @@
 export function height():number {// -1 是因为以 0 开头
     let dom:DOMRect = document.activeElement!.getBoundingClientRect()
     if (dom.top==190) return 1 -1 // 在第一层为 顶部的margin 40 + 图片高度 150
-    return (dom.top-190)/208+1 -1 // 后面即为 减去上面的 / （8 gird 间隔 +200 图片+input）
-    // @取整
+    return Math.ceil((dom.top-190)/208) // 后面即为 减去上面的 / （8 gird 间隔 +200 图片+input）
 }
 
-export function setsibepostion(h:number,pos:number):number{
-  if (pos<6) return h // 即少于6个的情况
-  else return pos
-  
-  // let Rects:DOMRectList = el.getClientRects()
-  // let Rects:DOMRectList = document.getElementsByClassName("e")[0].children[0].getClientRects()
-  // if (h>Rects.length) return Rects.length 
-  // else return h
-}
 
-// 防抖
+/** 防抖
+ * @export
+ * @param {Function} fn
+ * @param {number} wait
+ * @return {*} 
+ */
 export function debounce(fn:Function,wait:number) {
-  let timeoutID:any = null
+  let timeoutID:number|null = null
   let flag = true
-  return function (e:any) {
+  return function (e:any) {// 返回出来的是一个函数定义
       if (timeoutID != null&&flag) clearTimeout(timeoutID) 
       timeoutID = setTimeout(fn,wait,e,flag)
   }
+}
+
+export function throttle(fn:Function,wait:number,immediate:boolean) {
+  let flag = true
+  // let self = this
+  return (...args:any) =>{
+
+  }
+
+  
 }
 
 export function hasScroll(el:HTMLElement, direction = 'vertical') {
