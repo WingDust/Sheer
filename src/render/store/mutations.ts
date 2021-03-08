@@ -1,6 +1,6 @@
 import { Mutation,MutationTree } from 'vuex';
 import { State,Img, CorsurStatus } from "../../utils/utilInterface";
-import { debounce } from "../../utils/Browser/Fn";
+import { debounce, height } from "../../utils/Browser/Fn";
 import { ipcRenderer } from 'electron';
 // import "../Webassemly/wast/add.wasm";
 
@@ -41,9 +41,17 @@ export const mutations:MutationTree<State> = {
     [MutationTypes.callVimStatus](state:State,value:CorsurStatus){
         switch (value.keycode) {
             case 'h':{
-                let result = state.Vim.cursor.postion[1]-=1
-                if (result<0) { // 最小为 0
-                    state.Vim.cursor.postion[1]=0
+                if (state.Vim.cursor.into){
+                    let result = state.Vim.cursor.postion[1]-=1
+                    if (result<0) { // 最小为 0
+                        state.Vim.cursor.postion[1]=0
+                    }
+                }
+                else{ // 离开副区
+                    //height() 计算的是当前副区处于第几层，需要保存下来
+                    state.Vim.cursor.sibepostion[1]=state.Vim.cursor.sibepostion[0]-height()// 当离开时，这个保存了是当前
+                    state.Vim.cursor.postion[0]=state.Vim.cursor.postion[2]+height();// @判断滚动
+                    state.Vim.cursor.into=true
                 }
                 break;}
             case 'j':{
@@ -65,9 +73,9 @@ export const mutations:MutationTree<State> = {
                     }
                 }
                 else{
-                    let result = state.Vim.cursor.sibepostion+=1;
-                    let len = state.View.sibeline.length
-                    if (result>len) state.Vim.cursor.sibepostion=len
+                    let result = state.Vim.cursor.sibepostion[0]+=1;
+                    let len = state.View.sibeline.length -1
+                    if (result>len) state.Vim.cursor.sibepostion[0]=len
                 } 
                 break;}
             case 'k':{
@@ -76,24 +84,28 @@ export const mutations:MutationTree<State> = {
                     if (result <0) state.Vim.cursor.postion[0]=0
                 }
                 else{
-                    let result = state.Vim.cursor.sibepostion-=1;
-                    if (result < 0) state.Vim.cursor.sibepostion=0
+                    let result = state.Vim.cursor.sibepostion[0]-=1;
+                    if (result < 0) state.Vim.cursor.sibepostion[0]=0
                 }
                 break;}
             case 'l':{
-                 let result = state.Vim.cursor.postion[1]+=1;
-                 // 当为倒数第一行时
-                 if (state.Vim.cursor.postion[0] == Math.ceil(state.View.viewline.length/6)-1) { // 通过向下取整 ，因为 positon 为 0 开始所以要 -1
-                     let remainder =state.View.viewline.length%6-1 
-                     if (result>remainder) {
-                        state.Vim.cursor.postion[1]=remainder
-                     }
-                 }
-                 else if (result >5) { // 6 列
-                    state.Vim.cursor.postion[1]=5
-                    state.Vim.cursor.sibepostion = value.sibepostion!
-                    state.Vim.cursor.into=true
-                 }
+                if (state.Vim.cursor.into){
+                    let result = state.Vim.cursor.postion[1]+=1;
+                    // 当为倒数第一行时
+                    if (state.Vim.cursor.postion[0] == Math.ceil(state.View.viewline.length/6)-1) { // 通过向下取整 ，因为 positon 为 0 开始所以要 -1
+                        let remainder =state.View.viewline.length%6-1 
+                        if (result>remainder) {
+                            state.Vim.cursor.postion[1]=remainder
+                        }
+                    }
+                    else if (result >5) { // 6 列
+                        state.Vim.cursor.postion[1]=5
+                        // 进入副区
+                        state.Vim.cursor.postion[2]=state.Vim.cursor.postion[0]-height()
+                        state.Vim.cursor.sibepostion[0] = height()+state.Vim.cursor.sibepostion[1] 
+                        state.Vim.cursor.into=false
+                    }
+                }
                 break;}
             case 'r':{
                 state.Vim.movtion.Rename=true

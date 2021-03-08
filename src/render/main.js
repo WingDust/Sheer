@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-08-21 21:03:28
- * @LastEditTime: 2021-02-15 14:34:07
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\main.js
- */
 import devtools from "@vue/devtools";
 if(process.env.NODE_ENV === 'development'){
     devtools.connect('localhost',8098)

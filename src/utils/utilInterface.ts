@@ -25,8 +25,8 @@ interface View{
 }
 interface Vim{
     cursor:{
-        postion:[number,number],
-        sibepostion:number,
+        postion:[number,number,number],
+        sibepostion:[number,number],
         into:boolean
     },
     movtion:{

@@ -46,7 +46,7 @@ export default defineConfig({
   base:'./',
   server:{
     port: +process.env.PORT,
-    hmr: { overlay: false },
+    // hmr: { overlay: false },
   },
   build: {
     assetsDir: ".",

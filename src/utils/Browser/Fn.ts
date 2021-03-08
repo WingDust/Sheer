@@ -1,15 +1,19 @@
 
-export function height():number {
+export function height():number {// -1 是因为以 0 开头
     let dom:DOMRect = document.activeElement!.getBoundingClientRect()
-    if (dom.top==200) return 1 // 在第一层为 顶部的margin 50 + 图片高度 150
-    return (dom.top-200)/208+1   // 后面即为 减去上面的 / （16 gird 间隔 +192 图片+input）
+    if (dom.top==190) return 1 -1 // 在第一层为 顶部的margin 40 + 图片高度 150
+    return (dom.top-190)/208+1 -1 // 后面即为 减去上面的 / （8 gird 间隔 +200 图片+input）
+    // @取整
 }
 
-export function setsibepostion(h:number,el:HTMLElement):number{
-  let Rects:DOMRectList = el.getClientRects()
+export function setsibepostion(h:number,pos:number):number{
+  if (pos<6) return h // 即少于6个的情况
+  else return pos
+  
+  // let Rects:DOMRectList = el.getClientRects()
   // let Rects:DOMRectList = document.getElementsByClassName("e")[0].children[0].getClientRects()
-  if (h>Rects.length) return Rects.length // 即少于6个的情况
-  else return h
+  // if (h>Rects.length) return Rects.length 
+  // else return h
 }
 
 // 防抖

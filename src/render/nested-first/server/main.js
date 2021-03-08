@@ -103,7 +103,7 @@ class Files {
                         }
                     }
                 }
-                if (secondlayer.length != 0) { // 当第二层总数小于 30
+                if (secondlayer.length != 0) { // 当每第二层相加总数小于 30
                     LinkedList.append(secondlayer);
                     secondlayer = [];
                     this.times++;

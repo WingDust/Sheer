@@ -20,9 +20,9 @@ export const state:State = {
     },
     Vim:{
       cursor:{
-        postion:[0,0],
-        sibepostion:0,
-        into:true  // true 表示光标在主区 false 表示光标在分类区
+        postion:[0,0,0],     // 第三个保存的是离开时显示第一个的上面有多少的数量
+        sibepostion:[0,0],   // 第二个保存的是离开时显示第一个的上面有多少的数量
+        into:true            // true 表示光标在主区 false 表示光标在分类区
       },
       movtion:{
         Rename:false, // r

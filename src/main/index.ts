@@ -46,7 +46,7 @@ app.whenReady()
     // console.log(args==3);
     switch (e.processId) {
       case 4:{ //页面进程向服务进程发送请求
-        if (args==10)sendWindowMessage(serverwin2!,"ipc:message",10)
+        if (args==10)sendWindowMessage(serverwin2!,"ipc:message",10) // 这里可等数据传后再展示页面
         if (args==7)sendWindowMessage(serverwin2!,"ipc:message",7)
         // console.log(serverwin2);
         break;

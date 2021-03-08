@@ -99,7 +99,7 @@ async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
           }
         }
       }
-      if (secondlayer.length!=0) { // 当第二层总数小于 30
+      if (secondlayer.length!=0) { // 当每第二层相加总数小于 30
         LinkedList.append(secondlayer)
         secondlayer=[]
         this.times++
@@ -163,10 +163,20 @@ async * FileTree(level:number,dirPath: string,LinkedList:LinkedList){
     return RegExp(".(" + videosuffix.join("|") + ")$", "i").test(name.toLowerCase()) ? true : false
   }
 
+
+  /**
+   * 文件夹（文件名：非英文字符按Unicode，英文开头>数字开头）>文件
+   * @static
+   * @param {string} a
+   * @param {string} b
+   * @return {*}  {number}
+   * @memberof Files
+   */
   static compareFiles(a: string, b: string): number;
   static compareFiles(a: Dirent, b: Dirent): number;
   static compareFiles(a: any, b: any) {
-    // 我的问题是处理字符串前有字母
+    // 我的实际问题是处理文件名所以全部为字符串
+    // 而在这些字符串中前有字母
     const LetterPrefixRegex = /[a-z]+/i; //i 忽略大小写
     if (typeof a === "string" && typeof b === "string") {
       return Number(LetterPrefixRegex.test(a)) &&

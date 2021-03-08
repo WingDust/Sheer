@@ -122,6 +122,8 @@
 
 ## GraphViz
   - Reference
+    - [DiagrammeR Docs](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html)
+    - [dot language 学习笔记](https://www.cnblogs.com/billnote/p/4043267.html)
     - [Graphviz (dot) examples](https://renenyffenegger.ch/notes/tools/Graphviz/examples/index)
     - [Using Graphviz to Visualize Structured Content from Contentful Spaces](https://www.contentful.com/blog/2018/05/04/using-graphviz-to-visualize-structured-content-from-contentful-spaces/)
     - [数据可视化（三）基于 Graphviz 实现程序化绘图 (应读)](https://riboseyim.github.io/2017/09/15/Visualization-Graphviz/#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96)
@@ -189,6 +191,8 @@
     - 搜索关键词：Monaco源码分析
     - [VSCode 里的 GoToDefinition 是如何实现的](https://zhuanlan.zhihu.com/p/100438617?utm_source=wechat_session)
     - [vscode源码分析【一】从源码运行vscode](https://codeteenager.github.io/vscode-analysis/learn/)
+    - [vscode 源码精读（一）common base](https://zhuanlan.zhihu.com/p/343443415)
+    - [vscode源码学习3：从零到一实现 Vscode-开启`CrashReporter`](https://juejin.cn/post/6899308822922936327)
     - [VSCode技术揭秘（一）](https://segmentfault.com/a/1190000020833042?utm_source=tag-newest)
     - [monaco-editor实现全局内容和文件搜索](https://blog.csdn.net/weixin_42084197/article/details/90486243)
     - [VsCode源码分析之布局](https://www.cnblogs.com/youcong/p/10295335.html)

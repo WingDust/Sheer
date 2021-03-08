@@ -28,24 +28,23 @@
   </loading>
 </div>
 <!-- 对这个使用 inline-flex  会因窗口的缩小而换行 -->
-<div class="e" @scroll.prevent="scroll" @wheel="touchwheel"> <!-- 因为 scroll 事件会冒泡所以绑定在父元素 -->
+<!-- <div class="e" @scroll.prevent="scroll" @wheel="touchwheel"> -->
+<div class="e sticky" @scroll="scroll" > <!-- 因为 Element.scroll 事件不会冒泡所以绑定在父元素 -->
 <!-- 为什么使用 span 因为要使用 dom.getClientRects(只能是行级元素或 inline 才返回多个DOMRect) 而 inline 不能与 inline-grid 并一行 -->
   <!-- <span ref="Rectsdom"> -->
-  <div class="inline">
     <singleblock 
-    class="mb-4"
+    class="mb-2"
     :key="i" 
     v-for="(line,i) in sibeline" 
     :data="config.store+line.lable+line.file"
-    :position="!into&&sibepostion==i"
+    :position="!into&&sibepostion[0]==i"
     >
       <template v-slot:in>
         <singlevil 
         :placeholder="line.file.replace(/\.(jpg)/,'')"
-        :confirmPosition="!into&&sibepostion==i"/>
+        :confirmPosition="!into&&sibepostion[0]==i"/>
       </template>
     </singleblock >
-  </div>
   <!-- </span> -->
 </div>
 </div>
@@ -53,13 +52,11 @@
 
 <script lang="ts">
 import {
-    ref,
     defineComponent,
     onBeforeMount,
     onMounted,
     computed,
     ComputedRef,
-    Ref,
     } from "vue";
 import { useStore } from "vuex";
 import { Config, Img } from "../../../utils/utilInterface";
@@ -88,28 +85,29 @@ export default defineComponent({
         const config:ComputedRef<Config>= computed(()=>store.state.Config)
         const view:ComputedRef<boolean> = computed(()=> store.state.View.sibebar)
         const viewline:ComputedRef<Img[]> =computed(()=> store.state.View.viewline) 
-        const vimcursor:ComputedRef<[number,number]> = computed(() => store.state.Vim.cursor.postion)
+        const vimcursor:ComputedRef<[number,number,number]> = computed(() => store.state.Vim.cursor.postion)
         const sibeline:ComputedRef<Img[]> = computed(()=>store.state.View.sibeline)
-        const sibepostion:ComputedRef<number> = computed(()=>store.state.Vim.cursor.sibepostion)
+        const sibepostion:ComputedRef<[number,number]> = computed(()=>store.state.Vim.cursor.sibepostion)
         const into:ComputedRef<boolean> = computed(()=>store.state.Vim.cursor.into)
-
-
-
-
-
-
 
         function scrollhandl(e:UIEvent,...flag:any[]){
           // [Property 'scrollTop' does not exist on type 'EventTarget'](https://gitter.im/Microsoft/TypeScript/archives/2016/01/23)
+          // window.innerHeright 为 viewport 高
+          e.preventDefault()
           let target = e.target as HTMLElement
+          console.log(JSON.stringify(target.scrollTop));
+          // target.scrollTop=target.scrollTop+=208
+          console.log(JSON.stringify(target.scrollTop));
+          // console.log(target.scrollTop);
+          
+          // target.scrollBy(0,208)
           // if(target.scrollHeight > target.clientHeight)
-          if (hasScroll(target,undefined))
-          if (sibeline.value.length)
-          console.log(target.scrollTop);
+          // if (hasScroll(target,undefined))
+          // if (sibeline.value.length)
+          // console.log(target.scrollTop);
           // let currentT=e.target!.srcElement['scrollTop']
           // let currentT=e.target!scrollTop
           // console.log(e.target!.scrollTop);
-          // e.target.scrollBy(0,160)
           // console.log("scrollTop:"+e.target.scrollTop+"current:"+(currentT-e.target.scrollTop));
           // flag=false
         }
@@ -128,7 +126,7 @@ export default defineComponent({
         }
         const touchwheel = wheeldebounce(wheelmove,1000)
 
-        const Rectsdom:Ref<HTMLElement|null> = ref(null)
+        // const Rectsdom:Ref<HTMLElement|null> = ref(null)
 
         // onBeforeMount, onMounted is called when there is no active component instance to be associated with.
         // Lifecycle injection APIs can only be used during execution of setup(). 
@@ -139,12 +137,13 @@ export default defineComponent({
                 if ( e.ctrlKey && e.altKey && e.code === 'Space'){ // ctrl + alt + space
                 store.commit(MutationTypes.setViewStatus,undefined)
                 }
-                switch (e.code) { // 行列数限制
+                switch (e.code) { // 行列数限制 @ 列会变成 5
                     case 'KeyH':{store.commit(MutationTypes.callVimStatus,{keycode:'h'}); break;}
                     case 'KeyJ':{store.commit(MutationTypes.callVimStatus,{keycode:'j'}); break;}
                     case 'KeyK':{store.commit(MutationTypes.callVimStatus,{keycode:'k'}); break;}
-                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,{keycode:'l',sibepostion:vimcursor.value[1]==5&&setsibepostion(height(),Rectsdom.value!)}); break;}
+                    case 'KeyL':{store.commit(MutationTypes.callVimStatus,{keycode:'l'}); break;}
                     case 'KeyR':{store.commit(MutationTypes.callVimStatus,{keycode:'r'}); break;}
+                    case 'Tab':{e.preventDefault(); break;}
                 }
             })
             console.log(`RootLayout`);
@@ -167,14 +166,14 @@ export default defineComponent({
         'cursor':cursor,
         'singlevil':singlevil,
         'loading':loading
-    }
+    },
 })
 </script>
 
 <style lang="scss" scoped>
 .root {
     width: 1920px;
-    margin-top: 50px;
+    margin-top: 40px;
     .r{
         justify-items: center;
         // align-items: center;
@@ -185,7 +184,7 @@ export default defineComponent({
         grid-template-columns:repeat(6,1fr);
         // grid-template-rows: minmax(198px,198px);
         // grid-column-gap: 1rem;
-        grid-row-gap: 1rem;
+        grid-row-gap: .5rem;
     }
     .grid-load{
         grid-column-start: 1;
@@ -199,12 +198,13 @@ export default defineComponent({
     }
     .e{
         width: 276px;
-        height: 1080px;
+        height: 1040px;
         overflow-y:auto;
         // overflow: auto;
         justify-items: center;
         display: inline-block;
-        // grid-row-gap: 1rem; 16px
+        top:50;
+      
     }
   img{
     width: 256px;
