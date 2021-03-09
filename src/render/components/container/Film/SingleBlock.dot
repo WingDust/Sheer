@@ -1,0 +1,25 @@
+
+digraph Compoent {
+
+graph [compound=true fontname="Source Code Variable ExtraLight Italic"]
+node [color=black,shape=record,fontname="仿宋" ordering=out];
+edge [color=gray arrowhead = "empty" fontname="Source Code Variable ExtraLight Italic"]
+
+labelloc= "t";
+label="SingleBlock Component";
+
+// + 公有 - 私有 # 保护 ~ 包级
+SingleBlock [label="{SingleBlock 
+  | + 光标移动\l
+  | + 字符处理\l
+  | + 自动聚焦\l
+  }"] 
+Rename[label="{Rename
+  | + 输入记录(单次)\l
+  }"]
+SearchBar[label="{SearchBar
+  | + 输入缓存(多次)\l
+  }"]
+SingleEvil->{Rename,SearchBar}[label=extends]
+
+}
