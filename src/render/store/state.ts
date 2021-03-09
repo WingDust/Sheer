@@ -29,7 +29,10 @@ export const state:State = {
         Yank:false,   // y
         Del:false,    // x
       },
-      register:Object.create(null) // 寄存器
+      register:Object.create(null), // 寄存器
+      singlevil:{
+        lastaction:null
+      }
     }
 }
 
@@ -43,9 +46,6 @@ ipcRenderer.on('ipc:message',(e,...arg)=>{
     case 7:store.commit(MutationTypes.setSibeline,arg[0][1]);break;
     case 10:store.commit(MutationTypes.setViewline,arg[0][1]);break;
   }
-
-
-  
 })
 
 

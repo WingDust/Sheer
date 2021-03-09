@@ -34,7 +34,12 @@ interface Vim{
         Yank:boolean,
         Del:boolean
     }
-    register:Img
+    register:{
+        img:string,
+    },
+    singlevil:{
+        lastaction:null | string
+    }
 }
 
 

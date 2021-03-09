@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-08-22 09:45:26
- * @LastEditTime: 2021-02-07 14:20:31
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\view\Main.vue
--->
 <template>
 <Suspense>
   <rootlayout>
@@ -16,15 +8,13 @@
         </template>
   </rootlayout>
 </Suspense>
-  <!-- <alertwarning></alertwarning> -->
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive,onMounted } from "vue";
 import RootLayout from "../components/layout/RootLayout.vue";
 import HighLihgt from "../components/highlight/HighLihgt.vue";
-import folder from '../components/container/folder.vue'
-import AlertWarning  from "../components/container/alert/AlertWarning.vue";
+import folder from '../components/Widgets/highlight/folder.vue'
 export default defineComponent({
     setup(){
       onMounted(()=>{
@@ -59,7 +49,6 @@ export default defineComponent({
     'rootlayout':RootLayout,
     'hightLight':HighLihgt,
     folder,
-        alertwarning:AlertWarning
     }
 
 })

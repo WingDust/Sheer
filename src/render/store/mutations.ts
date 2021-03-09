@@ -1,8 +1,10 @@
 import { Mutation,MutationTree } from 'vuex';
 import { State,Img, CorsurStatus } from "../../utils/utilInterface";
-import { debounce, height } from "../../utils/Browser/Fn";
+import { debounce, height, throttle } from "../../utils/Browser/Fn";
 import { ipcRenderer } from 'electron';
 // import "../Webassemly/wast/add.wasm";
+
+const send= throttle(()=> ipcRenderer.send('ipc:message',10),1500,true)
 
 // TODO 需要做注释
 export const enum MutationTypes{
@@ -59,8 +61,8 @@ export const mutations:MutationTree<State> = {
                     let result =  state.Vim.cursor.postion[0]+=1;
                     let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
                     if (result > lines) { //已在最后一行 再触发行即请触发请求
-                        // debounce(()=> ipcRenderer.send('ipc:message',10),1500)
-                        ipcRenderer.send('ipc:message',10)
+                        send()
+                        // ipcRenderer.send('ipc:message',10)
                     }
                     if (result==lines){ //进入最后一行
                         // 计算第一次进入最后一行
@@ -111,6 +113,10 @@ export const mutations:MutationTree<State> = {
             case 'r':{
                 state.Vim.movtion.Rename=true
                 break;}
+            case 'x':{
+
+
+            }
         }
     },
     // [MutationTypes.adjustViewline](state:State,value:string){
