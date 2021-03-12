@@ -15,6 +15,8 @@
 
 ## Base on
   - [Electron + vue3 + vite 整合](https:www.jianshu.com/p/ee5ec23d4716)
+  ⇊ Migrate
+  - ⌛ [vite-electron-builder](https://github.com/cawa-93/vite-electron-builder)
 
 ## Mentality
   - 开始写入：2020年10月27日 星期二 00:21:26
@@ -35,6 +37,7 @@
     - Vue 的键盘事件应该绑定到被 fcous 的元素上 ，既然我写的全局键盘事件应该是绑定到 body 上，这个函数应该发出信号做出某个动作
   - 文件命名规范
     - 名字中不出现扩展名复用如：`1.mp4.mp4`
+    - 不应该有文件名重复（即不使用扩展名来区别文件名相同的文件）
   - 对于默认分类的第一层应该是否添加上字母序这一件事，在非可处理成与字母有关系的字符的情况下不适用，如：`氷`-日文、`악`-韩文，虽它也与字母有关系，但是这个超出我的知识范围内了。也不能允一个为标准文，那又给我增加文字翻译的工作。
     - 解决方案：
       - 是只对它做应该有的排序工作
@@ -43,7 +46,6 @@
     - 在最开始的代码设计中，我对读取文件这个功能的设定是越强大越好，所以我将写了一个能无限递归读取文件树，并挂载到 Tree 类上。相反的是，我现在认为更优秀的使用规范比强大的工具健壮。
     - be a better man , not be a better tool , be a least tool
   - 如果视频还携带了其他信息并另用别的文件储存
-    - 
   - VSCode 源码
     - 思想
       - 依赖注入
@@ -134,13 +136,21 @@
     - [Graphviz - label attribute](https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/index)
     - [How to change the arrow size of the graph in Graphviz](https://stackoverflow.com/questions/58047142/how-to-change-the-arrow-size-of-the-graph-in-graphviz)
     - [Vertically aligning a node joining subgraphs in Graphviz](https://stackoverflow.com/questions/16628525/vertically-aligning-a-node-joining-subgraphs-in-graphviz)
+    - [graphviz with combined edges](https://stackoverflow.com/questions/22617837/graphviz-with-combined-edges)
+    - [How can I combine edges in an ortho graph](https://stackoverflow.com/questions/40442067/how-can-i-combine-edges-in-an-ortho-graph)
+    - [Can you join edges when they go to the same node?](https://stackoverflow.com/questions/17326751/can-you-join-edges-when-they-go-to-the-same-node)
+    - [Vis Network](https://visjs.github.io/vis-network/examples/)
+    - [Order of same rank nodes in Graphviz?](https://gitlab.com/graphviz/graphviz/-/issues/1592)
+
 
 ## Latex (TikZ & PGF & ctex) 
   - 
+
 ## Git
   - [如何规范你的Git commit？](https://zhuanlan.zhihu.com/p/182553920)
   - [Git Commit Guidelines](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines)
   - [Git-commit-plugin For Vscode 一款自动生成规范git提交信息的插件](https://juejin.cn/post/6844904088744755208)
+
 ## DataStructure
   - [x] Tree.js 的功能增强
   - [ ] libary.ts 中 File 类的查询函数添加函数节流，次数记录，查询限额
@@ -263,6 +273,7 @@
     - [Electron-vue实现后台多进程](https://www.cnblogs.com/webbery/p/12751933.html)
     - [electron发送windows消息](https://leehaoze.com/2020/07/02/electron%E5%8F%91%E9%80%81windows%E6%B6%88%E6%81%AF/)
     - [electron进程间通信封装](https://juejin.cn/post/6844904143224586248)
+    - [Electron 进程间通讯详解](https://www.iguan7u.cn/2019/06/30/Electron-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3/)
   - 小说
     - [互动小说及其开源简史 | Linux 中国](https://kuaibao.qq.com/s/20190828AZOM1I00?refer=spider)
     - [互动小说及其开源简史 | Linux 中国](https://blog.csdn.net/F8qG7f9YD02Pe/article/details/100111448)
