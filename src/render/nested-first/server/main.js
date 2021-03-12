@@ -28,6 +28,13 @@ class Files {
         this.times = 0;
         // this.handlesecondpath=this.handlesecondpath.bind(this)
     }
+    static renamefile(oldName, newName) {
+        return new Promise(resolve => {
+            fs__default['default'].rename(oldName, newName, (e) => { if (e)
+                throw e; });
+            resolve('suc');
+        });
+    }
     /**
      * [fsReadDir description]
      * @param  {[type]} dir [description]
@@ -490,7 +497,7 @@ function fmtpath(LinkedList, Config) {
         let img = Object.create(null);
         img.file = path__default['default'].basename(n);
         img.lable = n.replace(Config.film, "").replace(img.file, "");
-        img.file = img.file.replace(/\.(mp4|mkv)/, '.jpg');
+        // img.file=img.file.replace(/\.(mp4|mkv)/,'.jpg')
         return img;
     });
 }
@@ -513,4 +520,15 @@ electron.ipcRenderer.on('ipc:message', (event, ...arg) => {
     console.log('arg', arg);
     gen.next();
 });
+// let op:chokidar.WatchOptions = {}
+// const watcher =  chokidar.watch(Configs.film,{
+//   ignored:/\.(^mp4|^mkv)/,
+//   persistent:true,
+//   depth:1
+// }) 
+// watcher
+// .on('add',path=>console.log(path))
+// .on('addDir',path=>console.log(path))
+// .on('unlink',path=>console.log(path))
+// .on('unlinkDir',path=>console.log(path))
 //# sourceMappingURL=main.js.map

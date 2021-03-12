@@ -1,24 +1,24 @@
 <template>
 <div class="root w-full">
-<tagscontainer/>
+<tags/>
 
 <div class="l align-top text-center" :class="{widthmax:view}" >
   <block
     v-for="(line,i) in viewline" 
     :key="i" 
-    :data="config.store+line.lable+line.file"
+    :data="config.store+line.lable+line.file.replace(/\.(mp4|mkv)/,'.jpg')"
     :position="into&&a(6,vimcursor[0],vimcursor[1])==i"
-    :placeholder="line.file.replace(/\.(jpg)/,'')"
+    :placeholder="line.file.replace(/\.(mp4|mkv)/,'')"
     :confirmPosition="into&&a(6,vimcursor[0],vimcursor[1])==i"
   >
   </block>
 
-  <loading 
+  <!-- <loading 
   :color="'#3399FF'"
   :disable="true"
   :class="'w-20 grid-load'"
-  >
-  </loading>
+  > 
+  </loading>-->
 </div>
 <!-- 因为 Element.scroll 事件不会冒泡所以绑定在父元素 Document.scroll 冒泡 -->
 <div class="r sticky" @scroll="scroll" > 
@@ -26,9 +26,9 @@
     class="mb-2"
     v-for="(line,i) in sibeline" 
     :key="i" 
-    :data="config.store+line.lable+line.file"
+    :data="config.store+line.lable+line.file.replace(/\.(mp4|mkv)/,'.jpg')"
     :position="!into&&sibepostion[0]==i"
-    :placeholder="line.file.replace(/\.(jpg)/,'')"
+    :placeholder="line.file.replace(/\.(mp4|mkv)/,'')"
     :confirmPosition="!into&&sibepostion[0]==i"
   >
   </block>
@@ -52,7 +52,7 @@ import tags from "../Tags/Tags.vue";
 import loading from "../Widgets/animation/Loading.vue";
 import block from "./Block.vue";
 import { ipcRenderer } from "electron";
-import { initwasm } from "src/utils/common/Fn";
+import { initwasm } from "../../../utils/common/Fn";
 export default defineComponent({
   async setup() {
         let options:IntersectionObserverInit = {
@@ -99,7 +99,6 @@ export default defineComponent({
                   case 'KeyR':{e.preventDefault();store.commit(MutationTypes.callVimStatus,{keycode:'r'}); break;}
                   case 'KeyX':{store.commit(MutationTypes.callVimStatus,{keycode:'x'}); break;}
                   case 'KeyU':{break;}// Undo
-                  case 'Tab':{e.preventDefault(); break;}
               }
             })
             document.addEventListener("keyup",(e:KeyboardEvent)=>{
@@ -110,6 +109,9 @@ export default defineComponent({
               if (e.ctrlKey && e.code==='KeyR'){ 
                 
               } 
+              switch(e.code){
+                case 'Tab':{e.preventDefault(); break;}
+              }
             })
             console.log(`RootLayout`);
             ipcRenderer.send('ipc:hello')

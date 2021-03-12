@@ -2,7 +2,10 @@ const path = require('path');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('@rollup/plugin-typescript');
+const builtins = require('rollup-plugin-node-builtins')
+const gloabls = require('rollup-plugin-node-globals')
 
+// @ts-ignore
 module.exports = (env = 'production') => {
   return [{
     input: path.join(__dirname, '../src/main/index.ts'),
@@ -13,9 +16,12 @@ module.exports = (env = 'production') => {
       sourcemap: true,
     }, // [如果要输出多个，可以是一个数组，如果是数组，Rollup 会把每一个数组元素当成一个配置输出结果](http://www.sosout.com/2018/08/04/rollup-tutorial.html)
     plugins: [
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告
+      nodeResolve({ preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告
+      // @ts-ignore
       commonjs(),
+      // @ts-ignore
       typescript(),
+      
     ],
     external: [
       'fs',
@@ -36,9 +42,14 @@ module.exports = (env = 'production') => {
       sourcemap: true,
     },
     plugins: [
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告
+      nodeResolve({  preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告
+      // @ts-ignore
       commonjs(),
+      // @ts-ignore
       typescript(),
+      // @ts-ignore
+      gloabls(),
+      builtins()
     ],
     external: [
       'fs',
@@ -59,9 +70,14 @@ module.exports = (env = 'production') => {
       sourcemap: true,
     },
     plugins: [
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告
+      nodeResolve({ preferBuiltins: true, browser: true }), // 消除碰到 node.js 模块时⚠警告
+      // @ts-ignore
       commonjs(),
+      // @ts-ignore
       typescript(),
+      // @ts-ignore
+      gloabls(),
+      builtins()
     ],
     external: [
       'fs',

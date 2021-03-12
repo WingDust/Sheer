@@ -1,30 +1,34 @@
 <template>
   <singlevil
-  ref="input"
-  v-focusval="confirmPosition"
+  :confirmPosition="confirmPosition"
   :type="isRename&&confirmPosition ? 'text':undefined"
 
-  :value="isRename&&confirmPosition ? placeholder:''"
-  :placeholder="isRename&&confirmPosition ? '':placeholder" 
+  :value="isRename&&confirmPosition&&!insert ? placeholder:previousval"
+  :placeholder="isRename&&confirmPosition ? undefined:placeholder" 
   :readonly="isRename&&confirmPosition ? false : true"
-  @keyup.ctrl.p="previous"
-  @keyup.ctrl.n="next"
+  pattern="re"
+  @previous="previous"
+  @next="next"
+  @enter="enter"
 
   />
+  <!-- 不能包含 ? * : " < > \ / | ，也不能以数字开头 -->
+  <!-- @previous="$emit('previous')" -->
+  <!-- @next="$emit('next')" -->
   <!-- :readonly="Rename ? '' : 'readonly'" //不能写空字符 -->
-  <!-- @keyup.93="enter" -->
-  <!-- @keyup.ContextMenu="enter" -->
 </template>
 
 <script lang="ts">
 import { 
   defineComponent,
-  DirectiveBinding,
+  onUpdated,
   watchEffect,
   ref,
-  Ref
+  computed,
+  ComputedRef,
 } from "vue";
 import  singlevil  from "../vim/SingleEvil.vue";
+import { MutationTypes } from "../../store/mutations";
 import { useStore } from "vuex";
 export default defineComponent({
   components:{
@@ -38,41 +42,51 @@ export default defineComponent({
       type:Boolean
     }
   },
-  directives:{
-    focusval:{
-      updated(el, binding:DirectiveBinding, vnode, oldVnode){
-        //vnode.component should CompB vue instance, but now is null
-        // console.log("vnode.component = ", vnode.component);
-        // console.log("getCurrentInstance = ", getCurrentInstance());
-        if (binding.value) {//好像是指令的参数
-        // console.log(el);
-        // console.log(binding)
-        // console.log(vnode)
-        // console.log(oldVnode)
-          binding.instance!.previousval = el.value
-          el.focus()
-        }
-      }
-    }
-  },
-  setup(){
+  setup(props: any){
     let isRename=ref(false)
     const store = useStore();
     watchEffect(()=>{ isRename.value=store.state.Vim.movtion.Rename})
-
-    let input:Ref<HTMLInputElement|null> = ref(null) 
+    const lastaction:ComputedRef<string|null> = computed(()=>store.state.Vim.renamevil.lastaction)
+    const re =/[^\?\*\:\"\<\>\\\/\|]/
     let previousval=ref('')
-    // let nowval = ref('')
+    let insert = ref(false)//控制转换着是否正在输入状态
     let nextval = ref('')
-    function previous(){
-      input.value!.value = previousval.value
+    function previous(v:string){
+      if (lastaction.value!==null) {
+        if (insert.value)insert.value=false
+        else insert.value=true
+        // insert.value=true
+        nextval.value = v
+        previousval.value=props.placeholder
+        store.commit(MutationTypes.setlastaction,null)//清零操作记录
+      }
+      return true
     }
-    function next(){
-      console.log('next');
+    function next(v:string){
+      if (nextval.value!==v) {
+        previousval.value=nextval.value
+      }
+      return true
     }
+    function enter(v:string){
+      store.commit(MutationTypes.adjustViewline,v)
+      store.commit(MutationTypes.setRename)
+    }
+    onUpdated(()=>{
+      console.log('Updated');//测试更新次数
+    })
     return {
-      isRename,previous,next,previousval,nextval,input
+      isRename,previous,next,previousval,nextval,insert,enter,re
     }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+input:invalid{
+  background-color: #ffdddd;
+}
+input:valid{
+   background-color: #ddffdd;
+}
+</style>

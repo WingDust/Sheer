@@ -49,7 +49,7 @@ export function fmtpath(LinkedList:string[],Config:Config):Img[] { //@ 应依赖
     let img:Img = Object.create(null)
     img.file=path.basename(n)
     img.lable=n.replace(Config.film,"").replace(img.file,"")
-    img.file=img.file.replace(/\.(mp4|mkv)/,'.jpg')
+    // img.file=img.file.replace(/\.(mp4|mkv)/,'.jpg')
     return img
   })
 }
@@ -70,13 +70,6 @@ export async function getlable(config:string) {
 }
 
 
-const renamefile = (p:Img,val:string)=>{
-  try {
-    // fs.rename(p.dirname+p.filename,p.dirname+val,()=>{})
-  } catch (error) {
-    
-  }
-}
 
 /**
  * 对从根路径下读取出来最多一层的文件夹路径，

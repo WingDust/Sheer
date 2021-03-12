@@ -4,7 +4,7 @@
 import { join } from 'path'
 import { app, BrowserWindow,protocol,ipcMain,contentTracing } from 'electron'
 import dotenv from 'dotenv'
-import { createMainWin, createServerProcess,sendWindowMessage } from "../utils/electron/ElectronAPI";
+import { createMainWin, createServerProcess,sendWindowMessage } from '../utils/electron/ElectronAPI';
 
 console.log("\tMain 进程");
 
@@ -41,7 +41,7 @@ app.whenReady()
     serverwin2 = createServerProcess(serverwin2,"second") // 窗口id 3
   })
   ipcMain.on('ipc:message',(e,args)=>{
-    console.log("\t"+e.processId);
+    console.log("\t"+e.processId);//调试时重新加载会导致的死进程，以致processId 变化
     // console.log("%c%s","color:red","     "+e.processId);
     
     // console.log(args);

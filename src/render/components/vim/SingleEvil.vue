@@ -2,38 +2,43 @@
 <template>
 <!--默认大小可被重写 -->
   <input
-  class="break-words w-64 h-12 outline-none placeholder-black border-0"  
+  class="break-words text-center w-64 h-12 outline-none placeholder-black border-0"  
   ref="input"
+  v-focus="confirmPosition"
   spellcheck ="false"
-  autocomplete="on"
+  required
+
   :type="type"
   :value="value"
   :placeholder="placeholder" 
   :readonly="readonly"
-  @keyup.ctrl.f="forward"
   @keyup.ctrl.p="previous"
   @keyup.ctrl.n="next"
+  @keydown.ctrl.f="forward"
   @keyup.ctrl.w="killaword"
-  @keyup.ctrl.h="backspace"
+  @keydown.ctrl.h="backspace"
   @keyup.ctrl.e="end"
   @keyup.ctrl.u="clear"
   @keydown.ctrl.a.prevent="home"
   @keyup.enter="enter"
-  @keyup.ctrl.b="backchar"
+  @keydown.ctrl.b="backchar"
+  @contextmenu="enter"
    />
    <!-- keydown 会将 -->
-  <!-- @keyup.93="enter" -->
-  <!-- @keyup.ContextMenu="enter" -->
 
 </template>
 
-<script lang="ts">
+<script  lang="ts">
 import { 
   defineComponent,
   DirectiveBinding,
   ref,
   Ref,
+  computed,
+  SetupContext,
 } from "vue";
+import { useStore } from "vuex";
+import { MutationTypes } from "../../store/mutations";
 export default defineComponent({
   props:{
     placeholder:{
@@ -48,19 +53,24 @@ export default defineComponent({
     },
     readonly:{
       type:Boolean
+    },
+    confirmPosition:{
+      type:Boolean
     }
   },
   directives:{
     focus:{
-      updated(el, binding:DirectiveBinding, vnode, oldVnode){
-        if (binding.value) {
+      updated(el:HTMLElement, binding:DirectiveBinding, vnode:any, oldVnode:any){
+        if (binding.value) {//指令的参数
           el.focus()
         }
       }
     }
   },
-  setup(){
+  emits:['previous','next'],
+  setup(props: any,context:SetupContext ){
     let input:Ref<HTMLInputElement|null> = ref(null) 
+    const store = useStore();
 
     //#region 光标移动
     function forward(){
@@ -91,38 +101,42 @@ export default defineComponent({
 
     //#region 输入记录控制
     function previous(){
-      console.log('previous');
+      console.log(' previous');
+      context.emit('previous',input.value!.value)
+      console.log(' previous');
     }
     function next(){
+      console.log('next');
+      context.emit('next',input.value!.value)
       console.log('next');
     }
     //#endregion
 
     //#region 字符处理
     function killaword(){
-      // input.value!.value
-
     }
     const backspace = ()=>{
       // let selection = window.getSelection()
       // console.log(selection);
       let selectionStart= input.value!.selectionStart
       if (selectionStart !==0) {
-        input.value!.value=input.value!.value.substring(0,selectionStart!-1)+input.value!.value.substring(selectionStart!,input.value!.value.length-1)
+        input.value!.value=input.value!.value.substring(0,selectionStart!-1)+input.value!.value.substring(selectionStart!,input.value!.value.length)
+        store.commit(MutationTypes.setlastaction,'backspace')
+        input.value!.selectionStart= selectionStart!-1
+        input.value!.selectionEnd= selectionStart!-1
       }
+      
     }
     function clear(){
-      // previousval = input.value!.value
       input.value!.value=''
+      store.commit(MutationTypes.setlastaction,'clear')
     }
     //#endregion
 
 
     function enter(){
       if (input.value!.value != '') {
-      }
-      else{
-
+        context.emit('next',input.value!.value)
       }
     }
     return {

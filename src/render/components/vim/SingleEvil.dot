@@ -17,6 +17,7 @@ SingleEvil[label="{SingleEvil
            }"] 
 Rename[label="{Rename
   				| + 输入记录(单次)\l
+  				| + 输入状态切换\l
         }"]
 SearchBar[label="{SearchBar
   | + 输入缓存(多次)\l

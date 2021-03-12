@@ -23,6 +23,14 @@ export class Files {
   constructor(){
     // this.handlesecondpath=this.handlesecondpath.bind(this)
   }
+  public static renamefile(oldName:fs.PathLike,newName:fs.PathLike){
+    return new Promise(resolve=>{
+      fs.rename(oldName,newName ,(e)=>{if(e)throw e})
+      resolve('suc');
+    }) 
+  }
+
+
   /**
    * [fsReadDir description]
    * @param  {[type]} dir [description]

@@ -37,7 +37,7 @@ interface Vim{
     register:{
         img:string,
     },
-    singlevil:{
+    renamevil:{
         lastaction:null | string
     }
 }

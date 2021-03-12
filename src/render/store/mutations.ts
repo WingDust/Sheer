@@ -1,7 +1,11 @@
+import path from "path"
+
 import { Mutation,MutationTree } from 'vuex';
 import { State,Img, CorsurStatus } from "../../utils/utilInterface";
+import { Files } from "../../utils/node/lib";
 import { debounce, height, throttle } from "../../utils/Browser/Fn";
 import { ipcRenderer } from 'electron';
+import { Configs } from '../public/Sheer.config';
 // import "../Webassemly/wast/add.wasm";
 
 const send= throttle(()=> ipcRenderer.send('ipc:message',10),1500,true)
@@ -14,6 +18,8 @@ export const enum MutationTypes{
     setagline = "setagline",
     callVimStatus = "callVimStatus",
     adjustViewline ="adjustViewline ",
+    setlastaction="setlastaction",
+    setRename="setRename"
 }
 
 // type Mutation<S= State> = {
@@ -119,10 +125,17 @@ export const mutations:MutationTree<State> = {
             }
         }
     },
-    // [MutationTypes.adjustViewline](state:State,value:string){
-    //     let position = state.Vim.cursor.postion[0]*6+state.Vim.cursor.postion[1]
-    //     let p = state.View.viewline[position]
-    //     renamefile(p,p.dirname+value+'.jpg')
-    //     p.filename=value+'.jpg'
-    // }
+   async [MutationTypes.adjustViewline](state:State,value:string){
+        let position = state.Vim.cursor.postion[0]*6+state.Vim.cursor.postion[1]
+        let p = state.View.viewline[position] //浅拷贝
+        await Files.renamefile(path.join(Configs.film,p.lable,p.file),path.join(Configs.film,p.lable,value+path.extname(p.file))) 
+        await Files.renamefile(path.join(Configs.store,p.lable,p.file.replace(/\.(mp4|mkv)/,'.jpg')),path.join(Configs.film,p.lable,value+'.jpg')) 
+        state.View.viewline[position].file=value+path.extname(p.file)
+    },
+    [MutationTypes.setRename](state:State){
+        state.Vim.movtion.Rename=false
+    },
+    [MutationTypes.setlastaction](state:State,value:string|null){
+        state.Vim.renamevil.lastaction=value
+    }
 }

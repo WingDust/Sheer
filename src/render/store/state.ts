@@ -30,8 +30,8 @@ export const state:State = {
         Del:false,    // x
       },
       register:Object.create(null), // 寄存器
-      singlevil:{
-        lastaction:null
+      renamevil:{
+        lastaction:null // 用来记录renamevil的最后一次字符处理操作，会在确认输入时清空
       }
     }
 }

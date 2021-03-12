@@ -1,6 +1,7 @@
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
+import chokidar from "chokidar";
 import { ipcRenderer  } from 'electron'
 import { Files } from "../../../utils/node/lib";
 import { LinkedList } from "../../../utils/core/DataStructure/LinkedList";
@@ -32,6 +33,14 @@ ipcRenderer.on('ipc:message', (event:Electron.IpcRendererEvent, ...arg) => {
     gen.next()
 })
 
+const watcher =  chokidar.watch(Configs.film,{
+  ignored:/\.(^mp4|^mkv)/,
+  persistent:true,
+  depth:2
+}) 
 
-
-
+watcher
+.on('add',path=>console.log(path))
+.on('addDir',path=>console.log(path))
+.on('unlink',path=>console.log(path))
+.on('unlinkDir',path=>console.log(path))

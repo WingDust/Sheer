@@ -1,11 +1,11 @@
 <template>
 <Suspense>
   <rootlayout>
-        <template v-slot:MainContent>
+        <!-- <template v-slot:MainContent>
         <folder>
           <hightLight :code="qwe"></hightLight>
         </folder>
-        </template>
+        </template> -->
   </rootlayout>
 </Suspense>
 </template>
@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent, reactive,onMounted } from "vue";
 import RootLayout from "../components/layout/RootLayout.vue";
-import HighLihgt from "../components/highlight/HighLihgt.vue";
+import HighLihgt from "../components/Widgets/highlight/HighLihgt.vue";
 import folder from '../components/Widgets/highlight/folder.vue'
 export default defineComponent({
     setup(){

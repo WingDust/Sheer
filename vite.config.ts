@@ -1,7 +1,7 @@
 /**
  * 参考链接: https://github.com/vitejs/vite/blob/master/src/node/config.ts
  */
-import { join } from 'path'
+import { join,resolve } from 'path'
 import { defineConfig,Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dotenv from 'dotenv'
@@ -29,7 +29,7 @@ function electron_commonjs():Plugin {
     }
 }
 
-function replacer(source:string) {
+export function replacer(source:string) {
   source=source.replace(/import \{ipcRenderer\} from \".+\"/,"const {ipcRenderer} = require(\"electron\")")
   source=source.replace(/import \{remote\} from \".+\"/,"const {remote} = require(\"electron\")")
   source=source.replace(/import path from \".+\"/,"const path = require(\"path\")")
@@ -42,10 +42,11 @@ function replacer(source:string) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  alias:{'/@/':resolve(__dirname,'./src')},
   root: join(__dirname, 'src/render'),
   base:'./',
   server:{
-    port: +process.env.PORT,
+    port: +process.env.PORT!,
     // hmr: { overlay: false },
   },
   build: {

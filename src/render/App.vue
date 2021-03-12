@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import router from './router/index';
-import titlebar from "./components/titlebar/titlebar.vue";
+import titlebar from "./components/Widgets/titlebar/titlebar.vue";
 import {onMounted,defineComponent} from 'vue'
 
 export default defineComponent({

@@ -19,3 +19,4 @@
   - 对于在我写代码的经历过程，经常需要写一个开关或者是一个对象的两个状态，我需要对 Vue Framework 写一个可复用的开关模式
     - 使用默认参数值写开关模式
   - dom.getClientRects(只能是行级元素或 inline 才返回多个DOMRect) 而 inline 不能与 inline-grid 并一行
+  - Window.getComputedStyle() 可以得到一个元素的所有计算后的 CSS 属性
