@@ -1,9 +1,10 @@
 import { BrowserWindow } from "electron";
-import is_dev from 'electron-is-dev'
+// import is_dev from 'electron-is-dev'
 import { join } from 'path'
 
+const env = import.meta.env
+// console.log("\t"+env.VITE_PORT);
 
-// function createMainWin(win:BrowserWindow|null,serverwin2:BrowserWindow|null) {
 function createMainWin(win:BrowserWindow|null) {
   // 创建浏览器窗口
   win = new BrowserWindow({
@@ -24,10 +25,10 @@ function createMainWin(win:BrowserWindow|null) {
     }
   })
 
-  const URL = is_dev
-    ? `http://localhost:${process.env.PORT}` // vite 启动的服务器地址
-    : `file://${join(__dirname, '../render/dist/index.html')}` // vite 构建后的静态文件地址
-
+  // const URL = is_dev
+  //   ? `http://localhost:${env.VITE_PORT}` // vite 启动的服务器地址
+  //   : `file://${join(__dirname, '../render/dist/index.html')}` // vite 构建后的静态文件地址
+  const URL = `http://localhost:${env.VITE_PORT}`
   win.loadURL(URL)
   /** 默认打开 devtool */
   win.webContents.openDevTools()
@@ -35,7 +36,6 @@ function createMainWin(win:BrowserWindow|null) {
   win.show()
   return win
 }
-
 
 
 
@@ -48,7 +48,8 @@ function createServerProcess(serverwin:BrowserWindow |null,name:string){
       contextIsolation: false
     }
   })
-  serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested-${name}/index.html` :'file://'+'../src/render/nested/index.html')
+  // serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested-${name}/index.html` :'file://'+'../src/render/nested/index.html')
+  serverwin.loadFile(`${join(__dirname,`../../src/render/nested-${name}/index.cjs.js`)}`)
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
   // Dev id辨别使用

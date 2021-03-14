@@ -35,6 +35,8 @@ export function replacer(source:string) {
   source=source.replace(/import path from \".+\"/,"const path = require(\"path\")")
   source=source.replace(/import fs from \".+\"/,"const fs = require(\"fs\")")
   source=source.replace(/import child_process from \".+\"/,"const child_process = require(\"child_process\")")
+  source=source.replace(/import child_process from \".+\"/,"const child_process = require(\"child_process\")")
+  // source=source.replace(/import devtools from \"/,"const devtools = require(")
   return source
 }
 
@@ -42,7 +44,9 @@ export function replacer(source:string) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  alias:{'/@/':resolve(__dirname,'./src')},
+  resolve:{
+    alias:{'/@/':resolve(__dirname,'./src')},
+  },
   root: join(__dirname, 'src/render'),
   base:'./',
   server:{
@@ -54,7 +58,10 @@ export default defineConfig({
     outDir: "dist",
   },
   optimizeDeps:{
-    exclude:['keyevent',"Stats","Dirent","fs",'path','electron-window-state','electron']
+    exclude:[
+      'keyevent',"Stats","Dirent","fs",'path','electron-window-state','electron',
+      'vuex','vue-router','vue','vue3-lazyload','prismjs'
+    ]
   },
   plugins: [vue(),electron_commonjs()]
 })

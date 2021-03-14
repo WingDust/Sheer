@@ -15,7 +15,9 @@
 
 ## Base on
   - [Electron + vue3 + vite 整合](https:www.jianshu.com/p/ee5ec23d4716)
+
   ⇊ Migrate
+
   - ⌛ [vite-electron-builder](https://github.com/cawa-93/vite-electron-builder)
 
 ## Mentality
@@ -116,6 +118,7 @@
     - `"dev:ele": "electron src/main/_.js"`
   - npm
     - [npm scripts 使用指南](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
+    - "dev:ele": "node script/build  --env=development --watch",
 
 ## Electron
   - 打印当前 Electron 所使用 Node 的 Version 
@@ -183,6 +186,7 @@
   - 文字编程应该与代码结构可视化互动结合在一起
   - 正文结构适合横向书写，竖向排列，批注适合竖向书写，横向排列。
   - 使用 `.` 对表达调用，进而引发了 chain 式调用，其实返而促使更多不优美的代码为这个 chain 式服务，而 `()` 与允许传入函数返回值促进了更多的函数调用的嵌套
+  - 使用 `call apply` 来做装饰思想实验
   
 
 

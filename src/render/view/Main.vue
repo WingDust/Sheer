@@ -13,8 +13,8 @@
 <script lang="ts">
 import { defineComponent, reactive,onMounted } from "vue";
 import RootLayout from "../components/layout/RootLayout.vue";
-import HighLihgt from "../components/Widgets/highlight/HighLihgt.vue";
-import folder from '../components/Widgets/highlight/folder.vue'
+// import HighLihgt from "../components/Widgets/highlight/HighLihgt.vue";
+// import folder from '../components/Widgets/highlight/folder.vue'
 export default defineComponent({
     setup(){
       onMounted(()=>{
@@ -47,8 +47,8 @@ export default defineComponent({
     },
     components:{
     'rootlayout':RootLayout,
-    'hightLight':HighLihgt,
-    folder,
+    // 'hightLight':HighLihgt,
+    // folder,
     }
 
 })
