@@ -91,6 +91,7 @@ export class Throttle {
   }
 }
 
+// [判断元素是否有滚动条](https://segmentfault.com/a/1190000004011073?utm_source=sf-related)
 export function hasScroll(el:HTMLElement, direction = 'vertical') {
   // scrollTop 和 scrollLeft 可以被设置为任何整数值,但如果一个元素不能被滚动 scrollTop 将被设置为0。
       var eleScroll = (direction === 'vertical') ? 'scrollTop' : 'scrollLeft';

@@ -16,7 +16,7 @@
 ## Base on
   - [Electron + vue3 + vite 整合](https:www.jianshu.com/p/ee5ec23d4716)
 
-  ⇊ Migrate
+            ⇊ Migrate and Merge
 
   - ⌛ [vite-electron-builder](https://github.com/cawa-93/vite-electron-builder)
 
@@ -40,6 +40,7 @@
   - 文件命名规范
     - 名字中不出现扩展名复用如：`1.mp4.mp4`
     - 不应该有文件名重复（即不使用扩展名来区别文件名相同的文件）
+    - 应优先使用语义字符(如a-b 中文...)，尽量不使用符号字符
   - 对于默认分类的第一层应该是否添加上字母序这一件事，在非可处理成与字母有关系的字符的情况下不适用，如：`氷`-日文、`악`-韩文，虽它也与字母有关系，但是这个超出我的知识范围内了。也不能允一个为标准文，那又给我增加文字翻译的工作。
     - 解决方案：
       - 是只对它做应该有的排序工作
@@ -269,6 +270,7 @@
     - [ ] [myxvisual/vscode-ts-uml](https://github.com/myxvisual/vscode-ts-uml)[了解它的Github首页构成]
     - [ ] [每一个开发人员都应该懂的 UML 规范](https://cloud.tencent.com/developer/article/1427123)
     - [ ] [重温 UML 类图](https://juejin.cn/post/6844904040334098440)
+    - [使用VSCode+PlantUML+C4-Model快速画架构图](https://juejin.cn/post/6844903975678902279)
   - TypeScript
     - [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
     - [TypeScript 进阶](https://itdashu.com/docs/typescriptlesson/e6771/bigint.html)
@@ -279,6 +281,9 @@
     - [electron发送windows消息](https://leehaoze.com/2020/07/02/electron%E5%8F%91%E9%80%81windows%E6%B6%88%E6%81%AF/)
     - [electron进程间通信封装](https://juejin.cn/post/6844904143224586248)
     - [Electron 进程间通讯详解](https://www.iguan7u.cn/2019/06/30/Electron-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3/)
+    - [Electron 的本质](https://segmentfault.com/a/1190000007503495?utm_source=sf-related)
+  - Config
+    - [【前端工程化】环境变量.env文件](https://juejin.cn/post/6844904153890684935)
   - 小说
     - [互动小说及其开源简史 | Linux 中国](https://kuaibao.qq.com/s/20190828AZOM1I00?refer=spider)
     - [互动小说及其开源简史 | Linux 中国](https://blog.csdn.net/F8qG7f9YD02Pe/article/details/100111448)

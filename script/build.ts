@@ -64,14 +64,14 @@ function start() {
 function BuildSecond() {
    return build({
     mode:'development',
-    root:join(__dirname,'../src/render/nested-second/'),
+    root:join(__dirname,'../src/service/second/'),
     });
 }
 
 function BuildFirst() {
    return build({
     mode:'development',
-    root:join(__dirname,'../src/render/nested-first/'),
+    root:join(__dirname,'../src/service/first/'),
     });
 }
 
@@ -105,14 +105,14 @@ async function mainserver() {
             // builded = 4
             start()
         }
-        if (normalizedPath.includes('/src/render/nested-second')||normalizedPath.includes('/src/utils/node')) {
+        if (normalizedPath.includes('/src/service/second')||normalizedPath.includes('/src/utils/node')) {
             console.log('\tsart building second');
             await BuildSecond()
             console.log('second builded');
             // builded = 5
             start()
         }
-        if (normalizedPath.includes('/src/render/nested-first')||normalizedPath.includes('/src/utils/node')) {
+        if (normalizedPath.includes('/src/service/first')||normalizedPath.includes('/src/utils/node')) {
             console.log('\tstart building first');
             await BuildFirst()
             console.log('\tfirst builded');

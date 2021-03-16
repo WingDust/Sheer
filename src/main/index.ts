@@ -36,7 +36,7 @@ app.whenReady()
     serverwin2 = createServerProcess(serverwin2,"second") // 窗口id 3
   })
   ipcMain.on('ipc:message',(e,args)=>{
-    console.log("\t"+e.processId);//调试时重新加载会导致的死进程，以致processId 变化
+    console.log("\t 发出请求的进程 Id ："+e.processId);//调试时重新加载会导致的死进程，以致processId 变化
     
     // console.log(args);
     // console.log(args==3);

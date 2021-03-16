@@ -33,7 +33,7 @@ function createServerProcess(serverwin, name) {
       contextIsolation: false
     }
   });
-  serverwin.loadFile(`${path.join(__dirname, `../../src/render/nested-${name}/index.cjs.js`)}`);
+  serverwin.loadFile(`${path.join(__dirname, `../../src/service/${name}/index.html`)}`);
   serverwin.webContents.openDevTools();
   console.log(`	\u670D\u52A1\u8FDB\u7A0B ${name} ProcessId:${serverwin.webContents.getProcessId()}`);
   return serverwin;
@@ -69,7 +69,7 @@ electron.app.whenReady().then(() => {
     serverwin2 = createServerProcess(serverwin2, "second");
   });
   electron.ipcMain.on("ipc:message", (e, args) => {
-    console.log("	" + e.processId);
+    console.log("	 \u53D1\u51FA\u8BF7\u6C42\u7684\u8FDB\u7A0B Id \uFF1A" + e.processId);
     switch (e.processId) {
       case 4: {
         if (args == 10)

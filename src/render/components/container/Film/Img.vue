@@ -1,7 +1,8 @@
 <template>
     <div :class="{'vim-cursor':position}">
     <img class="w-64 h-36"  
-    v-lazy="`safe-file-protocol:://${data}`" alt="">
+      v-lazy="`safe-file-protocol:://${data}`" alt=""
+    />
     </div>
 </template>
 

@@ -20,7 +20,7 @@
   > 
   </loading>-->
 </div>
-<!-- 因为 Element.scroll 事件不会冒泡所以绑定在父元素 Document.scroll 冒泡 -->
+<!--  Element.scroll 事件不会冒泡 Document.scroll会冒泡 -->
 <div class="r sticky" @scroll="scroll" > 
   <block
     class="mb-2"
@@ -42,6 +42,7 @@ import {
     onMounted,
     computed,
     ComputedRef,
+    nextTick
     } from "vue";
 import { useStore } from "vuex";
 import { Config, Img } from "../../../utils/utilInterface";
@@ -85,6 +86,10 @@ export default defineComponent({
           // target.scrollBy(0,208)
         }
         const scroll = debounce(scrollhandl,1000)
+
+        // nextTick(()=>{ console.log('next');
+        //  document.activeElement!.parentElement!.scrollIntoView()})
+
         // onBeforeMount, onMounted is called when there is no active component instance to be associated with.
         // Lifecycle injection APIs can only be used during execution of setup(). 
         // If you are using async setup(), make sure to register lifecycle hooks before the first await statement

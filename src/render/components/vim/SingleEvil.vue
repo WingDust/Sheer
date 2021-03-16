@@ -6,7 +6,7 @@
   ref="input"
   v-focus="confirmPosition"
   spellcheck ="false"
-  required
+  :pattern="`${pattern}`"
 
   :type="type"
   :value="value"
@@ -34,8 +34,8 @@ import {
   DirectiveBinding,
   ref,
   Ref,
-  computed,
   SetupContext,
+  PropType
 } from "vue";
 import { useStore } from "vuex";
 import { MutationTypes } from "../../store/mutations";
@@ -56,13 +56,17 @@ export default defineComponent({
     },
     confirmPosition:{
       type:Boolean
+    },
+    pattern:{
+      type:String as PropType<string>
     }
   },
   directives:{
     focus:{
       updated(el:HTMLElement, binding:DirectiveBinding, vnode:any, oldVnode:any){
         if (binding.value) {//指令的参数
-          el.focus()
+          el.focus({preventScroll:true})
+          // [小tips: 元素focus页面不滚动不定位的JS处理](https://www.zhangxinxu.com/wordpress/2019/09/js-focus-preventscroll/)
         }
       }
     }

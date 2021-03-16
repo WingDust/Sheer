@@ -7,6 +7,10 @@ module.exports = {
         '50':'12.5rem'
       }
     },
+    borderColor:theme=>({
+      DEFAULT: theme('colors.gray.300', 'currentColor'),
+      'grey': '#cccccc',
+    })
   },
   variants: {
     extend: {},

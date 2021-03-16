@@ -1,21 +1,31 @@
 <template>
   <singlevil
+  class="truncate "
+  :class="isRename&&confirmPosition ? 'rounded-md border border-grey border-solid':undefined"
+  required
+
   :confirmPosition="confirmPosition"
   :type="isRename&&confirmPosition ? 'text':undefined"
+
+  title='格式不正确'
+  oninvalid="setCustomValidity('不能包含 ? * : < &quot; ' > \ / |')"
 
   :value="isRename&&confirmPosition&&!insert ? placeholder:previousval"
   :placeholder="isRename&&confirmPosition ? undefined:placeholder" 
   :readonly="isRename&&confirmPosition ? false : true"
-  pattern="re"
+
+  :pattern="re"
   @previous="previous"
   @next="next"
   @enter="enter"
-
   />
-  <!-- 不能包含 ? * : " < > \ / | ，也不能以数字开头 -->
-  <!-- @previous="$emit('previous')" -->
-  <!-- @next="$emit('next')" -->
-  <!-- :readonly="Rename ? '' : 'readonly'" //不能写空字符 -->
+<!-- [特殊字符(Html语法字符](https://www.cnblogs.com/hailexuexi/archive/2010/07/25/1784611.html) -->
+<!-- pattern 在值为空时不检查 -->
+<!-- required 值为不能为空 -->
+<!-- 不能包含 ? * : " < > \ / | ，也不能以数字开头 -->
+<!-- @previous="$emit('previous')" -->
+<!-- @next="$emit('next')" -->
+<!-- :readonly="Rename ? '' : 'readonly'" //不能写空字符 -->
 </template>
 
 <script lang="ts">
@@ -45,9 +55,10 @@ export default defineComponent({
   setup(props: any){
     let isRename=ref(false)
     const store = useStore();
+    const vimcursor:ComputedRef<[number,number,number]> = computed(() => store.state.Vim.cursor.postion)
     watchEffect(()=>{ isRename.value=store.state.Vim.movtion.Rename})
     const lastaction:ComputedRef<string|null> = computed(()=>store.state.Vim.renamevil.lastaction)
-    const re =/[^\?\*\:\"\<\>\\\/\|]/
+    const re ='[^\?\*\:\"\<\>\\\/\|\']+'
     let previousval=ref('')
     let insert = ref(false)//控制转换着是否正在输入状态
     let nextval = ref('')
@@ -74,6 +85,9 @@ export default defineComponent({
     }
     onUpdated(()=>{
       console.log('Updated');//测试更新次数
+      if (vimcursor.value[0]==0) window.scrollTo({top:0,behavior:'smooth'})
+      else{document.activeElement!.parentElement!.scrollIntoView({behavior:'smooth',block:'nearest'})}
+      // document.activeElement!.parentElement!.scrollIntoView({behavior:'smooth',block:'nearest'})
     })
     return {
       isRename,previous,next,previousval,nextval,insert,enter,re

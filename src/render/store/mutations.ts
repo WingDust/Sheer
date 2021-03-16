@@ -68,7 +68,6 @@ export const mutations:MutationTree<State> = {
                     let lines = Math.ceil(state.View.viewline.length/6)-1//向下取整
                     if (result > lines) { //已在最后一行 再触发行即请触发请求
                         send()
-                        // ipcRenderer.send('ipc:message',10)
                     }
                     if (result==lines){ //进入最后一行
                         // 计算第一次进入最后一行
@@ -88,11 +87,14 @@ export const mutations:MutationTree<State> = {
                 } 
                 break;}
             case 'k':{
-                if (state.Vim.cursor.into) {
+                if (state.Vim.cursor.into) {//主区
                     let result = state.Vim.cursor.postion[0]-=1;
                     if (result <0) state.Vim.cursor.postion[0]=0
+                    // @ts-ignore
+                    // document.activeElement!.parentElement.scrollIntoViewIfNeeded(true)
+                    
                 }
-                else{
+                else{//副区
                     let result = state.Vim.cursor.sibepostion[0]-=1;
                     if (result < 0) state.Vim.cursor.sibepostion[0]=0
                 }

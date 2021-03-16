@@ -1,26 +1,18 @@
-<!--
- * @Author: your name
- * @Date: 2020-09-22 09:36:23
- * @LastEditTime: 2021-02-05 15:19:09
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\components\titlebar\titlebar.vue
--->
 <template>
   <div class="titlebar w-full">
       <div class="row flex">
         <span class="titlebtn fonticon-CHROME-CLOSE col-xl-1" @click="close"></span>
         <span class="titlebtn fonticon-CHROME-MAXIMIZE col-xl-1" @click="max"></span >
         <span class="titlebtn fonticon-CHROME-MINIMIZE col-xl-1" @click="min"></span>
+        <timer class="leading-8"/>
       </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import  timer  from "./time.vue"
 import {defineComponent,onMounted} from "vue";
 const {ipcRenderer} = require('electron')
-export default  defineComponent({
-    setup(){
         onMounted(()=>{
             console.log(`titlebar.vue`);
         })
@@ -33,18 +25,13 @@ export default  defineComponent({
         const min = ():void =>{
             ipcRenderer.send('min')
         }
-        return{
-            max,min,close
-        }
-    },
-})
 </script>
 
 <style lang="scss" scoped>
 .titlebar{
     position: fixed;
     top: 0;
-    z-index: 1;// 保证不被覆盖
+    z-index: 3;// 保证不被覆盖
     height: 32px;
     -webkit-app-region:drag;
     background:rgba(51, 51, 51, .6);

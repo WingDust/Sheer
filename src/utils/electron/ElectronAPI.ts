@@ -49,7 +49,7 @@ function createServerProcess(serverwin:BrowserWindow |null,name:string){
     }
   })
   // serverwin.loadURL(is_dev ? `http://localhost:${process.env.PORT}/nested-${name}/index.html` :'file://'+'../src/render/nested/index.html')
-  serverwin.loadFile(`${join(__dirname,`../../src/render/nested-${name}/index.cjs.js`)}`)
+  serverwin.loadFile(`${join(__dirname,`../../src/service/${name}/index.html`)}`)
   // 打包加载使用 loadFile
   serverwin.webContents.openDevTools()
   // Dev id辨别使用
