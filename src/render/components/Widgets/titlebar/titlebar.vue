@@ -25,6 +25,7 @@ const {ipcRenderer} = require('electron')
         const min = ():void =>{
             ipcRenderer.send('min')
         }
+// export default {name:'time'}
 </script>
 
 <style lang="scss" scoped>

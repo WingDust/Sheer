@@ -1,8 +1,9 @@
 <template>
   <singlevil
-  class="truncate "
-  :class="isRename&&confirmPosition ? 'rounded-md border border-grey border-solid':undefined"
+  class="truncate indent-2"
   required
+
+  :class="isRename&&confirmPosition ? 'rounded-md border border-grey border-solid':undefined"
 
   :confirmPosition="confirmPosition"
   :type="isRename&&confirmPosition ? 'text':undefined"
@@ -37,13 +38,9 @@ import {
   computed,
   ComputedRef,
 } from "vue";
-import  singlevil  from "../vim/SingleEvil.vue";
 import { MutationTypes } from "../../store/mutations";
 import { useStore } from "vuex";
 export default defineComponent({
-  components:{
-    singlevil 
-  },
   props:{
     placeholder:{
       type:String

@@ -8,6 +8,10 @@ import VueLazyLoad from "vue3-lazyload";
 
 import { createApp } from 'vue'
 import App from './App.vue'
+// 全局组件
+import singlevil from "./components/vim/SingleEvil.vue";
+
+
 import './index.css'
 
 import router from './router/index';
@@ -73,5 +77,8 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 app.use(VueLazyLoad,{})
+
+// 全局注册组件
+app.component('singlevil',singlevil)
 
 app.mount('#app')
